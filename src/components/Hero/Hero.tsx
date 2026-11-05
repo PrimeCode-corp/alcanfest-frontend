@@ -62,11 +62,11 @@ export function Hero() {
         </div>
 
         {/* Flyer oficial cuadrado, como afiche pegado: en desktop el ancho se limita para que quepa en el alto de pantalla */}
-        <div className='mx-auto w-full max-w-40 sm:max-w-90 lg:max-w-[min(540px,calc(100svh-var(--header-h)-6rem))]'>
+        <div className='mx-auto w-full max-w-60 sm:max-w-90 lg:max-w-[min(540px,calc(100svh-var(--header-h)-6rem))]'>
           <img
             src='/img/flyer4-1254.webp'
             srcSet='/img/flyer4-800.webp 800w, /img/flyer4-1254.webp 1254w'
-            sizes='(min-width: 1024px) 540px, (min-width: 640px) 360px, 280px'
+            sizes='(min-width: 1024px) 540px, (min-width: 640px) 360px, 240px'
             width={1254}
             height={1254}
             alt={`Flyer oficial de ${event.name} ${event.editionNumber}, festival de arte y cultura, del 01 al 13 de diciembre. Música y arte urbano, feria de arte y emprendimientos, talleres, conversatorios, batallas de rap, break dance, graffiti y barberos, concurso a la mejor banda de rock, artistas invitados.`}
