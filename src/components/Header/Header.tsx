@@ -45,7 +45,7 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 h-(--header-h) bg-lime text-ink transition-shadow duration-250 ease-snap',
-        (scrolled || menuOpen) && 'shadow-[0_5px_0_var(--color-ink)]',
+        (scrolled || menuOpen) && 'shadow-[0_8px_0_var(--color-ink)]',
       )}
     >
       <div className="grid h-full grid-cols-[auto_1fr_auto] items-center gap-4 px-(--gutter) sm:grid-cols-[1fr_auto_1fr]">
@@ -113,7 +113,7 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
       <div
         ref={progressRef}
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-full h-[5px] origin-left bg-magenta"
+        className="pointer-events-none absolute inset-x-0 top-full h-[8px] origin-left bg-magenta"
         style={{ scale: '0 1' }}
       />
     </header>

@@ -70,7 +70,8 @@ export function Spot() {
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onClick={togglePlay}
-            className='block aspect-video w-full cursor-pointer bg-ink object-cover'
+            // Celular: formato reel (alto de pantalla menos el header), recortando los lados. Desde sm: 16:9
+            className='block h-[calc(100svh-var(--header-h))] w-full cursor-pointer bg-ink object-cover sm:aspect-video sm:h-auto'
           />
 
           {/* Sombra superior para que los textos se lean sobre el video */}
