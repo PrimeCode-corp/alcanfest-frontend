@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+/* Tokens de diseño: paleta del flyer oficial */
+@theme {
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+  --color-lime: #7ac51b;
+  --color-lime-bright: #8fdc24;
+  --color-magenta: #ee0f7e;
+
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-xs: 26.25rem; /* 420px */
+
+  /* Entrada del flyer en el hero: cae y se "pega" */
+  --animate-flyer-in: flyer-in 700ms var(--ease-snap) 150ms both;
+
+  @keyframes flyer-in {
+    from {
+      opacity: 0;
+      transform: translateY(-48px) rotate(-6deg) scale(1.05);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+:root {
+  --header-h: 64px;
+  --gutter: clamp(16px, 4vw, 40px);
+}
+
+@media (width >= 40rem) {
+  :root {
+    --header-h: 88px;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-3 outline-offset-3 outline-magenta;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
