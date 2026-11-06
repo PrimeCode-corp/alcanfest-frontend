@@ -120,7 +120,9 @@ export function Experiences() {
     >
       <div
         ref={stageRef}
-        className='sticky top-(--header-h) h-[calc(100svh-var(--header-h))] overflow-hidden'
+        // lvh (alto con la barra del navegador oculta): en celular el escenario siempre cubre la pantalla,
+        // aunque la barra se esconda al hacer scroll. Con svh quedaba una franja negra abajo.
+        className='sticky top-(--header-h) h-[calc(100lvh-var(--header-h))] overflow-hidden'
       >
         {/* Fotos de fondo */}
         {experiences.map((slide, i) => (
