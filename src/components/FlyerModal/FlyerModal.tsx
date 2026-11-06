@@ -28,7 +28,7 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       // así el flyer y los botones entran siempre sin scroll.
       // Vertical: pegado abajo, reservando arriba lugar para el personaje. Horizontal: centrado, personaje a un lado.
       // El borde y el fondo van en el hijo: los de <dialog> quedarían debajo del personaje (-z-10).
-      className='top-(--header-h) mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-15rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/95 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto landscape:[--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-6rem)*0.88)]'
+      className='top-(--header-h) mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-15rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/80 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto landscape:[--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-6rem)*0.88)]'
     >
       <div className='border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
         <img
@@ -84,7 +84,13 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
   );
 }
 
-export function SignupLink({ href, children }: { href: string; children: ReactNode }) {
+export function SignupLink({
+  href,
+  children
+}: {
+  href: string;
+  children: ReactNode;
+}) {
   return (
     <a
       href={href}
@@ -101,7 +107,7 @@ export function SignupLink({ href, children }: { href: string; children: ReactNo
 export function IconButton({
   label,
   onClick,
-  children,
+  children
 }: {
   label: string;
   onClick: () => void;

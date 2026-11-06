@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent
+} from 'react';
 import type { FlyerCarousel } from '../../config/event';
 import { cn } from '../../lib/cn';
 import { IconButton, SignupLink } from './FlyerModal';
@@ -14,7 +20,11 @@ type FlyerCarouselModalProps = {
  * Modal con varios flyers en carrusel: se desliza con el dedo (scroll-snap nativo), flechas (solo computadora),
  * puntos, teclado o clic en el flyer vecino. El botón de inscripción siempre corresponde al flyer centrado.
  */
-export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselModalProps) {
+export function FlyerCarouselModal({
+  carousel,
+  open,
+  onClose
+}: FlyerCarouselModalProps) {
   const dialogRef = useModalDialog(open);
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -59,11 +69,15 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
   const goTo = (index: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const target = track.children[(index + slides.length) % slides.length] as HTMLElement;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const target = track.children[
+      (index + slides.length) % slides.length
+    ] as HTMLElement;
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
     track.scrollTo({
       left: target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2,
-      behavior: reducedMotion ? 'auto' : 'smooth',
+      behavior: reducedMotion ? 'auto' : 'smooth'
     });
   };
 
@@ -75,7 +89,8 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
 
   // Clic fuera de los flyers y controles: el <dialog> (el contenedor deja pasar el clic) o el carril vacío
   const onDialogClick = (e: MouseEvent) => {
-    if (e.target === e.currentTarget || e.target === trackRef.current) onClose();
+    if (e.target === e.currentTarget || e.target === trackRef.current)
+      onClose();
   };
 
   return (
@@ -88,7 +103,7 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
       // Ocupa toda la pantalla para que los flyers vecinos se vean a los lados.
       // --s es el lado del flyer (cuadrado): limitado por el ancho y por el alto debajo del header, contando personajes y controles.
       // En pantallas muy bajas (celular acostado) no hay lugar para los personajes: el flyer usa ese espacio.
-      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-var(--header-h)-7rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/95 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-var(--header-h)-5.5rem)]'
+      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-var(--header-h)-7rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/80 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-var(--header-h)-5.5rem)]'
     >
       <div className='pointer-events-none flex h-full flex-col items-center justify-center pt-(--header-h)'>
         {/* Personajes en el centro, por arriba. La foto sigue detrás de los flyers (el carril va encima) y se
@@ -130,7 +145,7 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
                   onClick={i === active ? undefined : () => goTo(i)}
                   className={cn(
                     'block h-auto w-full border-3 border-paper transition-[filter,scale] duration-300 ease-snap',
-                    i !== active && 'cursor-pointer brightness-50 sm:scale-90',
+                    i !== active && 'cursor-pointer brightness-50 sm:scale-90'
                   )}
                 />
               </div>
@@ -140,12 +155,18 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
           {/* Flechas solo en computadora, a los lados y fuera del flyer central para no tapar sus textos.
               En pantallas menores se desliza con el dedo. */}
           <div className='absolute inset-y-0 left-[calc(50%-var(--s)/2-3.5rem)] hidden items-center lg:flex [&>button]:pointer-events-auto'>
-            <IconButton label='Convocatoria anterior' onClick={() => goTo(active - 1)}>
+            <IconButton
+              label='Convocatoria anterior'
+              onClick={() => goTo(active - 1)}
+            >
               <path d='M15 5l-7 7 7 7' />
             </IconButton>
           </div>
           <div className='absolute inset-y-0 right-[calc(50%-var(--s)/2-3.5rem)] hidden items-center lg:flex [&>button]:pointer-events-auto'>
-            <IconButton label='Convocatoria siguiente' onClick={() => goTo(active + 1)}>
+            <IconButton
+              label='Convocatoria siguiente'
+              onClick={() => goTo(active + 1)}
+            >
               <path d='M9 5l7 7-7 7' />
             </IconButton>
           </div>
@@ -164,7 +185,7 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
               <span
                 className={cn(
                   'block size-3 border-2 border-paper transition-colors duration-150',
-                  i === active && 'bg-lime',
+                  i === active && 'bg-lime'
                 )}
               />
             </button>

@@ -3,6 +3,7 @@ import { merch, type MerchItem } from '../../config/event';
 import { cn } from '../../lib/cn';
 import { FlyerCarouselModal } from '../FlyerModal/FlyerCarouselModal';
 import { FlyerModal } from '../FlyerModal/FlyerModal';
+import { RosterModal } from '../RosterModal/RosterModal';
 
 // Fondo de la card: se ve detrás de las fotos de merch recortadas (PNG/WebP con transparencia)
 const toneBg: Record<MerchItem['tone'], string> = {
@@ -32,8 +33,8 @@ export function Merch() {
 
 function MerchCard({ item }: { item: MerchItem }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const { flyer, carousel } = item;
-  const hasModal = Boolean(flyer || carousel);
+  const { flyer, carousel, roster } = item;
+  const hasModal = Boolean(flyer || carousel || roster);
 
   return (
     <>
@@ -81,6 +82,7 @@ function MerchCard({ item }: { item: MerchItem }) {
       </a>
       {flyer && <FlyerModal flyer={flyer} open={modalOpen} onClose={() => setModalOpen(false)} />}
       {carousel && <FlyerCarouselModal carousel={carousel} open={modalOpen} onClose={() => setModalOpen(false)} />}
+      {roster && <RosterModal roster={roster} open={modalOpen} onClose={() => setModalOpen(false)} />}
     </>
   );
 }

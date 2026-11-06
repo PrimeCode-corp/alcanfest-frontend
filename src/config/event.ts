@@ -72,6 +72,20 @@ export type MerchItem = {
   tone: 'lime' | 'magenta' | 'ink';
   flyer?: Flyer; // si existe, el clic en la card abre este flyer en un modal en lugar de ir a `href`
   carousel?: FlyerCarousel; // igual que `flyer`, pero con varios flyers en un carrusel
+  roster?: Roster; // igual que `flyer`, pero con una lista de participantes
+};
+
+export type RosterEntry = {
+  name: string;
+  place?: string; // ciudad o procedencia
+  kind: 'classified' | 'slot' | 'surprise'; // cada tipo se ve distinto: clasificado, cupo o sorpresa
+};
+
+export type Roster = {
+  title: string;
+  subtitle: string;
+  character?: { image: string; width: number; height: number }; // solo computadora: asoma por detrás del modal, a la derecha
+  entries: RosterEntry[];
 };
 
 export const merch: MerchItem[] = [
@@ -103,7 +117,11 @@ export const merch: MerchItem[] = [
     tone: 'lime',
     carousel: {
       title: 'Convocatorias',
-      character: { image: '/img/personaje-2-1000.webp', width: 1000, height: 979 }, // original: /img/personaje-2.png (recortado a la figura)
+      character: {
+        image: '/img/personaje-2-1000.webp',
+        width: 1000,
+        height: 979
+      }, // original: /img/personaje-2.png (recortado a la figura)
       slides: [
         {
           title: 'Feria de arte',
@@ -168,7 +186,38 @@ export const merch: MerchItem[] = [
     image: '/img/clasificados-700.webp', // original: /img/clasificados.png (recortado a la figura)
     cta: 'Ver',
     href: '#merch',
-    tone: 'ink'
+    tone: 'ink',
+    roster: {
+      title: 'Clasificados',
+      subtitle: 'Batallas de RAP',
+      character: { image: '/img/personaje-3-742.webp', width: 742, height: 1402 }, // original: /img/personaje-3.png (recortado a la figura)
+      entries: [
+        { name: 'Tai', place: 'Tarapoto', kind: 'classified' },
+        { name: 'P-Chón', place: 'Tarapoto', kind: 'classified' },
+        { name: 'Mako', place: 'Tarapoto', kind: 'classified' },
+        { name: 'Hidra', place: 'Nueva Cajamarca', kind: 'classified' },
+        { name: 'José', place: 'Rioja', kind: 'classified' },
+        { name: 'Dhário', place: 'Tarapoto', kind: 'classified' },
+        { name: 'Jeixder', place: 'Yurimaguas', kind: 'classified' },
+        { name: 'Bill Dlade', place: 'Yurimaguas', kind: 'classified' },
+        { name: 'Vene', place: 'Rioja', kind: 'classified' },
+        { name: 'Totix', place: 'Tarapoto', kind: 'classified' },
+        {
+          name: 'Cupo Sur',
+          place: 'Tocache, Tingo María, Pucallpa y Huánuco',
+          kind: 'slot'
+        },
+        {
+          name: 'Cupo Sur',
+          place: 'Tocache, Tingo María, Pucallpa y Huánuco',
+          kind: 'slot'
+        },
+        { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' },
+        { name: 'Cupo Juanjui', kind: 'slot' },
+        { name: 'Cupo Juanjui', kind: 'slot' },
+        { name: '¿?', place: 'Sorpresa', kind: 'surprise' }
+      ]
+    }
   }
 ];
 
