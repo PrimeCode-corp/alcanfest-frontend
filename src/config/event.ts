@@ -49,26 +49,33 @@ export type MerchItem = {
   label: string;
   tagline: string;
   href: string;
+  cta?: string; // texto del botón (por defecto "Comprar merch")
   image?: string;
   tone: 'lime' | 'magenta' | 'ink';
 };
 
 export const merch: MerchItem[] = [
   {
-    label: 'Ropa',
-    tagline: 'Polos, poleras y casacas',
+    label: 'Talleres',
+    tagline: 'Graffiti, carrera artística & RAP',
+    cta: 'Info',
+    image: '/img/talleres-700.webp', // original: /img/talleres.png (recortado a la figura)
     href: '#merch',
     tone: 'magenta'
   },
   {
-    label: 'Gorras',
-    tagline: 'Lleva el festival en la cabeza',
+    label: 'Convocatorias',
+    cta: 'Inscribirse',
+    tagline: '¡Inscríbete y participa!',
+    image: '/img/convocatorias-700.webp', // original: /img/convocatorias.png (recortado a la figura)
     href: '#merch',
     tone: 'lime'
   },
   {
-    label: 'Accesorios',
-    tagline: 'Tote bags, stickers y más',
+    label: 'Clasificados',
+    tagline: 'Batallas de rap',
+    image: '/img/clasificados-700.webp', // original: /img/clasificados.png (recortado a la figura)
+    cta: 'Ver',
     href: '#merch',
     tone: 'ink'
   }
@@ -112,7 +119,7 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
     {
       tag: 'Calle',
       title:
-        'Batallas de rap, break dance, graffiti, beatbox, barberos, bikers, riders y skateboarders',
+        'Batallas de rap, break dance, graffiti, beatbox, barberos, bikers, rollers y skateboarders',
       image: '/img/calle-1000.webp', // original: /img/calle.png
       // Sobre el piso, abajo a la derecha, inclinado siguiendo la diagonal del bailarín
       tagPlacement: { right: '6%', bottom: '6%', rotate: -7, size: 12 }
@@ -168,7 +175,7 @@ export const experiences: ExperienceSlide[] = [
     imageOverlap: 0.2 // menos tapado por el recuadro: la foto queda un poco más arriba
   },
   {
-    title: '+10 Disciplinas. Nuestros bikers darán un show lleno de talento',
+    title: '+10 Disciplinas. Nuestros bikers darán un show lleno de adrenalina',
     color: 'var(--color-lime)',
     background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
     backgroundMobile: '/img/panorama_1-1000.webp',
