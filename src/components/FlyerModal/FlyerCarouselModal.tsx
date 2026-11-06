@@ -91,11 +91,11 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
       className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-var(--header-h)-7rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/95 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-var(--header-h)-5.5rem)]'
     >
       <div className='pointer-events-none flex h-full flex-col items-center justify-center pt-(--header-h)'>
-        {/* Personajes en el centro, por arriba: su corte coincide con el borde superior de los flyers,
-            así parece que asoman por detrás y los flyers pasan por delante al deslizar */}
+        {/* Personajes en el centro, por arriba. La foto sigue detrás de los flyers (el carril va encima) y se
+            desvanece abajo, ya tapada por el flyer central: así se ven entre flyers al deslizar, sin un corte recto */}
         <div
           aria-hidden='true'
-          className='flex h-[calc(var(--s)*0.46)] w-full shrink-0 justify-center overflow-hidden [@media(max-height:30rem)]:hidden'
+          className='flex h-[calc(var(--s)*0.46)] w-full shrink-0 justify-center [@media(max-height:30rem)]:hidden'
         >
           <img
             src={character.image}
@@ -103,7 +103,7 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
             width={character.width}
             height={character.height}
             loading='lazy'
-            className='h-auto w-[calc(var(--s)*0.8)] max-w-none self-start drop-shadow-[4px_4px_0_var(--color-lime)] select-none'
+            className='h-fit w-[calc(var(--s)*0.8)] max-w-none shrink-0 self-start drop-shadow-[4px_4px_0_var(--color-lime)] select-none mask-[linear-gradient(to_bottom,black_60%,transparent)]'
           />
         </div>
 
