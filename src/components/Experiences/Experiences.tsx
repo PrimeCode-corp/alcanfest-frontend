@@ -22,6 +22,8 @@ import { cn } from '../../lib/cn';
 type SlideState = 'prev' | 'current' | 'next';
 
 const DESKTOP_QUERY = '(min-width: 62rem)'; // 992px, mismo corte que Lolla
+// Scroll necesario para pasar de un slide al siguiente, en pantallas (antes 1 = una pantalla entera)
+const SLIDE_STEP = 0.45;
 const MOBILE_QUERY = '(max-width: 39.99rem)'; // por debajo de sm (640px)
 
 function useExperienceScroll(
@@ -65,9 +67,9 @@ function useExperienceScroll(
       // El titular aparece cuando la sección llega a ese punto (y se queda, como en Lolla)
       if (top <= vh * headingAt) setHeadingShown(true);
 
-      // Slide activo: uno por cada pantalla de scroll con el escenario fijo
+      // Slide activo: cambia cada SLIDE_STEP pantallas de scroll con el escenario fijo
       const pinned = headerH - top;
-      setCurrent(clamp(Math.floor(pinned / vh + 0.3), 0, count - 1));
+      setCurrent(clamp(Math.floor(pinned / (vh * SLIDE_STEP) + 0.3), 0, count - 1));
     };
 
     const onScroll = () => {
@@ -115,8 +117,8 @@ export function Experiences() {
       ref={wrapperRef}
       aria-label='Experiencias del festival'
       className='relative bg-ink text-ink'
-      // Recorrido: una pantalla por slide + 30% extra al final (como el último trigger de Lolla)
-      style={{ height: `calc(${experiences.length} * 100svh + 30svh)` }}
+      // Recorrido: el escenario (una pantalla) + SLIDE_STEP por cada slide extra + 30% al final
+      style={{ height: `calc(100svh + ${(experiences.length - 1) * SLIDE_STEP * 100}svh + 30svh)` }}
     >
       <div
         ref={stageRef}
