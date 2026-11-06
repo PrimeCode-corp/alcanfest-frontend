@@ -15,6 +15,7 @@ import { cn } from '../../lib/cn';
 type SlideState = 'prev' | 'current' | 'next';
 
 const DESKTOP_QUERY = '(min-width: 62rem)'; // 992px, mismo corte que Lolla
+const MOBILE_QUERY = '(max-width: 39.99rem)'; // por debajo de sm (640px)
 
 function useExperienceScroll(
   wrapperRef: RefObject<HTMLElement | null>,
@@ -26,6 +27,7 @@ function useExperienceScroll(
 
   useEffect(() => {
     const raf = { id: 0 };
+    const mobileQuery = window.matchMedia(MOBILE_QUERY);
 
     const update = () => {
       raf.id = 0;
@@ -37,12 +39,18 @@ function useExperienceScroll(
       const top = wrapper.getBoundingClientRect().top;
       const clamp = (n: number, min = 0, max = 1) => Math.min(Math.max(n, min), max);
 
-      // Entrada: desde que la sección está a mitad de pantalla hasta que llega al 10% superior
-      const entry = clamp((vh * 0.5 - top) / (vh * 0.4));
+      // En celular la entrada arranca antes: apenas la sección asoma por abajo
+      const mobile = mobileQuery.matches;
+      const entryStart = mobile ? 0.85 : 0.5; // posición de la sección (en % de pantalla) donde empieza
+      const entryLength = mobile ? 0.6 : 0.4; // recorrido de la animación (en % de pantalla)
+      const headingAt = mobile ? 0.45 : 0.2;
+
+      // Entrada: la foto crece a pantalla completa y el collage aparece, ligado al scroll
+      const entry = clamp((vh * entryStart - top) / (vh * entryLength));
       stage.style.setProperty('--e', String(entry));
 
-      // El titular aparece cuando la sección llega al 20% superior (y se queda, como en Lolla)
-      if (top <= vh * 0.2) setHeadingShown(true);
+      // El titular aparece cuando la sección llega a ese punto (y se queda, como en Lolla)
+      if (top <= vh * headingAt) setHeadingShown(true);
 
       // Slide activo: uno por cada pantalla de scroll con el escenario fijo
       const pinned = headerH - top;
