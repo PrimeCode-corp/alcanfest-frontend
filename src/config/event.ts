@@ -111,7 +111,8 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
     },
     {
       tag: 'Calle',
-      title: 'Batallas de rap, break dance, graffiti, beatbox y barberos',
+      title:
+        'Batallas de rap, break dance, graffiti, beatbox, barberos, bikers, riders y skateboarders',
       image: '/img/calle-1000.webp', // original: /img/calle.png
       // Sobre el piso, abajo a la derecha, inclinado siguiendo la diagonal del bailarín
       tagPlacement: { right: '6%', bottom: '6%', rotate: -7, size: 12 }
@@ -138,5 +139,26 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
 export const spot = {
   src: '/img/spot.mp4',
   title: 'Spot oficial',
-  description: 'Mira el spot oficial del festival',
+  description: 'Mira el spot oficial del festival'
+};
+
+// --- Experiencias (slider tipo "pilares" de Lolla) ---
+// Cada slide: foto de fondo a pantalla completa + collage central + titular sobre un recuadro de color.
+// TODO: textos definitivos (por ahora la frase de referencia).
+export type ExperienceSlide = {
+  title: string
+  color: string // color del recuadro del titular (variable CSS de la paleta)
+  background: string
+  backgroundMobile?: string
+  image: string // collage central (PNG/WebP con transparencia)
 }
+
+export const experiences: ExperienceSlide[] = [
+  {
+    title: 'Epic performances from 170+ artists across 8 stages',
+    color: 'var(--color-lime)',
+    background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
+    backgroundMobile: '/img/panorama_1-1000.webp',
+    image: '/img/prota_1-1200.webp', // original: /img/prota_1.png
+  },
+]

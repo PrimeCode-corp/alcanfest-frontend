@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { Experiences } from './components/Experiences/Experiences'
 import { Header } from './components/Header/Header'
 import { About } from './components/About/About'
 import { Hero } from './components/Hero/Hero'
@@ -29,6 +30,7 @@ function App() {
         <Merch />
         <About />
         <Spot />
+        <Experiences />
         {/* Placeholder: siguientes secciones */}
         <section className="min-h-[120vh]" />
       </main>
