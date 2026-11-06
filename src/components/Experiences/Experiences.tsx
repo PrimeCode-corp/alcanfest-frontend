@@ -1,4 +1,11 @@
-import { Fragment, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type RefObject
+} from 'react';
 import { experiences } from '../../config/event';
 import { cn } from '../../lib/cn';
 
@@ -20,7 +27,7 @@ const MOBILE_QUERY = '(max-width: 39.99rem)'; // por debajo de sm (640px)
 function useExperienceScroll(
   wrapperRef: RefObject<HTMLElement | null>,
   stageRef: RefObject<HTMLElement | null>,
-  count: number,
+  count: number
 ) {
   const [current, setCurrent] = useState(0);
   const [headingShown, setHeadingShown] = useState(false);
@@ -35,9 +42,15 @@ function useExperienceScroll(
       const stage = stageRef.current;
       if (!wrapper || !stage) return;
       const vh = window.innerHeight;
-      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
+      const headerH =
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            '--header-h'
+          )
+        ) || 0;
       const top = wrapper.getBoundingClientRect().top;
-      const clamp = (n: number, min = 0, max = 1) => Math.min(Math.max(n, min), max);
+      const clamp = (n: number, min = 0, max = 1) =>
+        Math.min(Math.max(n, min), max);
 
       // En celular la entrada arranca antes: apenas la sección asoma por abajo
       const mobile = mobileQuery.matches;
@@ -77,7 +90,11 @@ function useExperienceScroll(
 export function Experiences() {
   const wrapperRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const { current, headingShown } = useExperienceScroll(wrapperRef, stageRef, experiences.length);
+  const { current, headingShown } = useExperienceScroll(
+    wrapperRef,
+    stageRef,
+    experiences.length
+  );
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -88,7 +105,8 @@ export function Experiences() {
     return () => media.removeEventListener('change', sync);
   }, []);
 
-  const stateOf = (i: number): SlideState => (i < current ? 'prev' : i === current ? 'current' : 'next');
+  const stateOf = (i: number): SlideState =>
+    i < current ? 'prev' : i === current ? 'current' : 'next';
   const boxColor = experiences[current]?.color;
 
   return (
@@ -106,9 +124,18 @@ export function Experiences() {
       >
         {/* Fotos de fondo */}
         {experiences.map((slide, i) => (
-          <div key={slide.background} aria-hidden='true' className='absolute inset-0 flex items-center justify-center overflow-hidden'>
+          <div
+            key={slide.background}
+            aria-hidden='true'
+            className='absolute inset-0 flex items-center justify-center overflow-hidden'
+          >
             <picture className='contents'>
-              {slide.backgroundMobile && <source media='(max-width: 479px)' srcSet={slide.backgroundMobile} />}
+              {slide.backgroundMobile && (
+                <source
+                  media='(max-width: 479px)'
+                  srcSet={slide.backgroundMobile}
+                />
+              )}
               <img
                 src={slide.background}
                 alt=''
@@ -124,10 +151,27 @@ export function Experiences() {
         {experiences.map((slide, i) => {
           const state = stateOf(i);
           return (
-            <div key={slide.title} className='pointer-events-none absolute inset-0 flex items-center justify-center'>
-              <div className='flex h-72 w-[min(26.5rem,90vw)] flex-col items-center justify-end sm:h-88 lg:h-100 lg:w-[min(30rem,55svh)]'>
+            <div
+              key={slide.title}
+              // El slide activo va encima: los bloques de todos los slides están apilados en el mismo lugar
+              className={cn(
+                'pointer-events-none absolute inset-0 flex items-center justify-center',
+                state === 'current' ? 'z-20' : 'z-10',
+              )}
+            >
+              {/* Sin alto fijo: el bloque completo queda centrado aunque el titular tenga más líneas */}
+              <div className='flex w-[min(26.5rem,90vw)] -translate-y-[4svh] flex-col items-center lg:w-[min(30rem,55svh)]'>
                 {/* Collage: su parte baja queda detrás del recuadro */}
-                <div className='flex aspect-[1.4] w-[110%] shrink-0 translate-y-[30%] items-center justify-center sm:w-[130%]'>
+                {/* Ancho = --cw × ancho del bloque. El margen negativo mete el 30% inferior del collage
+                    detrás del recuadro (imageOverlap, 30% por defecto); se calcula con la proporción real de la imagen. */}
+                <div
+                  style={{
+                    aspectRatio: slide.imageRatio ?? 1.4,
+                    width: `calc(var(--cw) * ${slide.imageScale ?? 1} * 100%)`,
+                    marginBottom: `calc(var(--cw) * ${slide.imageScale ?? 1} * -${(slide.imageOverlap ?? 0.3) * 100}% / ${slide.imageRatio ?? 1.4})`,
+                  }}
+                  className='flex shrink-0 items-center justify-center [--cw:1.1] sm:[--cw:1.3]'
+                >
                   <img
                     src={slide.image}
                     alt=''
@@ -140,17 +184,25 @@ export function Experiences() {
                 {/* Recuadro sólido del titular */}
                 <div
                   style={{ backgroundColor: boxColor }}
-                  className='relative z-10 flex w-full shrink-0 flex-col items-center justify-end px-8 pt-8 pb-4 text-center lg:px-9 lg:pt-9 lg:pb-4 transition-[background-color] duration-400'
+                  className={cn(
+                    'relative z-10 flex w-full shrink-0 flex-col items-center justify-end px-8 pt-8 pb-4 text-center transition-[background-color,opacity] duration-400 lg:px-9 lg:pt-9 lg:pb-4',
+                    // Recuadros de slides no activos: se desvanecen para no asomar por detrás
+                    state !== 'current' && 'opacity-0',
+                  )}
                 >
                   <h3
                     className='font-display text-[clamp(1.85rem,3.4vw,2.5rem)] lg:text-[clamp(2.25rem,3.2vw,2.85rem)] leading-[0.95] font-black uppercase'
                     aria-hidden={state !== 'current'}
                   >
-                    <MaskedWords text={slide.title} state={state} shown={headingShown} />
+                    <MaskedWords
+                      text={slide.title}
+                      state={state}
+                      shown={headingShown}
+                    />
                   </h3>
                 </div>
                 {/* Borde inferior rasgado, del mismo color que el recuadro */}
-                <TornEdge color={boxColor} />
+                <TornEdge color={boxColor} hidden={state !== 'current'} />
               </div>
             </div>
           );
@@ -161,12 +213,16 @@ export function Experiences() {
 }
 
 /** Fondo: el primero usa la entrada ligada al scroll (--e); los demás, el estado del slide. */
-function backgroundStyle(i: number, state: SlideState, isDesktop: boolean): CSSProperties {
+function backgroundStyle(
+  i: number,
+  state: SlideState,
+  isDesktop: boolean
+): CSSProperties {
   if (i === 0 && state === 'current') {
     return {
       width: 'calc(80% + 20% * var(--e, 1))',
       translate: '0 calc((1 - var(--e, 1)) * 10%)',
-      opacity: 'calc(0.1 + 0.9 * var(--e, 1))',
+      opacity: 'calc(0.1 + 0.9 * var(--e, 1))'
     };
   }
   const shrunk = isDesktop ? '80%' : '100%';
@@ -185,24 +241,35 @@ function centralStyle(i: number, state: SlideState): CSSProperties {
  * Titular con cada palabra en su propia máscara: todas suben a la vez, así que se ve
  * igual que la máscara por línea de Lolla, sin tener que medir dónde corta cada línea.
  */
-function MaskedWords({ text, state, shown }: { text: string; state: SlideState; shown: boolean }) {
+function MaskedWords({
+  text,
+  state,
+  shown
+}: {
+  text: string;
+  state: SlideState;
+  shown: boolean;
+}) {
   const visible = state === 'current' && shown;
   return (
     <>
       {text.split(' ').map((word, i) => (
         <Fragment key={i}>
           {i > 0 && ' '}
-          <span className='inline-block overflow-hidden align-bottom'>
-          <span
-            className={cn(
-              'inline-block transition-[translate,opacity] ease-snap',
-              visible ? 'translate-y-0 opacity-100 duration-1000' : 'duration-400',
-              !visible && state === 'prev' && '-translate-y-full opacity-0',
-              !visible && state !== 'prev' && 'translate-y-full',
-            )}
-          >
-            {word}
-          </span>
+          {/* Máscara con espacio arriba para las tildes de las mayúsculas (Á, É…) */}
+          <span className='-mt-[0.25em] inline-block overflow-hidden pt-[0.25em] align-bottom'>
+            <span
+              className={cn(
+                'inline-block transition-[translate,opacity] ease-snap',
+                visible
+                  ? 'translate-y-0 opacity-100 duration-1000'
+                  : 'duration-400',
+                !visible && state === 'prev' && '-translate-y-[150%] opacity-0',
+                !visible && state !== 'prev' && 'translate-y-[150%]'
+              )}
+            >
+              {word}
+            </span>
           </span>
         </Fragment>
       ))}
@@ -210,13 +277,16 @@ function MaskedWords({ text, state, shown }: { text: string; state: SlideState; 
   );
 }
 
-function TornEdge({ color }: { color?: string }) {
+function TornEdge({ color, hidden }: { color?: string; hidden?: boolean }) {
   return (
     <svg
       aria-hidden='true'
       viewBox='0 0 520 32'
       preserveAspectRatio='none'
-      className='relative z-10 -mt-px block h-6 w-full shrink-0 transition-[fill] duration-400 sm:h-8 lg:h-9'
+      className={cn(
+        'relative z-10 -mt-px block h-6 w-full shrink-0 transition-[fill,opacity] duration-400 sm:h-8 lg:h-9',
+        hidden && 'opacity-0',
+      )}
       style={{ fill: color }}
     >
       <path d='M0 0 L13 14 L27 30 L35 12 L56 27 L65 21 L82 11 L104 26 L115 11 L124 23 L138 12 L149 12 L165 23 L173 28 L182 17 L200 30 L217 11 L234 28 L248 11 L259 11 L275 14 L287 23 L297 27 L306 28 L318 27 L339 15 L348 28 L365 30 L376 21 L385 27 L404 12 L421 11 L438 16 L453 27 L467 20 L482 28 L504 24 L517 19 L520 15 L520 0 Z' />

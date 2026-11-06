@@ -146,19 +146,33 @@ export const spot = {
 // Cada slide: foto de fondo a pantalla completa + collage central + titular sobre un recuadro de color.
 // TODO: textos definitivos (por ahora la frase de referencia).
 export type ExperienceSlide = {
-  title: string
-  color: string // color del recuadro del titular (variable CSS de la paleta)
-  background: string
-  backgroundMobile?: string
-  image: string // collage central (PNG/WebP con transparencia)
-}
+  title: string;
+  color: string; // color del recuadro del titular (variable CSS de la paleta)
+  background: string;
+  backgroundMobile?: string;
+  image: string; // collage central (PNG/WebP con transparencia)
+  imageRatio?: number; // ancho / alto del collage (por defecto 1.4)
+  imageScale?: number; // achica o agranda el collage (por defecto 1)
+  imageOverlap?: number; // parte del collage que queda detrás del recuadro (por defecto 0.3 = 30%)
+};
 
 export const experiences: ExperienceSlide[] = [
   {
-    title: 'Epic performances from 170+ artists across 8 stages',
+    title: '+1000 Espectadores. Los freestylers se medirán en batallas',
+    color: 'var(--color-magenta)',
+    background: '/img/panorama_2-1920.webp', // original: /img/panorama_2.jpeg
+    backgroundMobile: '/img/panorama_2-1000.webp',
+    image: '/img/prota_2-1200.webp', // original: /img/prota_2.png
+    imageRatio: 1.01,
+    imageScale: 0.8, // es casi cuadrado: más chico para que el puño no se corte arriba
+    imageOverlap: 0.2 // menos tapado por el recuadro: la foto queda un poco más arriba
+  },
+  {
+    title: '+10 Disciplinas. Nuestros bikers darán un show lleno de talento',
     color: 'var(--color-lime)',
     background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
     backgroundMobile: '/img/panorama_1-1000.webp',
     image: '/img/prota_1-1200.webp', // original: /img/prota_1.png
-  },
-]
+    imageRatio: 1.5
+  }
+];
