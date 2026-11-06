@@ -11,8 +11,8 @@ type FlyerCarouselModalProps = {
 };
 
 /**
- * Modal con varios flyers en carrusel: se desliza con el dedo (scroll-snap nativo), flechas, puntos,
- * teclado o clic en el flyer vecino. El botón de inscripción siempre corresponde al flyer centrado.
+ * Modal con varios flyers en carrusel: se desliza con el dedo (scroll-snap nativo), flechas (solo computadora),
+ * puntos, teclado o clic en el flyer vecino. El botón de inscripción siempre corresponde al flyer centrado.
  */
 export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselModalProps) {
   const dialogRef = useModalDialog(open);
@@ -88,7 +88,7 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
       // Ocupa toda la pantalla para que los flyers vecinos se vean a los lados.
       // --s es el lado del flyer (cuadrado): limitado por el ancho y por el alto disponible, contando personajes y controles.
       // En pantallas muy bajas (celular acostado) no hay lugar para los personajes: el flyer usa ese espacio.
-      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-9rem)*0.68)] backdrop:bg-ink/80 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-9rem)]'
+      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-9rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/90 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-9rem)]'
     >
       <div className='pointer-events-none flex h-full flex-col items-center justify-center'>
         {/* Personajes en el centro, por arriba: su corte coincide con el borde superior de los flyers,
@@ -107,40 +107,51 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
           />
         </div>
 
-        <div
-          ref={trackRef}
-          className='pointer-events-auto relative flex w-full shrink-0 snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain px-[calc(50%-var(--s)/2)] [scrollbar-width:none] sm:gap-4'
-        >
-          {slides.map((item, i) => (
-            <div
-              key={item.href}
-              role='group'
-              aria-label={`${i + 1} de ${slides.length}: ${item.title}`}
-              aria-hidden={i !== active}
-              className='w-(--s) shrink-0 snap-center'
-            >
-              {/* Vecinos oscurecidos, no transparentes: si no, la página se ve a través de ellos */}
-              <img
-                src={item.image}
-                alt={item.alt}
-                width={item.width}
-                height={item.height}
-                loading='lazy'
-                onClick={i === active ? undefined : () => goTo(i)}
-                className={cn(
-                  'block h-auto w-full border-3 border-paper transition-[filter,scale] duration-300 ease-snap',
-                  i !== active && 'cursor-pointer brightness-50 sm:scale-90',
-                )}
-              />
-            </div>
-          ))}
+        <div className='relative w-full shrink-0'>
+          <div
+            ref={trackRef}
+            className='pointer-events-auto relative flex snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain px-[calc(50%-var(--s)/2)] [scrollbar-width:none] sm:gap-4'
+          >
+            {slides.map((item, i) => (
+              <div
+                key={item.href}
+                role='group'
+                aria-label={`${i + 1} de ${slides.length}: ${item.title}`}
+                aria-hidden={i !== active}
+                className='w-(--s) shrink-0 snap-center'
+              >
+                {/* Vecinos oscurecidos, no transparentes: si no, la página se ve a través de ellos */}
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  width={item.width}
+                  height={item.height}
+                  loading='lazy'
+                  onClick={i === active ? undefined : () => goTo(i)}
+                  className={cn(
+                    'block h-auto w-full border-3 border-paper transition-[filter,scale] duration-300 ease-snap',
+                    i !== active && 'cursor-pointer brightness-50 sm:scale-90',
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Flechas solo en computadora, a los lados y fuera del flyer central para no tapar sus textos.
+              En pantallas menores se desliza con el dedo. */}
+          <div className='absolute inset-y-0 left-[calc(50%-var(--s)/2-3.5rem)] hidden items-center lg:flex [&>button]:pointer-events-auto'>
+            <IconButton label='Convocatoria anterior' onClick={() => goTo(active - 1)}>
+              <path d='M15 5l-7 7 7 7' />
+            </IconButton>
+          </div>
+          <div className='absolute inset-y-0 right-[calc(50%-var(--s)/2-3.5rem)] hidden items-center lg:flex [&>button]:pointer-events-auto'>
+            <IconButton label='Convocatoria siguiente' onClick={() => goTo(active + 1)}>
+              <path d='M9 5l7 7-7 7' />
+            </IconButton>
+          </div>
         </div>
 
-        {/* Flechas y puntos debajo del flyer, para no tapar sus textos en pantallas chicas */}
-        <div className='pointer-events-auto flex items-center gap-1 py-1'>
-          <IconButton label='Convocatoria anterior' onClick={() => goTo(active - 1)}>
-            <path d='M15 5l-7 7 7 7' />
-          </IconButton>
+        <div className='pointer-events-auto flex py-1'>
           {slides.map((item, i) => (
             <button
               key={item.href}
@@ -158,9 +169,6 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
               />
             </button>
           ))}
-          <IconButton label='Convocatoria siguiente' onClick={() => goTo(active + 1)}>
-            <path d='M9 5l7 7-7 7' />
-          </IconButton>
         </div>
 
         {/* Sobre el fondo oscuro, la sombra negra del botón no se vería */}

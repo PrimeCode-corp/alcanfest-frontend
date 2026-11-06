@@ -53,7 +53,8 @@ export type Flyer = {
   alt: string; // repite la información del flyer: esos datos solo están en la imagen
   href: string; // enlace del botón del modal
   cta: string;
-  character?: string; // figura que asoma detrás del flyer, apuntándolo (PNG/WebP con transparencia)
+  character?: string; // pantalla horizontal: figura que asoma detrás del flyer, apuntándolo (PNG/WebP con transparencia)
+  characterMobile?: string; // pantalla vertical: figura de frente, centrada arriba del flyer
 };
 
 export type FlyerCarousel = {
@@ -89,7 +90,8 @@ export const merch: MerchItem[] = [
       alt: 'Talleres gratuitos. 7 de noviembre: técnicas de graffiti. 14 de noviembre: financia tu carrera deportiva o artística. 21 de noviembre: el rap, arma y escudo. Hora: 4:00 PM. Lugar: auditorio "El Cultural", Tarapoto, Jr. Sofía Delgado 119.',
       href: 'https://bit.ly/47zLQOo',
       cta: 'Inscribirme',
-      character: '/img/personaje-1-797.webp' // original: /img/personaje-1.png (recortado a la figura)
+      character: '/img/personaje-1-797.webp', // original: /img/personaje-1.png (recortado a la figura)
+      characterMobile: '/img/personaje-1.2-940.webp' // original: /img/personaje-1.2.png (recortado a la figura)
     }
   },
   {

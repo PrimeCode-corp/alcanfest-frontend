@@ -27,7 +27,7 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       // --flyer-w depende también del alto de pantalla: el flyer y los botones entran siempre sin scroll.
       // Vertical: pegado abajo, para dejar arriba el espacio del personaje. Horizontal: centrado, personaje a un lado.
       // El borde y el fondo van en el hijo: los de <dialog> quedarían debajo del personaje (-z-10).
-      className='mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-8rem)*0.88)] backdrop:bg-ink/80 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto'
+      className='mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-8rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/90 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto'
     >
       <div className='border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
         <img
@@ -46,11 +46,10 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
         </div>
       </div>
 
-      {/* Personaje detrás del flyer. El origen y el translate van en la punta del dedo (85.7% 50.4% de la imagen):
-          left/top ubican esa punta justo en el borde del flyer, y al girar sobre ella el dedo no se mueve.
-          Vertical: sale por arriba apuntando hacia abajo. Horizontal: sale por la izquierda apuntando hacia la derecha.
-          El ancho se limita al espacio libre de cada caso. La máscara desvanece el corte inferior de la foto,
-          que en horizontal queda fuera del flyer, sobre el fondo oscuro. */}
+      {/* Horizontal: personaje detrás del flyer, por la izquierda, apuntando hacia él. El origen y el translate van
+          en la punta del dedo (85.7% 50.4% de la imagen): left/top ubican esa punta justo en el borde del flyer,
+          y al girar sobre ella el dedo no se mueve. El ancho se limita al espacio libre. La máscara desvanece
+          el corte inferior de la foto, que queda fuera del flyer, sobre el fondo oscuro. */}
       {flyer.character && (
         <img
           src={flyer.character}
@@ -58,8 +57,27 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
           width={797}
           height={1240}
           loading='lazy'
-          className='pointer-events-none absolute -top-1 left-[72%] -z-10 h-auto w-[min(70%,(100dvh-var(--flyer-w)*1.136-6.3rem)*1.12)] max-w-none origin-[85.7%_53%] translate-x-[-85.7%] translate-y-[-50.4%] rotate-40 drop-shadow-[4px_4px_0_var(--color-lime)] select-none mask-[linear-gradient(to_bottom,black_80%,transparent)] landscape:top-[35%] landscape:left-[-0.4rem] landscape:w-[min(80%,(100vw-var(--flyer-w))*0.5)] landscape:-rotate-28'
+          className='pointer-events-none absolute top-[35%] left-[-0.4rem] -z-10 hidden h-auto w-[min(80%,(100vw-var(--flyer-w))*0.5)] max-w-none origin-[85.7%_53%] translate-x-[-85.7%] translate-y-[-50.4%] -rotate-28 drop-shadow-[4px_4px_0_var(--color-lime)] select-none mask-[linear-gradient(to_bottom,black_80%,transparent)] landscape:block'
         />
+      )}
+
+      {/* Vertical: personaje centrado sobre el flyer. El recuadro muestra de la cabeza a los brazos y su borde
+          inferior coincide con el del flyer, así parece asomar por detrás. Se recorta con clip-path y no con
+          overflow para no cortar la sombra a los lados. El ancho se limita al espacio libre arriba del flyer. */}
+      {flyer.characterMobile && (
+        <div
+          aria-hidden='true'
+          className='pointer-events-none absolute bottom-full left-1/2 aspect-[940/1110] min-h-0 w-[min(80%,(100dvh-var(--flyer-w)*1.136-6.3rem)*0.84)] -translate-x-1/2 [clip-path:inset(-1rem_-1rem_0_-1rem)] landscape:hidden'
+        >
+          <img
+            src={flyer.characterMobile}
+            alt=''
+            width={940}
+            height={1390}
+            loading='lazy'
+            className='block h-auto w-full drop-shadow-[4px_4px_0_var(--color-lime)] select-none'
+          />
+        </div>
       )}
     </dialog>
   );
