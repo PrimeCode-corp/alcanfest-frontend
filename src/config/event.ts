@@ -45,6 +45,23 @@ export const socialNav: NavLink[] = [
 // --- Merch ---
 // TODO: reemplazar `image` por fotos reales del merch y `href` por la tienda real.
 // Sin `image`, la card muestra un panel de color como placeholder.
+export type Flyer = {
+  title: string; // nombre del modal para lectores de pantalla
+  image: string;
+  width: number; // tamaño real de la imagen, reserva el espacio mientras carga
+  height: number;
+  alt: string; // repite la información del flyer: esos datos solo están en la imagen
+  href: string; // enlace del botón del modal
+  cta: string;
+  character?: string; // figura que asoma detrás del flyer, apuntándolo (PNG/WebP con transparencia)
+};
+
+export type FlyerCarousel = {
+  title: string; // nombre del modal para lectores de pantalla
+  character: { image: string; width: number; height: number }; // asoma por arriba, al centro del carrusel
+  slides: Flyer[]; // flyers cuadrados; en cada uno, `title` es el nombre que acompaña al botón
+};
+
 export type MerchItem = {
   label: string;
   tagline: string;
@@ -52,6 +69,8 @@ export type MerchItem = {
   cta?: string; // texto del botón (por defecto "Comprar merch")
   image?: string;
   tone: 'lime' | 'magenta' | 'ink';
+  flyer?: Flyer; // si existe, el clic en la card abre este flyer en un modal en lugar de ir a `href`
+  carousel?: FlyerCarousel; // igual que `flyer`, pero con varios flyers en un carrusel
 };
 
 export const merch: MerchItem[] = [
@@ -61,7 +80,17 @@ export const merch: MerchItem[] = [
     cta: 'Info',
     image: '/img/talleres-700.webp', // original: /img/talleres.png (recortado a la figura)
     href: '#merch',
-    tone: 'magenta'
+    tone: 'magenta',
+    flyer: {
+      title: 'Cronograma de talleres',
+      image: '/img/cronograma-talleres-1000.webp', // original: /img/cronograma-talleres.png
+      width: 1000,
+      height: 1136,
+      alt: 'Talleres gratuitos. 7 de noviembre: técnicas de graffiti. 14 de noviembre: financia tu carrera deportiva o artística. 21 de noviembre: el rap, arma y escudo. Hora: 4:00 PM. Lugar: auditorio "El Cultural", Tarapoto, Jr. Sofía Delgado 119.',
+      href: 'https://bit.ly/47zLQOo',
+      cta: 'Inscribirme',
+      character: '/img/personaje-1-797.webp' // original: /img/personaje-1.png (recortado a la figura)
+    }
   },
   {
     label: 'Convocatorias',
@@ -69,11 +98,71 @@ export const merch: MerchItem[] = [
     tagline: '¡Inscríbete y participa!',
     image: '/img/convocatorias-700.webp', // original: /img/convocatorias.png (recortado a la figura)
     href: '#merch',
-    tone: 'lime'
+    tone: 'lime',
+    carousel: {
+      title: 'Convocatorias',
+      character: { image: '/img/personaje-2-1000.webp', width: 1000, height: 979 }, // original: /img/personaje-2.png (recortado a la figura)
+      slides: [
+        {
+          title: 'Feria de arte',
+          image: '/img/convocatoria-feria-arte-1000.webp', // original: /img/convocatoria-feria-arte.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria para feriantes. Feria de arte, 29 de noviembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
+          href: 'https://bit.ly/4zQe1EW',
+          cta: 'Inscribirme'
+        },
+        {
+          title: 'Graffiti',
+          image: '/img/convocatoria-graffiti-1000.webp', // original: /img/convocatoria-graffiti.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria: batallas de graffiti. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
+          href: 'https://bit.ly/4ikF8AL',
+          cta: 'Inscribirme'
+        },
+        {
+          title: 'Rock',
+          image: '/img/convocatoria-rock-1000.webp', // original: /img/convocatoria-rock.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria: concurso a la mejor banda de rock. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
+          href: 'https://forms.gle/ytMAWPTjmvuR5oVZ6',
+          cta: 'Inscribirme'
+        },
+        {
+          title: 'Breakdance',
+          image: '/img/convocatoria-breaking-1000.webp', // original: /img/convocatoria-breaking.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria: batallas de breaking 1 vs 1. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
+          href: 'https://forms.gle/wSD9k7JckDqkGdWA8',
+          cta: 'Inscribirme'
+        },
+        {
+          title: 'Artistas urbanos',
+          image: '/img/convocatoria-artistas-urbanos-1000.webp', // original: /img/convocatoria-artistas-urbanos.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria: artistas urbanos, presenta tus temas. 13 de diciembre, parque Suchiche.',
+          href: 'https://forms.gle/8i9Qu7TQqpc5txcs7',
+          cta: 'Inscribirme'
+        },
+        {
+          title: 'BMX, skate, roller',
+          image: '/img/convocatoria-bmx-roller-skate-1000.webp', // original: /img/convocatoria-bmx-roller-skate.png
+          width: 1000,
+          height: 1000,
+          alt: 'Convocatoria de deportes alternativos: BMX, skate y roller. 13 de diciembre, parque Suchiche. Inscripción gratuita.',
+          href: 'https://forms.gle/bN5m2MbofLKHsN9bA',
+          cta: 'Inscribirme'
+        }
+      ]
+    }
   },
   {
     label: 'Clasificados',
-    tagline: 'Batallas de rap',
+    tagline: 'Batallas de RAP',
     image: '/img/clasificados-700.webp', // original: /img/clasificados.png (recortado a la figura)
     cta: 'Ver',
     href: '#merch',
@@ -175,7 +264,7 @@ export const experiences: ExperienceSlide[] = [
     imageOverlap: 0.2 // menos tapado por el recuadro: la foto queda un poco más arriba
   },
   {
-    title: '+10 Disciplinas. Nuestros bikers darán un show lleno de adrenalina',
+    title: '+10 Disciplinas. Bikers llenos de talento y adrenalina',
     color: 'var(--color-lime)',
     background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
     backgroundMobile: '/img/panorama_1-1000.webp',

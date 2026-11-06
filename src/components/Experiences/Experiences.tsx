@@ -56,8 +56,8 @@ function useExperienceScroll(
 
       // En celular la entrada arranca antes: apenas la sección asoma por abajo
       const mobile = mobileQuery.matches;
-      const entryStart = mobile ? 0.85 : 0.5; // posición de la sección (en % de pantalla) donde empieza
-      const entryLength = mobile ? 0.6 : 0.4; // recorrido de la animación (en % de pantalla)
+      const entryStart = mobile ? 1 : 0.9; // posición de la sección (en % de pantalla) donde empieza
+      const entryLength = mobile ? 0.9 : 0.8; // recorrido de la animación (en % de pantalla); más largo = menos sensible
       const headingAt = mobile ? 0.45 : 0.2;
 
       // Entrada: la foto crece a pantalla completa y el collage aparece, ligado al scroll
@@ -152,65 +152,58 @@ export function Experiences() {
         ))}
 
         {/* Collage central + titular */}
-        {experiences.map((slide, i) => {
-          const state = stateOf(i);
-          return (
-            <div
-              key={slide.title}
-              // El slide activo va encima: los bloques de todos los slides están apilados en el mismo lugar
-              className={cn(
-                'pointer-events-none absolute inset-0 flex items-center justify-center',
-                state === 'current' ? 'z-20' : 'z-10',
-              )}
-            >
-              {/* Sin alto fijo: el bloque completo queda centrado aunque el titular tenga más líneas */}
-              <div className='flex w-[min(26.5rem,90vw)] -translate-y-[4svh] flex-col items-center lg:w-[min(30rem,55svh)]'>
-                {/* Collage: su parte baja queda detrás del recuadro */}
-                {/* Ancho = --cw × ancho del bloque. El margen negativo mete el 30% inferior del collage
-                    detrás del recuadro (imageOverlap, 30% por defecto); se calcula con la proporción real de la imagen. */}
+        <div className='pointer-events-none absolute inset-0 z-10 flex items-center justify-center'>
+          {/* El alto lo fija el contenido más grande de todos los slides: así el recuadro no se mueve al cambiar */}
+          <div className='flex w-[min(26.5rem,90vw)] -translate-y-[4svh] flex-col items-center lg:w-[min(30rem,55svh)]'>
+            {/* Collages apilados en la misma celda y anclados abajo: su parte baja queda detrás del recuadro */}
+            <div className='grid w-full grid-cols-[minmax(0,1fr)] items-end justify-items-center'>
+              {experiences.map((slide, i) => (
+                // Ancho = --cw × ancho del bloque. El margen negativo mete el 30% inferior del collage
+                // detrás del recuadro (imageOverlap, 30% por defecto); se calcula con la proporción real de la imagen.
                 <div
+                  key={slide.image}
                   style={{
                     aspectRatio: slide.imageRatio ?? 1.4,
                     width: `calc(var(--cw) * ${slide.imageScale ?? 1} * 100%)`,
                     marginBottom: `calc(var(--cw) * ${slide.imageScale ?? 1} * -${(slide.imageOverlap ?? 0.3) * 100}% / ${slide.imageRatio ?? 1.4})`,
                   }}
-                  className='flex shrink-0 items-center justify-center [--cw:1.1] sm:[--cw:1.3]'
+                  className='flex items-center justify-center [grid-area:1/1] [--cw:1.1] sm:[--cw:1.3]'
                 >
                   <img
                     src={slide.image}
                     alt=''
                     loading='lazy'
-                    style={centralStyle(i, state)}
+                    style={centralStyle(i, stateOf(i))}
                     className='w-full transition-[scale,opacity] duration-600 ease-snap'
                   />
                 </div>
-
-                {/* Recuadro sólido del titular */}
-                <div
-                  style={{ backgroundColor: boxColor }}
-                  className={cn(
-                    'relative z-10 flex w-full shrink-0 flex-col items-center justify-end px-8 pt-8 pb-4 text-center transition-[background-color,opacity] duration-400 lg:px-9 lg:pt-9 lg:pb-4',
-                    // Recuadros de slides no activos: se desvanecen para no asomar por detrás
-                    state !== 'current' && 'opacity-0',
-                  )}
-                >
-                  <h3
-                    className='font-display text-[clamp(1.85rem,3.4vw,2.5rem)] lg:text-[clamp(2.25rem,3.2vw,2.85rem)] leading-[0.95] font-black uppercase'
-                    aria-hidden={state !== 'current'}
-                  >
-                    <MaskedWords
-                      text={slide.title}
-                      state={state}
-                      shown={headingShown}
-                    />
-                  </h3>
-                </div>
-                {/* Borde inferior rasgado, del mismo color que el recuadro */}
-                <TornEdge color={boxColor} hidden={state !== 'current'} />
-              </div>
+              ))}
             </div>
-          );
-        })}
+
+            {/* Recuadro único: solo cambian el color y el titular. Los titulares comparten celda,
+                así el recuadro siempre mide lo que el más largo. */}
+            <div
+              style={{ backgroundColor: boxColor }}
+              className='relative z-10 grid w-full shrink-0 grid-cols-[minmax(0,1fr)] items-center px-8 pt-8 pb-4 text-center transition-[background-color] duration-400 lg:px-9 lg:pt-9 lg:pb-4'
+            >
+              {experiences.map((slide, i) => (
+                <h3
+                  key={slide.title}
+                  className='font-display text-[clamp(1.85rem,3.4vw,2.5rem)] leading-[0.95] font-black uppercase [grid-area:1/1] lg:text-[clamp(2.25rem,3.2vw,2.85rem)]'
+                  aria-hidden={stateOf(i) !== 'current'}
+                >
+                  <MaskedWords
+                    text={slide.title}
+                    state={stateOf(i)}
+                    shown={headingShown}
+                  />
+                </h3>
+              ))}
+            </div>
+            {/* Borde inferior rasgado, del mismo color que el recuadro */}
+            <TornEdge color={boxColor} />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -281,16 +274,13 @@ function MaskedWords({
   );
 }
 
-function TornEdge({ color, hidden }: { color?: string; hidden?: boolean }) {
+function TornEdge({ color }: { color?: string }) {
   return (
     <svg
       aria-hidden='true'
       viewBox='0 0 520 32'
       preserveAspectRatio='none'
-      className={cn(
-        'relative z-10 -mt-px block h-6 w-full shrink-0 transition-[fill,opacity] duration-400 sm:h-8 lg:h-9',
-        hidden && 'opacity-0',
-      )}
+      className='relative z-10 -mt-px block h-6 w-full shrink-0 transition-[fill] duration-400 sm:h-8 lg:h-9'
       style={{ fill: color }}
     >
       <path d='M0 0 L13 14 L27 30 L35 12 L56 27 L65 21 L82 11 L104 26 L115 11 L124 23 L138 12 L149 12 L165 23 L173 28 L182 17 L200 30 L217 11 L234 28 L248 11 L259 11 L275 14 L287 23 L297 27 L306 28 L318 27 L339 15 L348 28 L365 30 L376 21 L385 27 L404 12 L421 11 L438 16 L453 27 L467 20 L482 28 L504 24 L517 19 L520 15 L520 0 Z' />
