@@ -86,11 +86,11 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
       onClick={onDialogClick}
       onKeyDown={onKeyDown}
       // Ocupa toda la pantalla para que los flyers vecinos se vean a los lados.
-      // --s es el lado del flyer (cuadrado): limitado por el ancho y por el alto disponible, contando personajes y controles.
+      // --s es el lado del flyer (cuadrado): limitado por el ancho y por el alto debajo del header, contando personajes y controles.
       // En pantallas muy bajas (celular acostado) no hay lugar para los personajes: el flyer usa ese espacio.
-      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-9rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/90 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-9rem)]'
+      className='m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-transparent text-ink transition-opacity duration-200 ease-snap [--s:min(34rem,100vw-4.5rem,(100dvh-var(--header-h)-7rem)*0.68)] backdrop:bg-ink/80 lg:backdrop:bg-ink/95 starting:open:opacity-0 [@media(max-height:30rem)]:[--s:calc(100dvh-var(--header-h)-5.5rem)]'
     >
-      <div className='pointer-events-none flex h-full flex-col items-center justify-center'>
+      <div className='pointer-events-none flex h-full flex-col items-center justify-center pt-(--header-h)'>
         {/* Personajes en el centro, por arriba: su corte coincide con el borde superior de los flyers,
             así parece que asoman por detrás y los flyers pasan por delante al deslizar */}
         <div
@@ -171,8 +171,10 @@ export function FlyerCarouselModal({ carousel, open, onClose }: FlyerCarouselMod
           ))}
         </div>
 
-        {/* Sobre el fondo oscuro, la sombra negra del botón no se vería */}
-        <div className='pointer-events-auto flex w-(--s) gap-3 [--signup-shadow:var(--color-lime)]'>
+        {/* Sobre el fondo oscuro, la sombra negra del botón no se vería. La fila reserva alto para dos líneas:
+            si no, el flyer saltaría al pasar a un nombre más largo. En pantallas muy bajas es más ancha
+            que el flyer: en un flyer tan chico el texto ocuparía varias líneas y no entraría */}
+        <div className='pointer-events-auto flex min-h-17 w-(--s) items-start gap-3 [--signup-shadow:var(--color-lime)] [@media(max-height:30rem)]:min-h-0 [@media(max-height:30rem)]:w-[min(26rem,100vw-2rem)]'>
           <SignupLink href={slide.href}>
             {slide.cta}: {slide.title}
           </SignupLink>

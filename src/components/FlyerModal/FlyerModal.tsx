@@ -24,10 +24,11 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      // --flyer-w depende también del alto de pantalla: el flyer y los botones entran siempre sin scroll.
-      // Vertical: pegado abajo, para dejar arriba el espacio del personaje. Horizontal: centrado, personaje a un lado.
+      // Todo queda debajo del header: el modal empieza en --header-h y --flyer-w se calcula con el alto restante,
+      // así el flyer y los botones entran siempre sin scroll.
+      // Vertical: pegado abajo, reservando arriba lugar para el personaje. Horizontal: centrado, personaje a un lado.
       // El borde y el fondo van en el hijo: los de <dialog> quedarían debajo del personaje (-z-10).
-      className='mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-8rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/90 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto'
+      className='top-(--header-h) mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-15rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/95 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto landscape:[--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-6rem)*0.88)]'
     >
       <div className='border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
         <img
@@ -67,7 +68,7 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       {flyer.characterMobile && (
         <div
           aria-hidden='true'
-          className='pointer-events-none absolute bottom-full left-1/2 aspect-[940/1110] min-h-0 w-[min(80%,(100dvh-var(--flyer-w)*1.136-6.3rem)*0.84)] -translate-x-1/2 [clip-path:inset(-1rem_-1rem_0_-1rem)] landscape:hidden'
+          className='pointer-events-none absolute bottom-full left-1/2 aspect-[940/1110] min-h-0 w-[min(80%,(100dvh-var(--header-h)-var(--flyer-w)*1.136-6rem)*0.84)] -translate-x-1/2 [clip-path:inset(-1rem_-1rem_0_-1rem)] landscape:hidden'
         >
           <img
             src={flyer.characterMobile}
