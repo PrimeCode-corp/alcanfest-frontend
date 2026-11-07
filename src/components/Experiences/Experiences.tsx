@@ -193,7 +193,8 @@ export function Experiences() {
                     aspectRatio: slide.imageRatio ?? 1.4,
                     width: `calc(var(--cw) * ${slide.imageScale ?? 1} * 100%)`,
                     marginBottom: `calc(var(--cw) * ${slide.imageScale ?? 1} * -${(slide.imageOverlap ?? 0.3) * 100}% / ${slide.imageRatio ?? 1.4})`,
-                  }}
+                    '--prota-shadow': slide.color, // la sombra del collage usa el color del recuadro de su slide
+                  } as CSSProperties}
                   className='flex items-center justify-center [grid-area:1/1] [--cw:1.1] sm:[--cw:1.3]'
                 >
                   <img
@@ -201,7 +202,7 @@ export function Experiences() {
                     alt=''
                     loading='lazy'
                     style={centralStyle(i, stateOf(i))}
-                    className='w-full transition-[scale,opacity] duration-600 ease-snap'
+                    className='w-full drop-shadow-[4px_4px_0_var(--prota-shadow)] transition-[scale,opacity] duration-600 ease-snap'
                   />
                 </div>
               ))}

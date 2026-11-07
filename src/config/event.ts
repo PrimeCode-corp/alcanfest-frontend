@@ -29,9 +29,15 @@ export const venueLocation = {
   mapsCta: 'Abrir en Google Maps',
   mapsUrl: 'https://maps.app.goo.gl/Ho5QfdVssV45fir76',
   steps: [
-    { text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz', distance: '195 m' },
+    {
+      text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz',
+      distance: '195 m'
+    },
     { text: 'Dobla a la izquierda en Jr. Lamas', distance: '185 m' },
-    { text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche', distance: '70 m' }
+    {
+      text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche',
+      distance: '70 m'
+    }
   ]
 };
 
@@ -212,7 +218,11 @@ export const merch: MerchItem[] = [
     roster: {
       title: 'Clasificados',
       subtitle: 'Batallas de RAP',
-      character: { image: '/img/personaje-3-742.webp', width: 742, height: 1402 }, // original: /img/personaje-3.png (recortado a la figura)
+      character: {
+        image: '/img/personaje-3-742.webp',
+        width: 742,
+        height: 1402
+      }, // original: /img/personaje-3.png (recortado a la figura)
       entries: [
         { name: 'Tai', place: 'Tarapoto', kind: 'classified' },
         { name: 'P-Chón', place: 'Tarapoto', kind: 'classified' },
@@ -343,5 +353,23 @@ export const experiences: ExperienceSlide[] = [
     backgroundMobile: '/img/panorama_1-1000.webp',
     image: '/img/prota_1-1200.webp', // original: /img/prota_1.png
     imageRatio: 1.5
+  },
+  {
+    title: '15va Edición ¡Deporte urbano y emprendedores!',
+    color: 'var(--color-magenta)',
+    background: '/img/panorama_3-1679.webp', // original: /img/panorama_3.png
+    backgroundMobile: '/img/panorama_3-1000.webp',
+    image: '/img/prota_3-1200.webp', // original: /img/prota_3.png
+    imageRatio: 1.476,
+    imageOverlap: 0.2 // menos tapado por el recuadro: la tabla del skater queda a la vista
+  },
+  {
+    title: '¿Estás listo? ALCANFEST - TALENTO ES LO QUE SOBRA',
+    color: 'var(--color-lime)',
+    background: '/img/panorama_4-1870.webp', // original: /img/panorama_4.png
+    backgroundMobile: '/img/panorama_4-1250.webp', // más ancho que los demás: la foto es más apaisada
+    image: '/img/prota_4-1200.webp', // original: /img/prota_4.png (traía fondo negro opaco: se recortó a la silueta)
+    imageRatio: 1.786,
+    imageOverlap: 0.1 // el recuadro no tapa la pancarta de la foto
   }
 ];
