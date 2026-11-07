@@ -340,7 +340,7 @@ export const experiences: ExperienceSlide[] = [
     title: '+1000 Espectadores. Los freestylers se medirán en batallas',
     color: 'var(--color-magenta)',
     background: '/img/panorama_2-1920.webp', // original: /img/panorama_2.jpeg
-    backgroundMobile: '/img/panorama_2-1000.webp',
+    backgroundMobile: '/img/panorama_2-mobile-952.webp', // recorte vertical del original (panorama_2.jpeg, en git: 96d441a)
     image: '/img/prota_2-1200.webp', // original: /img/prota_2.png
     imageRatio: 1.01,
     imageScale: 0.8, // es casi cuadrado: más chico para que el puño no se corte arriba
@@ -350,7 +350,7 @@ export const experiences: ExperienceSlide[] = [
     title: '+10 Disciplinas. Bikers llenos de talento y adrenalina',
     color: 'var(--color-lime)',
     background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
-    backgroundMobile: '/img/panorama_1-1000.webp',
+    backgroundMobile: '/img/panorama_1-mobile-536.webp', // recorte vertical del original (panorama_1.png, en git: 9eea0c1)
     image: '/img/prota_1-1200.webp', // original: /img/prota_1.png
     imageRatio: 1.5
   },
@@ -358,7 +358,7 @@ export const experiences: ExperienceSlide[] = [
     title: '15va Edición ¡Deporte urbano y emprendedores!',
     color: 'var(--color-magenta)',
     background: '/img/panorama_3-1679.webp', // original: /img/panorama_3.png
-    backgroundMobile: '/img/panorama_3-1000.webp',
+    backgroundMobile: '/img/panorama_3-mobile-581.webp', // recorte vertical del original
     image: '/img/prota_3-1200.webp', // original: /img/prota_3.png
     imageRatio: 1.476,
     imageOverlap: 0.2 // menos tapado por el recuadro: la tabla del skater queda a la vista
@@ -367,7 +367,7 @@ export const experiences: ExperienceSlide[] = [
     title: '¿Estás listo? ALCANFEST - TALENTO ES LO QUE SOBRA',
     color: 'var(--color-lime)',
     background: '/img/panorama_4-1870.webp', // original: /img/panorama_4.png
-    backgroundMobile: '/img/panorama_4-1250.webp', // más ancho que los demás: la foto es más apaisada
+    backgroundMobile: '/img/panorama_4-mobile-1451.webp', // recorte vertical; se extendió 1500 px de cielo negro arriba para bajar las caras bajo el recuadro
     image: '/img/prota_4-1200.webp', // original: /img/prota_4.png (traía fondo negro opaco: se recortó a la silueta)
     imageRatio: 1.786,
     imageOverlap: 0.1 // el recuadro no tapa la pancarta de la foto

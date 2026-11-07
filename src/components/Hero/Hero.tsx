@@ -19,7 +19,7 @@ export function Hero() {
           sizes='100vw'
         />
         <img
-          src='/img/portada.png'
+          src='/img/portada-1974.webp'
           alt=''
           fetchPriority='high'
           className='absolute inset-0 -z-20 size-full object-cover object-[50%_30%]'
