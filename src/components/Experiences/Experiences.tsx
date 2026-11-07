@@ -12,8 +12,9 @@ import { cn } from '../../lib/cn';
 /*
  * Slider de experiencias, inspirado en los "pilares" de Lolla:
  * - El escenario queda fijo (sticky) mientras se hace scroll; cada slide ocupa una pantalla de recorrido.
- * - Entrada (ligada al scroll): la foto de fondo pasa de 80% de ancho, un poco abajo y casi
- *   transparente, a pantalla completa; el collage central crece de 0 a 1.
+ * - Entrada (ligada al scroll): la sección sube sobre el video fijo de Spot, que se apaga. La foto de fondo
+ *   pasa de 80% de ancho, un poco abajo y casi transparente, a pantalla completa; el collage crece de 0 a 1.
+ *   El progreso sigue al scroll con retardo (como el `scrub` de Lolla), para que el relevo se sienta lento.
  * - El titular sube palabra por palabra desde una máscara al entrar la sección.
  * - Cambio de slide: el fondo actual sale hacia arriba y el siguiente entra desde abajo,
  *   el collage se encoge/crece, el texto sale hacia arriba y el recuadro cambia de color.
@@ -25,24 +26,46 @@ const DESKTOP_QUERY = '(min-width: 62rem)'; // 992px, mismo corte que Lolla
 // Scroll necesario para pasar de un slide al siguiente, en pantallas (antes 1 = una pantalla entera)
 const SLIDE_STEP = 0.45;
 const MOBILE_QUERY = '(max-width: 39.99rem)'; // por debajo de sm (640px)
+// Scroll con el video fijo antes de que suba la sección, en pantallas: a mayor valor, menos sensible.
+// La entrada ya avanza en ese tramo, apagando el video. Igual a --spot-hold en index.css
+const SPOT_HOLD = 0.4;
+// La entrada termina a esta distancia del escenario fijo, en pantallas: el retardo la completa antes de que llegue
+const ENTRY_LEAD = 0.15;
+// Scroll con la foto ya completa antes del primer cambio de slide, en pantallas
+const FIRST_SLIDE_HOLD = 0.35;
+// Constante de tiempo del retardo: a mayor valor, más tarda la entrada en alcanzar al scroll
+const ENTRY_SMOOTHING_MS = 200;
 
 function useExperienceScroll(
   wrapperRef: RefObject<HTMLElement | null>,
-  stageRef: RefObject<HTMLElement | null>,
   count: number
 ) {
   const [current, setCurrent] = useState(0);
   const [headingShown, setHeadingShown] = useState(false);
 
   useEffect(() => {
-    const raf = { id: 0 };
+    const raf = { id: 0, smooth: 0 };
+    const entry = { target: 0, shown: -1, last: 0 };
     const mobileQuery = window.matchMedia(MOBILE_QUERY);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Se escribe en el padre común (<main>): también la lee Spot para apagar el video
+    const writeEntry = () =>
+      wrapperRef.current?.parentElement?.style.setProperty('--experiences-entry', String(entry.shown));
+
+    const smooth = (now: number) => {
+      raf.smooth = 0;
+      entry.shown += (entry.target - entry.shown) * (1 - Math.exp((entry.last - now) / ENTRY_SMOOTHING_MS));
+      entry.last = now;
+      if (Math.abs(entry.target - entry.shown) < 0.001) entry.shown = entry.target;
+      writeEntry();
+      if (entry.shown !== entry.target) raf.smooth = requestAnimationFrame(smooth);
+    };
 
     const update = () => {
       raf.id = 0;
       const wrapper = wrapperRef.current;
-      const stage = stageRef.current;
-      if (!wrapper || !stage) return;
+      if (!wrapper) return;
       const vh = window.innerHeight;
       const headerH =
         parseFloat(
@@ -54,22 +77,27 @@ function useExperienceScroll(
       const clamp = (n: number, min = 0, max = 1) =>
         Math.min(Math.max(n, min), max);
 
-      // En celular la entrada arranca antes: apenas la sección asoma por abajo
-      const mobile = mobileQuery.matches;
-      const entryStart = mobile ? 1 : 0.9; // posición de la sección (en % de pantalla) donde empieza
-      const entryLength = mobile ? 0.9 : 0.8; // recorrido de la animación (en % de pantalla); más largo = menos sensible
-      const headingAt = mobile ? 0.45 : 0.2;
+      const headingAt = mobileQuery.matches ? 0.45 : 0.35;
 
-      // Entrada: la foto crece a pantalla completa y el collage aparece, ligado al scroll
-      const entry = clamp((vh * entryStart - top) / (vh * entryLength));
-      stage.style.setProperty('--e', String(entry));
+      // Entrada: arranca con el video recién fijado y termina justo antes de fijarse el escenario.
+      // Al cargar a mitad de página se aplica de una vez; después, con retardo
+      const entryFrom = vh * (1 + SPOT_HOLD);
+      const entryTo = headerH + vh * ENTRY_LEAD;
+      entry.target = clamp((entryFrom - top) / (entryFrom - entryTo));
+      if (entry.shown < 0 || reducedMotion) {
+        entry.shown = entry.target;
+        writeEntry();
+      } else if (!raf.smooth && entry.shown !== entry.target) {
+        entry.last = performance.now();
+        raf.smooth = requestAnimationFrame(smooth);
+      }
 
       // El titular aparece cuando la sección llega a ese punto (y se queda, como en Lolla)
       if (top <= vh * headingAt) setHeadingShown(true);
 
-      // Slide activo: cambia cada SLIDE_STEP pantallas de scroll con el escenario fijo
-      const pinned = headerH - top;
-      setCurrent(clamp(Math.floor(pinned / (vh * SLIDE_STEP) + 0.3), 0, count - 1));
+      // Slide activo: el primer cambio llega al terminar la entrada; luego, cada SLIDE_STEP pantallas de scroll
+      const pinned = headerH - top - vh * FIRST_SLIDE_HOLD;
+      setCurrent(clamp(Math.floor(pinned / (vh * SLIDE_STEP)) + 1, 0, count - 1));
     };
 
     const onScroll = () => {
@@ -83,18 +111,17 @@ function useExperienceScroll(
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       cancelAnimationFrame(raf.id);
+      cancelAnimationFrame(raf.smooth);
     };
-  }, [wrapperRef, stageRef, count]);
+  }, [wrapperRef, count]);
 
   return { current, headingShown };
 }
 
 export function Experiences() {
   const wrapperRef = useRef<HTMLElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
   const { current, headingShown } = useExperienceScroll(
     wrapperRef,
-    stageRef,
     experiences.length
   );
   const [isDesktop, setIsDesktop] = useState(false);
@@ -116,12 +143,12 @@ export function Experiences() {
       id='experiencias'
       ref={wrapperRef}
       aria-label='Experiencias del festival'
-      className='relative bg-ink text-ink'
-      // Recorrido: el escenario (una pantalla) + SLIDE_STEP por cada slide extra + 30% al final
-      style={{ height: `calc(100svh + ${(experiences.length - 1) * SLIDE_STEP * 100}svh + 30svh)` }}
+      // Se monta sobre el tramo final de Spot. Esa parte es transparente para que se vea el video; el resto, negro
+      className='relative z-10 -mt-(--experiences-overlap) bg-[linear-gradient(to_bottom,transparent_var(--experiences-overlap),var(--color-ink)_var(--experiences-overlap))] text-ink'
+      // Recorrido: el escenario (una pantalla) + la pausa antes del primer cambio + SLIDE_STEP por cada slide extra
+      style={{ height: `calc(100svh + ${(FIRST_SLIDE_HOLD + (experiences.length - 1) * SLIDE_STEP) * 100}svh)` }}
     >
       <div
-        ref={stageRef}
         // lvh (alto con la barra del navegador oculta): en celular el escenario siempre cubre la pantalla,
         // aunque la barra se esconda al hacer scroll. Con svh quedaba una franja negra abajo.
         className='sticky top-(--header-h) h-[calc(100lvh-var(--header-h))] overflow-hidden'
@@ -209,7 +236,7 @@ export function Experiences() {
   );
 }
 
-/** Fondo: el primero usa la entrada ligada al scroll (--e); los demás, el estado del slide. */
+/** Fondo: el primero usa la entrada ligada al scroll (--experiences-entry); los demás, el estado del slide. */
 function backgroundStyle(
   i: number,
   state: SlideState,
@@ -217,9 +244,9 @@ function backgroundStyle(
 ): CSSProperties {
   if (i === 0 && state === 'current') {
     return {
-      width: 'calc(80% + 20% * var(--e, 1))',
-      translate: '0 calc((1 - var(--e, 1)) * 10%)',
-      opacity: 'calc(0.1 + 0.9 * var(--e, 1))'
+      width: 'calc(80% + 20% * var(--experiences-entry, 1))',
+      translate: '0 calc((1 - var(--experiences-entry, 1)) * 10%)',
+      opacity: 'calc(0.1 + 0.9 * var(--experiences-entry, 1))'
     };
   }
   const shrunk = isDesktop ? '80%' : '100%';
@@ -230,7 +257,7 @@ function backgroundStyle(
 
 function centralStyle(i: number, state: SlideState): CSSProperties {
   if (state !== 'current') return { scale: '0', opacity: 0 };
-  if (i === 0) return { scale: 'var(--e, 1)', opacity: 'var(--e, 1)' };
+  if (i === 0) return { scale: 'var(--experiences-entry, 1)', opacity: 'var(--experiences-entry, 1)' };
   return { scale: '1', opacity: 1 };
 }
 

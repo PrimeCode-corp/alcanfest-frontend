@@ -57,8 +57,13 @@ export function Spot() {
 
   return (
     <section id='spot' aria-labelledby='spot-title' className='bg-ink text-paper'>
-      {/* Video a todo el ancho de la pantalla */}
-      <div className='relative w-full bg-ink'>
+      {/* Video a todo el ancho de la pantalla. Queda fijo y se apaga mientras Experiences sube encima, así la foto
+          parece reemplazarlo. Desde sm mide 16:9 (56.25vw): si es más alto que la pantalla, se fija con su borde
+          inferior en el de la pantalla para que se vean los controles. */}
+      <div
+        style={{ opacity: 'calc(1 - 0.9 * var(--experiences-entry, 0))' }}
+        className='sticky top-(--header-h) w-full bg-ink sm:top-[min(var(--header-h),100svh-56.25vw)]'
+      >
           <video
             ref={videoRef}
             src={spot.src}
@@ -114,6 +119,8 @@ export function Spot() {
             </button>
           )}
       </div>
+      {/* Recorrido del video fijo: va dentro de la sección porque sticky no cuenta el padding del padre */}
+      <div aria-hidden='true' className='h-[calc(var(--experiences-overlap)+var(--spot-hold))]' />
     </section>
   );
 }

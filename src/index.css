@@ -33,6 +33,10 @@
 :root {
   --header-h: 64px;
   --gutter: clamp(16px, 4vw, 40px);
+  /* Cuánto se monta Experiences sobre el video de Spot: el alto de su escenario */
+  --experiences-overlap: calc(100lvh - var(--header-h));
+  /* Scroll con el video fijo antes de que Experiences empiece a subir. Igual a SPOT_HOLD en Experiences.tsx */
+  --spot-hold: 40lvh;
 }
 
 @media (width >= 40rem) {

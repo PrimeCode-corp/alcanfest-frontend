@@ -11,7 +11,28 @@ export const event = {
   heroHeadline: 'Arte, deporte y cultura', //   (espacio no separable) evita que la "y" quede sola al final de línea
   heroSubtitle: 'El festival urbano más grande de San Martín',
   logo: '/img/logo-header.webp',
-  ticketsUrl: '#entradas'
+  facebookUrl: 'https://www.facebook.com/Alcanfest',
+  instagramUrl: 'https://www.instagram.com/alcanfest_peru/',
+  // WhatsApp con mensaje prellenado (número en formato internacional, sin "+" ni espacios)
+  contactUrl: `https://wa.me/51965938082?text=${encodeURIComponent('¡Hola, equipo de Alcanfest! Vi su página web y me gustaría recibir más información sobre el festival de este 13 de diciembre en Tarapoto: actividades, talleres y convocatorias. ¡Muchas gracias!')}`
+};
+
+// --- Ubicación ---
+// Ruta en moto sobre calles de OpenStreetMap, indicada por el equipo. Cada paso corresponde a un tramo de
+// `stepEnds` en `locationMap.ts`. OSM nombra Bolognesi a parte de Jr. Lamas: aquí se usa el nombre local.
+export const venueLocation = {
+  cta: '¿Cómo llegar?',
+  title: 'Tarapoto',
+  place: 'Parque Suchiche',
+  origin: 'Plaza de Armas',
+  summary: 'A 450 m de la Plaza de Armas: unos 2 min en moto',
+  mapsCta: 'Abrir en Google Maps',
+  mapsUrl: 'https://maps.app.goo.gl/Ho5QfdVssV45fir76',
+  steps: [
+    { text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz', distance: '195 m' },
+    { text: 'Dobla a la izquierda en Jr. Lamas', distance: '185 m' },
+    { text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche', distance: '70 m' }
+  ]
 };
 
 export type NavLink = { label: string; href: string; external?: boolean };
@@ -34,9 +55,10 @@ export const helpNav: NavLink[] = [
   { label: 'Contacto', href: '#contacto' }
 ];
 
-// TODO: URLs reales de redes
+// TODO: URLs reales de TikTok, YouTube y X
 export const socialNav: NavLink[] = [
-  { label: 'Instagram', href: 'https://instagram.com', external: true },
+  { label: 'Facebook', href: event.facebookUrl, external: true },
+  { label: 'Instagram', href: event.instagramUrl, external: true },
   { label: 'TikTok', href: 'https://tiktok.com', external: true },
   { label: 'YouTube', href: 'https://youtube.com', external: true },
   { label: 'X', href: 'https://x.com', external: true }
