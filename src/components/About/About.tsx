@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { about, event, type AboutFeature } from '../../config/event';
 import { cn } from '../../lib/cn';
+import { Img } from '../Img/Img';
 
 const DESKTOP_QUERY = '(min-width: 64rem)'; // = breakpoint lg
 
@@ -335,14 +336,19 @@ function Highlight({
 
 function FeatureVisual({ feature }: { feature: AboutFeature }) {
   return (
-    <div className='@container relative isolate aspect-square overflow-hidden border-3 border-paper bg-ink shadow-[8px_8px_0_var(--color-magenta)] lg:size-full'>
+    <div
+      className={cn(
+        '@container relative isolate aspect-square overflow-hidden border-3 border-paper bg-ink shadow-[8px_8px_0_var(--color-magenta)] lg:size-full',
+        feature.image && 'img-slot'
+      )}
+    >
       {feature.image && (
         <>
-          <img
+          <Img
             src={feature.image}
             alt=''
             loading='lazy'
-            className='absolute inset-0 -z-10 size-full object-cover'
+            className='absolute inset-0 -z-10 size-full object-cover transition-opacity duration-700 ease-snap'
           />
           {/* Tinte rosa (magenta de marca) sobre la foto */}
           <div

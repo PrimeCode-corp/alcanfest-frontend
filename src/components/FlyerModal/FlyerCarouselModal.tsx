@@ -7,6 +7,7 @@ import {
 } from 'react';
 import type { FlyerCarousel } from '../../config/event';
 import { cn } from '../../lib/cn';
+import { Img } from '../Img/Img';
 import { IconButton, SignupLink } from './FlyerModal';
 import { useModalDialog } from './useModalDialog';
 
@@ -112,13 +113,13 @@ export function FlyerCarouselModal({
           aria-hidden='true'
           className='flex h-[calc(var(--s)*0.46)] w-full shrink-0 justify-center [@media(max-height:30rem)]:hidden'
         >
-          <img
+          <Img
             src={character.image}
             alt=''
             width={character.width}
             height={character.height}
             loading='lazy'
-            className='h-fit w-[calc(var(--s)*0.8)] max-w-none shrink-0 self-start drop-shadow-[4px_4px_0_var(--color-lime)] select-none mask-[linear-gradient(to_bottom,black_60%,transparent)]'
+            className='h-fit w-[calc(var(--s)*0.8)] max-w-none shrink-0 self-start drop-shadow-[4px_4px_0_var(--color-lime)] transition-opacity duration-500 ease-snap select-none mask-[linear-gradient(to_bottom,black_60%,transparent)]'
           />
         </div>
 
@@ -133,10 +134,10 @@ export function FlyerCarouselModal({
                 role='group'
                 aria-label={`${i + 1} de ${slides.length}: ${item.title}`}
                 aria-hidden={i !== active}
-                className='w-(--s) shrink-0 snap-center'
+                className='img-slot w-(--s) shrink-0 snap-center'
               >
                 {/* Vecinos oscurecidos, no transparentes: si no, la página se ve a través de ellos */}
-                <img
+                <Img
                   src={item.image}
                   alt={item.alt}
                   width={item.width}
@@ -144,7 +145,7 @@ export function FlyerCarouselModal({
                   loading='lazy'
                   onClick={i === active ? undefined : () => goTo(i)}
                   className={cn(
-                    'block h-auto w-full border-3 border-paper transition-[filter,scale] duration-300 ease-snap',
+                    'block h-auto w-full border-3 border-paper transition-[filter,scale,opacity] duration-300 ease-snap',
                     i !== active && 'cursor-pointer brightness-50 sm:scale-90'
                   )}
                 />

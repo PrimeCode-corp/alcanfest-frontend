@@ -3,6 +3,7 @@ import { merch, type MerchItem } from '../../config/event';
 import { cn } from '../../lib/cn';
 import { FlyerCarouselModal } from '../FlyerModal/FlyerCarouselModal';
 import { FlyerModal } from '../FlyerModal/FlyerModal';
+import { Img } from '../Img/Img';
 import { RosterModal } from '../RosterModal/RosterModal';
 
 // Fondo de la card: se ve detrás de las fotos de merch recortadas (PNG/WebP con transparencia)
@@ -58,12 +59,12 @@ function MerchCard({ item }: { item: MerchItem }) {
         {/* Imagen + info forman un bloque centrado verticalmente en la card (mismo espacio arriba y abajo).
             La imagen mide 50% del alto de la card, pero se encoge si la info no entra (cards bajas en celular/tablet). */}
         {item.image && (
-          <div className='flex min-h-0 basis-1/2 items-center justify-center px-4'>
-            <img
+          <div className='img-slot flex min-h-0 basis-1/2 items-center justify-center px-4'>
+            <Img
               src={item.image}
               alt=''
               loading='lazy'
-              className='block h-full w-auto max-w-full object-contain transition-transform duration-300 ease-snap group-hover:scale-105'
+              className='block h-full w-auto max-w-full object-contain transition-[transform,opacity] duration-300 ease-snap group-hover:scale-105'
             />
           </div>
         )}

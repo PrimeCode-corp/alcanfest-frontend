@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { event } from '../../config/event'
 import { cn } from '../../lib/cn'
+import { Img } from '../Img/Img'
 
 type HeaderProps = {
   menuOpen: boolean
@@ -79,12 +80,12 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
         {/* Logo + línea + fecha y lugar */}
         <div className="flex items-center gap-[18px] justify-self-center">
           <a href="#inicio" className="block leading-none">
-            <img
+            <Img
               src={event.logo}
               alt={`${event.name} ${event.edition}, ${event.tagline.toLowerCase()}. Ir al inicio`}
               width={720}
               height={355}
-              className="block h-[calc(var(--header-h)-14px)] w-auto"
+              className="block h-[calc(var(--header-h)-14px)] w-auto transition-opacity duration-300 ease-snap"
             />
           </a>
           <p className="my-3.5 hidden flex-col items-start justify-center self-stretch border-l-3 border-ink pl-[18px] font-display text-[1.1rem] leading-none font-extrabold whitespace-nowrap text-paper lg:flex">

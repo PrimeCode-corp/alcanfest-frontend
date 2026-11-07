@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { experiences } from '../../config/event';
 import { cn } from '../../lib/cn';
+import { Img } from '../Img/Img';
 
 /*
  * Slider de experiencias, inspirado en los "pilares" de Lolla:
@@ -167,7 +168,7 @@ export function Experiences() {
                   srcSet={slide.backgroundMobile}
                 />
               )}
-              <img
+              <Img
                 src={slide.background}
                 alt=''
                 loading='lazy'
@@ -197,7 +198,7 @@ export function Experiences() {
                   } as CSSProperties}
                   className='flex items-center justify-center [grid-area:1/1] [--cw:1.1] sm:[--cw:1.3]'
                 >
-                  <img
+                  <Img
                     src={slide.image}
                     alt=''
                     loading='lazy'
@@ -247,8 +248,9 @@ function backgroundStyle(
     return {
       width: 'calc(80% + 20% * var(--experiences-entry, 1))',
       translate: '0 calc((1 - var(--experiences-entry, 1)) * 10%)',
-      opacity: 'calc(0.1 + 0.9 * var(--experiences-entry, 1))'
-    };
+      // --img-opacity, no `opacity`: `img-in` la multiplica por la entrada al cargar la foto
+      '--img-opacity': 'calc(0.1 + 0.9 * var(--experiences-entry, 1))'
+    } as CSSProperties;
   }
   const shrunk = isDesktop ? '80%' : '100%';
   if (state === 'current') return { width: '100%', translate: '0 0' };
@@ -257,9 +259,14 @@ function backgroundStyle(
 }
 
 function centralStyle(i: number, state: SlideState): CSSProperties {
-  if (state !== 'current') return { scale: '0', opacity: 0 };
-  if (i === 0) return { scale: 'var(--experiences-entry, 1)', opacity: 'var(--experiences-entry, 1)' };
-  return { scale: '1', opacity: 1 };
+  // --img-opacity, no `opacity`: ver backgroundStyle
+  if (state !== 'current') return { scale: '0', '--img-opacity': 0 } as CSSProperties;
+  if (i === 0)
+    return {
+      scale: 'var(--experiences-entry, 1)',
+      '--img-opacity': 'var(--experiences-entry, 1)'
+    } as CSSProperties;
+  return { scale: '1', '--img-opacity': 1 } as CSSProperties;
 }
 
 /**

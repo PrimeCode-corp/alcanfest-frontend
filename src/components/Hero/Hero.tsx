@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { event, venueLocation } from '../../config/event';
+import { Img } from '../Img/Img';
 import { LocationModal } from '../LocationModal/LocationModal';
 
 export function Hero() {
@@ -18,11 +19,11 @@ export function Hero() {
           srcSet='/img/portada-1000.webp 1000w, /img/portada-1974.webp 1974w'
           sizes='100vw'
         />
-        <img
+        <Img
           src='/img/portada-1974.webp'
           alt=''
           fetchPriority='high'
-          className='absolute inset-0 -z-20 size-full object-cover object-[50%_30%]'
+          className='absolute inset-0 -z-20 size-full object-cover object-[50%_30%] transition-opacity duration-300 ease-snap'
         />
       </picture>
       {/* Oscurece el lado del texto para que se lea */}
@@ -74,15 +75,15 @@ export function Hero() {
         </div>
 
         {/* Flyer oficial cuadrado, como afiche pegado: en desktop el ancho se limita para que quepa en el alto de pantalla */}
-        <div className='mx-auto w-full max-w-65 sm:max-w-90 lg:max-w-[min(540px,calc(100svh-var(--header-h)-6rem))]'>
-          <img
+        <div className='img-slot mx-auto w-full max-w-65 border-3 border-ink shadow-[10px_10px_0_var(--color-magenta)] sm:max-w-90 lg:max-w-[min(540px,calc(100svh-var(--header-h)-6rem))]'>
+          <Img
             src='/img/flyer4-1254.webp'
             srcSet='/img/flyer4-800.webp 800w, /img/flyer4-1254.webp 1254w'
             sizes='(min-width: 1024px) 540px, (min-width: 640px) 360px, 260px'
             width={1254}
             height={1254}
             alt={`Flyer oficial de ${event.name} ${event.editionNumber}, festival de arte y cultura, del 01 al 13 de diciembre. Música y arte urbano, feria de arte y emprendimientos, talleres, conversatorios, batallas de rap, break dance, graffiti y barberos, concurso a la mejor banda de rock, artistas invitados.`}
-            className='block w-full animate-flyer-in border-3 border-ink shadow-[10px_10px_0_var(--color-magenta)]'
+            className='block w-full data-[loaded]:animate-flyer-in'
           />
         </div>
       </div>

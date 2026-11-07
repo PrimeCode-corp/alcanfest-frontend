@@ -67,3 +67,71 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Barrido del esqueleto de carga. Las keyframes van fuera de @theme porque las usa
+   la utilidad `img-slot` directamente, no un token `--animate-*`. */
+@keyframes img-sweep {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/**
+ * Imágenes que aparecen al cargar (ver componente `Img`).
+ *
+ * `img-in` va en el <img>: queda transparente hasta que el componente marca
+ * `data-loaded`. La opacidad se multiplica por `--img-opacity`, que usan las
+ * secciones con animaciones propias (Experiences) en lugar de `opacity`, así la
+ * entrada por scroll y la entrada por carga se componen sin pisarse.
+ */
+@utility img-in {
+  opacity: calc(var(--img-opacity, 1) * var(--img-in, 0));
+
+  &[data-loaded] {
+    --img-in: 1;
+  }
+}
+
+/**
+ * `img-slot` va en el hueco (el padre) de las imágenes que son el contenido y no
+ * el fondo: marca el espacio con un barrido en lima mientras la imagen baja.
+ * Se apaga solo, en cuanto algún <img> de dentro queda cargado.
+ */
+@utility img-slot {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: color-mix(in oklab, var(--color-paper) 10%, transparent);
+    /* Barra de corte recto, como las sombras duras del resto del sitio */
+    background-image: linear-gradient(
+      100deg,
+      transparent 0 44%,
+      color-mix(in oklab, var(--color-lime) 55%, transparent) 44% 52%,
+      transparent 52% 100%
+    );
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    animation: img-sweep 1200ms linear infinite;
+    transition: opacity 400ms var(--ease-snap);
+  }
+
+  &:has(img[data-loaded])::after {
+    opacity: 0;
+  }
+
+  /* La regla global de "reducir movimiento" solo recorta la duración: el barrido
+     seguiría recalculando estilos en bucle. Aquí se apaga del todo. */
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+    }
+  }
+}

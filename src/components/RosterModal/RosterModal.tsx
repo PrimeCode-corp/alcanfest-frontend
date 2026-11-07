@@ -2,6 +2,7 @@ import { useId, type CSSProperties } from 'react';
 import type { Roster, RosterEntry } from '../../config/event';
 import { cn } from '../../lib/cn';
 import { IconButton } from '../FlyerModal/FlyerModal';
+import { Img } from '../Img/Img';
 import { useModalDialog } from '../FlyerModal/useModalDialog';
 
 type RosterModalProps = {
@@ -106,13 +107,13 @@ export function RosterModal({ roster, open, onClose }: RosterModalProps) {
           Un 24% de su ancho queda detrás del modal: el brazo levantado, con el micrófono asomando.
           --cw se limita al espacio libre a la derecha y al alto debajo del header. */}
       {roster.character && (
-        <img
+        <Img
           src={roster.character.image}
           alt=''
           width={roster.character.width}
           height={roster.character.height}
           loading='lazy'
-          className='pointer-events-none fixed bottom-0 left-[calc(var(--ml)+var(--w)-var(--cw)*0.24)] -z-10 hidden h-auto w-(--cw) max-w-none drop-shadow-[4px_4px_0_var(--color-lime)] select-none [--cw:min((100vw-var(--ml)-var(--w))/0.76,(100dvh-var(--header-h)-0.5rem)*0.53)] lg:block'
+          className='pointer-events-none fixed bottom-0 left-[calc(var(--ml)+var(--w)-var(--cw)*0.24)] -z-10 hidden h-auto w-(--cw) max-w-none drop-shadow-[4px_4px_0_var(--color-lime)] transition-opacity duration-500 ease-snap select-none [--cw:min((100vw-var(--ml)-var(--w))/0.76,(100dvh-var(--header-h)-0.5rem)*0.53)] lg:block'
         />
       )}
     </dialog>

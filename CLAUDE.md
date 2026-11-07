@@ -33,6 +33,8 @@ No hay tests. Verificar con `npm run build` (falla ante errores de tipos) y `npm
 
 ## Imágenes
 
+Todas las `<img>` de la web pasan por `src/components/Img/Img.tsx`, no por `<img>` a pelo: marca `data-loaded` al terminar la descarga (también si venía de caché o si falla) y la utilidad `img-in` de `index.css` las mantiene transparentes hasta entonces. La transición la pone cada componente en su `className`, porque varias imágenes animan además otras propiedades. Donde la imagen es el contenido y no el fondo (cards de Merch, flyers de los modales, flyer del hero, fotos de "¿Qué es?"), el **padre** lleva `img-slot`: dibuja un esqueleto con una barra lima que barre en diagonal y se apaga solo con `:has(img[data-loaded])`. Ojo: `img-slot` sin ningún `<img>` dentro se queda animando para siempre, así que va condicionado a que exista la foto. Las secciones con animaciones de scroll propias (Experiences) escriben `--img-opacity` en vez de `opacity`; `img-in` multiplica las dos.
+
 Los originales (PNG/JPEG) se guardan en `public/img/` y la web usa versiones WebP generadas con Pillow (`python -I`), nombradas `<nombre>-<ancho>.webp`; la config anota el original en un comentario. Collages/figuras con transparencia se recortan antes al bounding box del canal alfa (si no, se ven diminutos). Al reemplazar un PNG con el mismo nombre, regenerar su WebP.
 
 ## Verificación visual

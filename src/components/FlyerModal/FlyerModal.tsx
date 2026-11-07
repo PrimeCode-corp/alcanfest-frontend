@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Flyer } from '../../config/event';
+import { Img } from '../Img/Img';
 import { useModalDialog } from './useModalDialog';
 
 type FlyerModalProps = {
@@ -30,14 +31,14 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       // El borde y el fondo van en el hijo: los de <dialog> quedarían debajo del personaje (-z-10).
       className='top-(--header-h) mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-15rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/80 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto landscape:[--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-6rem)*0.88)]'
     >
-      <div className='border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
-        <img
+      <div className='img-slot border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
+        <Img
           src={flyer.image}
           alt={flyer.alt}
           width={flyer.width}
           height={flyer.height}
           loading='lazy'
-          className='block h-auto w-full'
+          className='block h-auto w-full transition-opacity duration-300 ease-snap'
         />
         <div className='flex gap-3 border-t-3 border-paper bg-paper p-3'>
           <SignupLink href={flyer.href}>{flyer.cta}</SignupLink>
@@ -52,13 +53,13 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
           y al girar sobre ella el dedo no se mueve. El ancho se limita al espacio libre. La máscara desvanece
           el corte inferior de la foto, que queda fuera del flyer, sobre el fondo oscuro. */}
       {flyer.character && (
-        <img
+        <Img
           src={flyer.character}
           alt=''
           width={797}
           height={1240}
           loading='lazy'
-          className='pointer-events-none absolute top-[35%] left-[-0.4rem] -z-10 hidden h-auto w-[min(80%,(100vw-var(--flyer-w))*0.5)] max-w-none origin-[85.7%_53%] translate-x-[-85.7%] translate-y-[-50.4%] -rotate-28 drop-shadow-[4px_4px_0_var(--color-lime)] select-none mask-[linear-gradient(to_bottom,black_80%,transparent)] landscape:block'
+          className='pointer-events-none absolute top-[35%] left-[-0.4rem] -z-10 hidden h-auto w-[min(80%,(100vw-var(--flyer-w))*0.5)] max-w-none origin-[85.7%_53%] translate-x-[-85.7%] translate-y-[-50.4%] -rotate-28 drop-shadow-[4px_4px_0_var(--color-lime)] transition-opacity duration-500 ease-snap select-none mask-[linear-gradient(to_bottom,black_80%,transparent)] landscape:block'
         />
       )}
 
@@ -70,13 +71,13 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
           aria-hidden='true'
           className='pointer-events-none absolute bottom-full left-1/2 aspect-[940/1110] min-h-0 w-[min(80%,(100dvh-var(--header-h)-var(--flyer-w)*1.136-6rem)*0.84)] -translate-x-1/2 [clip-path:inset(-1rem_-1rem_0_-1rem)] landscape:hidden'
         >
-          <img
+          <Img
             src={flyer.characterMobile}
             alt=''
             width={940}
             height={1390}
             loading='lazy'
-            className='block h-auto w-full drop-shadow-[4px_4px_0_var(--color-lime)] select-none'
+            className='block h-auto w-full drop-shadow-[4px_4px_0_var(--color-lime)] transition-opacity duration-500 ease-snap select-none'
           />
         </div>
       )}
