@@ -314,9 +314,11 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
 };
 
 // --- Video spot ---
-// TODO: el archivo actual es 640×360; exportar en 1080p para que se vea nítido en pantallas grandes.
+// `src` es la versión horizontal (desde sm, se muestra entera y los lados se rellenan con el mismo video en reflejo);
+// `reelSrc` es la vertical para celular, que ocupa la pantalla recortando lo que sobre.
 export const spot = {
   src: '/img/spot.mp4',
+  reelSrc: '/img/spot-reel.mp4',
   title: 'Spot oficial',
   description: 'Mira el spot oficial del festival'
 };
