@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { event, venueLocation } from '../../config/event';
 import { Img } from '../Img/Img';
 import { LocationModal } from '../LocationModal/LocationModal';
+import { CtaButton } from '../CtaButton/CtaButton';
 
 export function Hero() {
   const [locationOpen, setLocationOpen] = useState(false);
@@ -51,13 +52,16 @@ export function Hero() {
           </p>
 
           <div className='mt-8 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start'>
-            <button
-              type='button'
+            {/* Con la ubicación sin confirmar (venueLocation.available = false) el botón se ve normal, pero al
+                hacer clic se bloquea y aparece la etiqueta "Próximamente" en vez de abrir el modal */}
+            <CtaButton
+              label={venueLocation.cta}
+              available={venueLocation.available}
+              comingSoonLabel={venueLocation.comingSoonLabel}
               onClick={() => setLocationOpen(true)}
-              className='inline-block cursor-pointer border-2 border-ink bg-magenta px-4 py-2.5 text-sm font-bold sm:px-6 sm:py-3.5 sm:text-base text-paper shadow-[4px_4px_0_var(--color-ink)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-ink)]'
-            >
-              {venueLocation.cta}
-            </button>
+              className='bg-magenta px-4 py-2.5 text-sm font-bold text-paper shadow-[4px_4px_0_var(--color-ink)] sm:px-6 sm:py-3.5 sm:text-base'
+              interactiveClassName='hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-ink)]'
+            />
             <SocialLink href={event.facebookUrl} label='Facebook de Alcanfest'>
               <path
                 fill='currentColor'

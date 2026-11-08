@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
-import { event, helpNav, primaryNav, socialNav, type NavLink } from '../../config/event'
+import { footer, helpNav, primaryNav, socialNav, type NavLink } from '../../config/event'
 import { cn } from '../../lib/cn'
 
 type SideMenuProps = {
@@ -14,14 +14,16 @@ function linkProps(link: NavLink) {
 export function SideMenu({ open, onClose }: SideMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
-  // Esc para cerrar, foco atrapado dentro del panel, scroll del body bloqueado
+  // Esc para cerrar, foco atrapado dentro del panel, scroll del body bloqueado.
+  // El foco va al panel (no al primer enlace) para no dejar ningún enlace resaltado al abrir.
+  // Para cerrar: el botón del header, Esc o un clic fuera del panel.
   useEffect(() => {
     if (!open) return
     const panel = panelRef.current
     const focusables = () =>
       panel ? Array.from(panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')) : []
 
-    focusables()[0]?.focus()
+    panel?.focus()
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -35,7 +37,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
       if (items.length === 0) return
       const first = items[0]
       const last = items[items.length - 1]
-      if (e.shiftKey && document.activeElement === first) {
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === panel)) {
         e.preventDefault()
         last.focus()
       } else if (!e.shiftKey && document.activeElement === last) {
@@ -68,22 +70,15 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Menú principal"
+        tabIndex={-1}
         className={cn(
-          'absolute inset-y-0 left-0 flex w-[min(460px,100vw)] flex-col gap-10 overflow-y-auto overscroll-contain border-r-4 border-magenta bg-ink px-(--gutter) py-8 text-paper transition-transform duration-[420ms] ease-snap',
+          'scrollbar-none absolute inset-y-0 left-0 flex w-[min(460px,100vw)] flex-col gap-10 overflow-y-auto overscroll-contain border-r-4 border-magenta bg-ink px-(--gutter) py-8 text-paper outline-none transition-transform duration-[420ms] ease-snap',
           open ? 'translate-x-0' : '-translate-x-full',
         )}
       >
-        {/* El botón del header ya cierra el menú; este solo aparece con teclado */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="sr-only cursor-pointer rounded-md bg-paper font-bold text-ink focus:not-sr-only focus:absolute focus:top-3 focus:right-3 focus:px-3 focus:py-2"
-        >
-          Cerrar menú
-        </button>
-
         <nav aria-label="Secciones">
-          <ul>
+          {/* Separación entre opciones: los titulares largos ocupan dos líneas y no deben confundirse con dos opciones */}
+          <ul className="grid gap-2.5">
             {primaryNav.map((link, i) => (
               <li
                 key={link.href}
@@ -96,7 +91,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                 <a
                   href={link.href}
                   onClick={onClose}
-                  className="inline-block py-0.5 font-display text-[clamp(2.5rem,9vw,3.5rem)] leading-none font-black uppercase no-underline transition-[color,translate] duration-200 ease-snap hover:translate-x-2.5 hover:text-lime-bright focus-visible:translate-x-2.5 focus-visible:text-lime-bright"
+                  className="inline-block py-0.5 font-display text-[clamp(2.25rem,8.5vw,3rem)] leading-[0.9] font-black uppercase no-underline transition-[color,translate] duration-200 ease-snap hover:translate-x-2.5 hover:text-lime-bright focus-visible:translate-x-2.5 focus-visible:text-lime-bright"
                 >
                   {link.label}
                 </a>
@@ -110,13 +105,14 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
           <MenuGroup title="Síguenos" links={socialNav} />
         </div>
 
+        {/* "Entérate primero": mismo texto y enlace (Instagram) que en la sección de sede y el footer */}
         <a
-          href="#newsletter"
-          onClick={onClose}
-          className="mt-auto grid gap-0.5 rounded-[14px] border-2 border-ink bg-lime px-5 py-[18px] text-ink no-underline shadow-[4px_4px_0_var(--color-magenta)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-magenta)]"
+          href={footer.newsletter.href}
+          {...(footer.newsletter.external && { target: '_blank', rel: 'noopener noreferrer' })}
+          className="mt-auto grid gap-0.5 border-2 border-ink bg-lime px-5 py-[18px] text-ink no-underline shadow-[4px_4px_0_var(--color-magenta)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-magenta)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-magenta)]"
         >
-          <strong className="font-display text-2xl leading-[1.05] font-black">Entérate primero del line-up</strong>
-          <span className="text-sm">Suscríbete al newsletter de {event.name}</span>
+          <strong className="font-display text-2xl leading-[1.05] font-black uppercase">{footer.newsletter.title}</strong>
+          <span className="text-sm">{footer.newsletter.text}</span>
         </a>
       </div>
     </div>
