@@ -44,7 +44,7 @@ Todas las `<img>` de la web pasan por `src/components/Img/Img.tsx`, no por `<img
 
 Los originales (PNG/JPEG) se guardan en `public/img/` y la web usa versiones WebP generadas con Pillow (`python -I`), nombradas `<nombre>-<ancho>.webp`; la config anota el original en un comentario. Collages/figuras con transparencia se recortan antes al bounding box del canal alfa (si no, se ven diminutos); los logos de `public/img/partners/` (fondo blanco) se recortan al contenido. Al reemplazar un PNG con el mismo nombre, regenerar su WebP. Pillow está instalado con `pip install --user`, que `python -I` no ve: en los scripts, `import site, sys; sys.path.append(site.getusersitepackages())` antes de `from PIL import Image`.
 
-**Videos:** GitHub rechaza archivos de más de 100 MB, también si quedaron en un commit anterior sin subir (hay que rehacer esos commits, no basta uno nuevo). Mantener `spot.mp4`/`spot-reel.mp4` comprimidos (hoy ~45/36 MB).
+**Videos:** GitHub rechaza archivos de más de 100 MB, también si quedaron en un commit anterior sin subir (hay que rehacer esos commits, no basta uno nuevo). Cloudflare Workers (QA) rechaza assets de más de 25 MiB, así que `spot.mp4`/`spot-reel.mp4` deben quedar por debajo (hoy ~23 MiB cada uno: H.264 a dos pasadas, 4,2 Mbps, audio copiado). Los Static Assets tampoco soportan `Range` y Safari lo exige para video: `worker/index.ts` responde 206 para los MP4 listados en `run_worker_first` de `wrangler.jsonc` (un MP4 nuevo debe sumarse ahí; los tamaños los genera `worker/generate-sizes.mjs` en cada deploy).
 
 ## Verificación visual
 

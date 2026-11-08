@@ -1,5 +1,21 @@
 # React + TypeScript + Vite
 
+## Entornos
+
+- Producción: Railway — deploy automático desde `master`
+- QA: Cloudflare Workers — desde `qa`
+  - URL: https://alcanfest-qa.alcanfest-frontend.workers.dev
+  - Deploy manual: `npm run build && npx wrangler deploy`
+  - Máximo 25 MiB por archivo en `public/`. `worker/` da soporte de rangos a los MP4 (Safari lo exige) y solo corre en QA.
+
+## Flujo
+
+feature/\* → qa (QA) → master (prod). `master` solo recibe merges desde `qa`
+en fast-forward. Hotfix: sale de `master`, entra a `master`, back-merge a `qa`
+el mismo día.
+
+## Plantilla
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:
