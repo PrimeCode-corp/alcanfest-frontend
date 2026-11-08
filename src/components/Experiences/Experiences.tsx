@@ -216,9 +216,12 @@ export function Experiences() {
               className='relative z-10 grid w-full shrink-0 grid-cols-[minmax(0,1fr)] items-center px-8 pt-8 pb-4 text-center transition-[background-color] duration-400 lg:px-9 lg:pt-9 lg:pb-4'
             >
               {experiences.map((slide, i) => (
+                // Desde lg el recuadro mide min(30rem, 55svh): en laptops bajas (768px de alto o menos) se angosta.
+                // La letra se achica en la misma proporción (ancho útil × 0.11) para mantener los cortes de línea
+                // de las pantallas grandes (3-4 líneas) en vez de partir el titular en 5.
                 <h3
                   key={slide.title}
-                  className='font-display text-[clamp(1.85rem,3.4vw,2.5rem)] leading-[0.95] font-black uppercase [grid-area:1/1] lg:text-[clamp(2.25rem,3.2vw,2.85rem)]'
+                  className='font-display text-[clamp(1.85rem,3.4vw,2.5rem)] leading-[0.95] font-black uppercase [grid-area:1/1] lg:text-[max(1.75rem,min(clamp(2.25rem,3.2vw,2.85rem),(55svh-4.5rem)*0.11))]'
                   aria-hidden={stateOf(i) !== 'current'}
                 >
                   <MaskedWords
