@@ -15,6 +15,10 @@ npm run preview   # sirve dist/ (útil para capturas)
 
 No hay tests. Verificar con `npm run build` (falla ante errores de tipos) y `npm run lint`. El warning `no-irregular-whitespace` en `src/config/event.ts` es intencional: `heroHeadline` usa un espacio no separable para que la "y" no quede sola al final de línea.
 
+## Ramas
+
+Rama de trabajo creada desde `master` → PR a `qa` → PR de la misma rama a `master`, ambos con aprobación y solo con merge commit. No mergear `qa` dentro de la rama de trabajo ni abrir PR de `qa` a `master`. Detalle en la sección "Flujo" de `README.md`.
+
 ## Arquitectura
 
 **El contenido vive en `src/config/event.ts`, no en los componentes.** Textos, rutas de imágenes, colores por slide/card, enlaces y redes se editan ahí; los componentes solo renderizan. Varios campos son opcionales con valor por defecto en el componente (p. ej. `cta` de las cards, `imageRatio`/`imageScale`/`imageOverlap` de los slides, `tagPlacement` de las fotos de "¿Qué es?").
@@ -23,13 +27,14 @@ No hay tests. Verificar con `npm run build` (falla ante errores de tipos) y `npm
 
 **Navegación:** `primaryNav`, `helpNav` y `socialNav` (config) los usan tanto el menú lateral como el footer (`footerColumns`): solo enlaces a secciones que existen o a URLs reales. Al agregar una sección con `id`, sumarla ahí. Los enlaces internos (`#seccion`) se desplazan suave con `src/lib/smoothScroll.ts` (un listener de `click` en `document`, registrado en `App`): curva ease-in-out con duración según la distancia (tope 1,4 s), descuenta `--header-h` y el `scroll-margin-top` del destino, se corta ante rueda/toque/teclado y salta directo con `prefers-reduced-motion`. `html` tiene `scroll-padding-top: var(--header-h)` como respaldo.
 
-**"Próximamente":** `src/components/CtaButton/CtaButton.tsx` es el botón de llamada a la acción con `available`. Con `available: false` se ve activo, pero al primer clic se apaga y se le pega una etiqueta lima (`animate-sticker-in`); queda así hasta recargar. Lo usan "¿Cómo llegar?" del hero (`venueLocation.available`; el modal `LocationModal` y la ruta siguen listos) y "Ubicación" de `Updates` (`updates[0]`). Para activarlos: poner el destino y `available: true`.
+**"Próximamente":** `src/components/CtaButton/CtaButton.tsx` es el botón de llamada a la acción con `available`. Con `available: false` se ve activo, pero al primer clic se apaga y se le pega una etiqueta "lima" (`animate-sticker-in`); queda así hasta recargar. Lo usan "¿Cómo llegar?" del hero (`venueLocation.available`; el modal `LocationModal` y la ruta siguen listos) y "Ubicación" de `Updates` (`updates[0]`). Para activarlos: poner el destino y `available: true`.
 
 **Pendientes de contenido:** los 45 logos de `partners` son el de El Cultural repetido como relleno (cada logo exige `href`); la sede/ubicación aún no está confirmada.
 
 **Estilos:** Tailwind v4 sin `tailwind.config`; los tokens están en el bloque `@theme` de `src/index.css` (`ink`, `paper`, `lime`, `magenta`, fuentes `font-display` = Big Shoulders Display / `font-body` = Figtree, `ease-snap`, breakpoint `xs`). Variables globales: `--header-h` (64px móvil / 88px desde `sm`) y `--gutter`. Estética "brutalista": bordes gruesos, sombras duras desplazadas (`shadow-[Npx_Npx_0_var(--color-…)]`), recuadros de color detrás del texto. `prefers-reduced-motion` reduce globalmente todas las transiciones/animaciones en `index.css`.
 
 **Animaciones ligadas al scroll** (sin librerías). Header, About y Experiences siguen el mismo patrón:
+
 - Un listener de `scroll` agenda un `requestAnimationFrame` que lee `getBoundingClientRect()` y escribe **variables CSS** en un elemento (`--e`, `--t`, `--dx`…) o el `style` directamente, para no re-renderizar React en cada scroll. Solo el estado discreto (slide activo, titular visible) pasa por `useState`.
 - Los estilos usan esas variables con fallback al estado final (`var(--t, 1)`), así en móvil o sin JS quedan en su lugar.
 - El efecto "pantalla fija" es un contenedor alto + hijo `sticky top-(--header-h)`; el alto del contenedor define cuánto scroll dura la sección.
@@ -44,7 +49,7 @@ Todas las `<img>` de la web pasan por `src/components/Img/Img.tsx`, no por `<img
 
 Los originales (PNG/JPEG) se guardan en `public/img/` y la web usa versiones WebP generadas con Pillow (`python -I`), nombradas `<nombre>-<ancho>.webp`; la config anota el original en un comentario. Collages/figuras con transparencia se recortan antes al bounding box del canal alfa (si no, se ven diminutos); los logos de `public/img/partners/` (fondo blanco) se recortan al contenido. Al reemplazar un PNG con el mismo nombre, regenerar su WebP. Pillow está instalado con `pip install --user`, que `python -I` no ve: en los scripts, `import site, sys; sys.path.append(site.getusersitepackages())` antes de `from PIL import Image`.
 
-**Videos:** GitHub rechaza archivos de más de 100 MB, también si quedaron en un commit anterior sin subir (hay que rehacer esos commits, no basta uno nuevo). Mantener `spot.mp4`/`spot-reel.mp4` comprimidos (hoy ~45/36 MB).
+**Videos:** GitHub rechaza archivos de más de 100 MB, también si quedaron en un commit anterior sin subir (hay que rehacer esos commits, no basta uno nuevo). Cloudflare Workers (QA) rechaza assets de más de 25 MiB, así que `spot.mp4`/`spot-reel.mp4` deben quedar por debajo (hoy ~23 MiB cada uno: H.264 a dos pasadas, 4,2 Mbps, audio copiado). Los Static Assets tampoco soportan `Range` y Safari lo exige para video: `worker/index.ts` responde 206 para los MP4 listados en `run_worker_first` de `wrangler.jsonc` (un MP4 nuevo debe sumarse ahí; los tamaños los genera `worker/generate-sizes.mjs` en cada deploy).
 
 ## Verificación visual
 
