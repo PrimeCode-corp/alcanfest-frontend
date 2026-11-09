@@ -27,13 +27,14 @@ Rama de trabajo creada desde `master` → PR a `qa` → PR de la misma rama a `m
 
 **Navegación:** `primaryNav`, `helpNav` y `socialNav` (config) los usan tanto el menú lateral como el footer (`footerColumns`): solo enlaces a secciones que existen o a URLs reales. Al agregar una sección con `id`, sumarla ahí. Los enlaces internos (`#seccion`) se desplazan suave con `src/lib/smoothScroll.ts` (un listener de `click` en `document`, registrado en `App`): curva ease-in-out con duración según la distancia (tope 1,4 s), descuenta `--header-h` y el `scroll-margin-top` del destino, se corta ante rueda/toque/teclado y salta directo con `prefers-reduced-motion`. `html` tiene `scroll-padding-top: var(--header-h)` como respaldo.
 
-**"Próximamente":** `src/components/CtaButton/CtaButton.tsx` es el botón de llamada a la acción con `available`. Con `available: false` se ve activo, pero al primer clic se apaga y se le pega una etiqueta lima (`animate-sticker-in`); queda así hasta recargar. Lo usan "¿Cómo llegar?" del hero (`venueLocation.available`; el modal `LocationModal` y la ruta siguen listos) y "Ubicación" de `Updates` (`updates[0]`). Para activarlos: poner el destino y `available: true`.
+**"Próximamente":** `src/components/CtaButton/CtaButton.tsx` es el botón de llamada a la acción con `available`. Con `available: false` se ve activo, pero al primer clic se apaga y se le pega una etiqueta "lima" (`animate-sticker-in`); queda así hasta recargar. Lo usan "¿Cómo llegar?" del hero (`venueLocation.available`; el modal `LocationModal` y la ruta siguen listos) y "Ubicación" de `Updates` (`updates[0]`). Para activarlos: poner el destino y `available: true`.
 
 **Pendientes de contenido:** los 45 logos de `partners` son el de El Cultural repetido como relleno (cada logo exige `href`); la sede/ubicación aún no está confirmada.
 
 **Estilos:** Tailwind v4 sin `tailwind.config`; los tokens están en el bloque `@theme` de `src/index.css` (`ink`, `paper`, `lime`, `magenta`, fuentes `font-display` = Big Shoulders Display / `font-body` = Figtree, `ease-snap`, breakpoint `xs`). Variables globales: `--header-h` (64px móvil / 88px desde `sm`) y `--gutter`. Estética "brutalista": bordes gruesos, sombras duras desplazadas (`shadow-[Npx_Npx_0_var(--color-…)]`), recuadros de color detrás del texto. `prefers-reduced-motion` reduce globalmente todas las transiciones/animaciones en `index.css`.
 
 **Animaciones ligadas al scroll** (sin librerías). Header, About y Experiences siguen el mismo patrón:
+
 - Un listener de `scroll` agenda un `requestAnimationFrame` que lee `getBoundingClientRect()` y escribe **variables CSS** en un elemento (`--e`, `--t`, `--dx`…) o el `style` directamente, para no re-renderizar React en cada scroll. Solo el estado discreto (slide activo, titular visible) pasa por `useState`.
 - Los estilos usan esas variables con fallback al estado final (`var(--t, 1)`), así en móvil o sin JS quedan en su lugar.
 - El efecto "pantalla fija" es un contenedor alto + hijo `sticky top-(--header-h)`; el alto del contenedor define cuánto scroll dura la sección.
