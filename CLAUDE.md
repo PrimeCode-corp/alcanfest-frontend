@@ -15,6 +15,10 @@ npm run preview   # sirve dist/ (útil para capturas)
 
 No hay tests. Verificar con `npm run build` (falla ante errores de tipos) y `npm run lint`. El warning `no-irregular-whitespace` en `src/config/event.ts` es intencional: `heroHeadline` usa un espacio no separable para que la "y" no quede sola al final de línea.
 
+## Ramas
+
+Rama de trabajo creada desde `master` → PR a `qa` → PR de la misma rama a `master`, ambos con aprobación y solo con merge commit. No mergear `qa` dentro de la rama de trabajo ni abrir PR de `qa` a `master`. Detalle en la sección "Flujo" de `README.md`.
+
 ## Arquitectura
 
 **El contenido vive en `src/config/event.ts`, no en los componentes.** Textos, rutas de imágenes, colores por slide/card, enlaces y redes se editan ahí; los componentes solo renderizan. Varios campos son opcionales con valor por defecto en el componente (p. ej. `cta` de las cards, `imageRatio`/`imageScale`/`imageOverlap` de los slides, `tagPlacement` de las fotos de "¿Qué es?").

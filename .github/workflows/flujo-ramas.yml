@@ -1,0 +1,41 @@
+# Asegura el flujo X → qa → X → master: un PR a master solo pasa si el último
+# commit de su rama ya está en qa. El ruleset de master exige este check por el
+# nombre del job ("Origen del PR"): si se renombra, hay que cambiarlo también ahí.
+name: Flujo de ramas
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  origen:
+    name: Origen del PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar que la rama ya pasó por qa
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$HEAD_REF" = "qa" ]; then
+            echo "::error::qa no se mergea a master: abre el PR desde la rama de trabajo."
+            exit 1
+          fi
+
+          # "behind" o "identical": el commit ya es parte de la historia de qa.
+          status=$(gh api "repos/$REPO/compare/qa...$HEAD_SHA" --jq .status)
+          case "$status" in
+            behind|identical)
+              echo "$HEAD_REF ya está en qa."
+              ;;
+            *)
+              echo "::error::$HEAD_REF no está en qa (o tiene commits nuevos): primero mergea su PR a qa y luego vuelve a ejecutar este check."
+              exit 1
+              ;;
+          esac
