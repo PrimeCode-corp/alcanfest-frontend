@@ -23,6 +23,9 @@ Reglas:
   persona, y un commit nuevo la anula. Solo se admite "Create a merge commit",
   porque "Squash" y "Rebase" cambian los commits y el check de abajo no los
   reconocería en `qa`.
+- Solo los admins del repo pueden mergear a `master`, porque eso despliega a
+  producción (ruleset `master-produccion`). La aprobación sigue siendo obligatoria
+  también para ellos (ruleset `master`).
 - El check "Origen del PR" (`.github/workflows/flujo-ramas.yml`) bloquea el PR a
   `master` si el último commit de la rama no está en `qa`, o si el PR sale de la
   propia `qa`. Si el PR se abrió antes de mergear a `qa`, hay que volver a
