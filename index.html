@@ -3,12 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alcanfest</title>
+    <title>Alcanfest | Festival de Arte, Deporte y Cultura Urbana en Tarapoto</title>
     <meta
       name="description"
-      content="Alcanfest, el festival urbano más grande de San Martín. Arte, deporte y cultura urbana en Tarapoto."
+      content="Alcanfest es el festival urbano más grande de San Martín en Tarapoto. Batallas de rap, skate, breakdance, graffiti, bandas de rock, ferias de arte y talleres culturales."
     />
+    <meta
+      name="keywords"
+      content="Alcanfest, Alcanfest 2026, festival urbano, Tarapoto, San Martín, Perú, cultura urbana, batallas de rap, freestyle, breakdance, breaking, skate, roller, BMX, graffiti, bandas de rock, ferias de arte, Suchiche, talento es lo que sobra"
+    />
+    <meta name="author" content="Alcanfest" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://www.alcanfest.com/" />
+
+    <!-- Posicionamiento geográfico y SEO local -->
+    <meta name="geo.region" content="PE-SAM" />
+    <meta name="geo.placename" content="Tarapoto, San Martín, Perú" />
+    <meta name="geo.position" content="-6.4866;-76.3683" />
+    <meta name="ICBM" content="-6.4866, -76.3683" />
 
     <!-- Íconos: favicon.ico para navegadores y buscadores, PNG para pestañas en alta densidad,
          apple-touch-icon para "Agregar a inicio" en iPhone. Se generan con Pillow desde logo-header. -->
@@ -18,17 +30,15 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#000000" />
 
-    <!-- Vista previa al compartir (WhatsApp, Facebook, Instagram, LinkedIn, Telegram, iMessage…).
-         Las URLs deben ser absolutas. Si se cambia la imagen, cambiar también el nombre del archivo:
-         las redes guardan en caché la vista previa por URL. -->
+    <!-- Open Graph / Redes sociales (Facebook, WhatsApp, Instagram, Telegram, LinkedIn…) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Alcanfest" />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:url" content="https://www.alcanfest.com/" />
-    <meta property="og:title" content="Alcanfest" />
+    <meta property="og:title" content="Alcanfest | Festival de Arte, Deporte y Cultura Urbana en Tarapoto" />
     <meta
       property="og:description"
-      content="El festival urbano más grande de San Martín. Arte, deporte y cultura urbana en Tarapoto."
+      content="El festival urbano más grande de San Martín en Tarapoto. Batallas de rap, skate, breakdance, graffiti, bandas de rock, ferias de arte y talleres culturales."
     />
     <meta property="og:image" content="https://www.alcanfest.com/og-2026.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -36,21 +46,69 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Logo de Alcanfest sobre una foto del público del festival. 13 de diciembre, Tarapoto."
+      content="Alcanfest - Festival de arte, deporte y cultura urbana en Tarapoto, San Martín"
     />
 
-    <!-- X/Twitter: usa las og:* para lo que no esté aquí. -->
+    <!-- X / Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Alcanfest" />
+    <meta name="twitter:title" content="Alcanfest | Festival de Arte, Deporte y Cultura Urbana en Tarapoto" />
     <meta
       name="twitter:description"
-      content="El festival urbano más grande de San Martín. Arte, deporte y cultura urbana en Tarapoto."
+      content="El festival urbano más grande de San Martín en Tarapoto. Batallas de rap, skate, breakdance, graffiti, bandas de rock, ferias de arte y talleres culturales."
     />
     <meta name="twitter:image" content="https://www.alcanfest.com/og-2026.jpg" />
     <meta
       name="twitter:image:alt"
-      content="Logo de Alcanfest sobre una foto del público del festival. 13 de diciembre, Tarapoto."
+      content="Alcanfest - Festival de arte, deporte y cultura urbana en Tarapoto, San Martín"
     />
+
+    <!-- Datos estructurados Schema.org (JSON-LD) para Google Search y rich snippets -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://www.alcanfest.com/#website",
+            "url": "https://www.alcanfest.com/",
+            "name": "Alcanfest",
+            "description": "Festival de arte, deporte y cultura urbana en Tarapoto, San Martín.",
+            "inLanguage": "es-PE"
+          },
+          {
+            "@type": "Festival",
+            "@id": "https://www.alcanfest.com/#festival",
+            "name": "Alcanfest 2026 - 15va Edición",
+            "description": "El festival urbano más grande de San Martín. Batallas de rap, break dance, graffiti, skate, roller, BMX, bandas de rock, ferias y talleres culturales en Tarapoto.",
+            "url": "https://www.alcanfest.com/",
+            "image": "https://www.alcanfest.com/og-2026.jpg",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "location": {
+              "@type": "Place",
+              "name": "Tarapoto, San Martín",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Tarapoto",
+                "addressRegion": "San Martín",
+                "addressCountry": "PE"
+              }
+            },
+            "organizer": {
+              "@type": "Organization",
+              "name": "Alcanfest",
+              "url": "https://www.alcanfest.com/",
+              "sameAs": [
+                "https://www.facebook.com/Alcanfest",
+                "https://www.instagram.com/alcanfest_peru/",
+                "https://www.tiktok.com/@alcanfest_peru",
+                "https://www.youtube.com/@alcanfestperu"
+              ]
+            }
+          }
+        ]
+      }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
