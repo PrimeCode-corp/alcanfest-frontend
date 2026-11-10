@@ -424,6 +424,11 @@ export const partners: Partner[] = [
     href: 'https://www.instagram.com/alcanfest_peru/'
   },
   {
+    name: 'Ministerio de Cultura del Perú',
+    logo: '/img/partners/logo-ministerio-cultura-480.webp', // original: /img/partners/logo-ministerio-cultura.png
+    href: 'https://www.facebook.com/mincu.pe/'
+  },
+  {
     name: 'Municipalidad Provincial de San Martín',
     logo: '/img/partners/logo-mpsm-480.webp', // original: /img/partners/logo-mpsm.png
     href: 'https://www.facebook.com/mpsm.tpp/'
