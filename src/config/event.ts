@@ -16,7 +16,7 @@ export const event = {
   tiktokUrl: 'https://www.tiktok.com/@alcanfest_peru',
   youtubeUrl: 'https://www.youtube.com/@alcanfestperu',
   // WhatsApp con mensaje prellenado (número en formato internacional, sin "+" ni espacios)
-  contactUrl: `https://wa.me/51965938082?text=${encodeURIComponent('¡Hola, equipo de Alcanfest! Vi su página web y me gustaría recibir más información sobre el festival de este 13 de diciembre en Tarapoto: actividades, talleres y convocatorias. ¡Muchas gracias!')}`,
+  contactUrl: `https://wa.me/51965938082?text=${encodeURIComponent('¡Hola, equipo de Alcanfest! Vi su página web y me gustaría recibir más información sobre el festival de este 13 de diciembre en Tarapoto: actividades, talleres y convocatorias. ¡Muchas gracias!')}`
 };
 
 // --- Ubicación ---
@@ -37,14 +37,14 @@ export const venueLocation = {
   steps: [
     {
       text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz',
-      distance: '195 m',
+      distance: '195 m'
     },
     { text: 'Dobla a la izquierda en Jr. Lamas', distance: '185 m' },
     {
       text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche',
-      distance: '70 m',
-    },
-  ],
+      distance: '70 m'
+    }
+  ]
 };
 
 export type NavLink = { label: string; href: string; external?: boolean };
@@ -57,18 +57,18 @@ export const primaryNav: NavLink[] = [
   { label: 'Spot oficial', href: '#spot' },
   { label: 'Experiencias', href: '#experiencias' },
   { label: 'Ubicación', href: '#sede' },
-  { label: 'Colaboradores', href: '#colaboradores' },
+  { label: 'Colaboradores', href: '#colaboradores' }
 ];
 
 export const helpNav: NavLink[] = [
-  { label: 'Contáctanos', href: event.contactUrl, external: true },
+  { label: 'Contáctanos', href: event.contactUrl, external: true }
 ];
 
 export const socialNav: NavLink[] = [
   { label: 'Facebook', href: event.facebookUrl, external: true },
   { label: 'Instagram', href: event.instagramUrl, external: true },
   { label: 'TikTok', href: event.tiktokUrl, external: true },
-  { label: 'YouTube', href: event.youtubeUrl, external: true },
+  { label: 'YouTube', href: event.youtubeUrl, external: true }
 ];
 
 // --- Merch ---
@@ -134,8 +134,8 @@ export const merch: MerchItem[] = [
       href: 'https://bit.ly/47zLQOo',
       cta: 'Inscribirme',
       character: '/img/personaje-1-797.webp', // original: /img/personaje-1.png (recortado a la figura)
-      characterMobile: '/img/personaje-1.2-940.webp', // original: /img/personaje-1.2.png (recortado a la figura)
-    },
+      characterMobile: '/img/personaje-1.2-940.webp' // original: /img/personaje-1.2.png (recortado a la figura)
+    }
   },
   {
     label: 'Convocatorias',
@@ -149,7 +149,7 @@ export const merch: MerchItem[] = [
       character: {
         image: '/img/personaje-2-1000.webp',
         width: 1000,
-        height: 979,
+        height: 979
       }, // original: /img/personaje-2.png (recortado a la figura)
       slides: [
         {
@@ -159,7 +159,7 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria para feriantes. Feria de arte, 29 de noviembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
           href: 'https://bit.ly/4zQe1EW',
-          cta: 'Inscribirme',
+          cta: 'Inscribirme'
         },
         {
           title: 'Graffiti',
@@ -168,7 +168,7 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria: batallas de graffiti. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
           href: 'https://bit.ly/4ikF8AL',
-          cta: 'Inscribirme',
+          cta: 'Inscribirme'
         },
         {
           title: 'Rock',
@@ -177,7 +177,7 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria: concurso a la mejor banda de rock. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
           href: 'https://forms.gle/ytMAWPTjmvuR5oVZ6',
-          cta: 'Inscribirme',
+          cta: 'Inscribirme'
         },
         {
           title: 'Breakdance',
@@ -186,7 +186,7 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria: batallas de breaking 1 vs 1. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
           href: 'https://forms.gle/wSD9k7JckDqkGdWA8',
-          cta: 'Inscribirme',
+          cta: 'Inscribirme'
         },
         {
           title: 'Artistas urbanos',
@@ -195,7 +195,7 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria: artistas urbanos, presenta tus temas. 13 de diciembre, parque Suchiche.',
           href: 'https://forms.gle/8i9Qu7TQqpc5txcs7',
-          cta: 'Inscribirme',
+          cta: 'Inscribirme'
         },
         {
           title: 'BMX, skate, roller',
@@ -204,10 +204,10 @@ export const merch: MerchItem[] = [
           height: 1000,
           alt: 'Convocatoria de deportes alternativos: BMX, skate y roller. 13 de diciembre, parque Suchiche. Inscripción gratuita.',
           href: 'https://forms.gle/bN5m2MbofLKHsN9bA',
-          cta: 'Inscribirme',
-        },
-      ],
-    },
+          cta: 'Inscribirme'
+        }
+      ]
+    }
   },
   {
     label: 'Clasificados',
@@ -222,7 +222,7 @@ export const merch: MerchItem[] = [
       character: {
         image: '/img/personaje-3-742.webp',
         width: 742,
-        height: 1402,
+        height: 1402
       }, // original: /img/personaje-3.png (recortado a la figura)
       entries: [
         { name: 'Tai', place: 'Tarapoto', kind: 'classified' },
@@ -238,20 +238,20 @@ export const merch: MerchItem[] = [
         {
           name: 'Cupo Sur',
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
-          kind: 'slot',
+          kind: 'slot'
         },
         {
           name: 'Cupo Sur',
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
-          kind: 'slot',
+          kind: 'slot'
         },
         { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' },
         { name: 'Cupo Juanjui', kind: 'slot' },
         { name: 'Cupo Juanjui', kind: 'slot' },
-        { name: '¿?', place: 'Sorpresa', kind: 'surprise' },
-      ],
-    },
-  },
+        { name: '¿?', place: 'Sorpresa', kind: 'surprise' }
+      ]
+    }
+  }
 ];
 
 // --- ¿Qué es Alcanfest? ---
@@ -287,7 +287,7 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
       title: 'Música y arte urbano con artistas invitados',
       image: '/img/musica-1000.webp', // original: /img/musica.png
       // Vertical en la franja izquierda (pantalla de fondo), junto al brazo de la cantante
-      tagPlacement: { left: '4%', bottom: '40%', vertical: true, size: 12 },
+      tagPlacement: { left: '4%', bottom: '40%', vertical: true, size: 12 }
     },
     {
       tag: 'Calle',
@@ -295,23 +295,23 @@ export const about: { subtitle: string; features: AboutFeature[] } = {
         'Batallas de rap, break dance, graffiti, beatbox, barberos, bikers, rollers y skateboarders',
       image: '/img/calle-1000.webp', // original: /img/calle.png
       // Sobre el piso, abajo a la derecha, inclinado siguiendo la diagonal del bailarín
-      tagPlacement: { right: '6%', bottom: '6%', rotate: -7, size: 12 },
+      tagPlacement: { right: '6%', bottom: '6%', rotate: -7, size: 12 }
     },
     {
       tag: 'Feria',
       title: 'Feria de arte y emprendimientos, talleres y conversatorios',
       image: '/img/feria-1000.webp', // original: /img/feria.png
       // Abajo a la izquierda, sobre el piso: bajo el zapato del barbero, inclinado como la línea amarilla
-      tagPlacement: { left: '39%', bottom: '64%', rotate: 5, size: 9 },
+      tagPlacement: { left: '39%', bottom: '64%', rotate: 5, size: 9 }
     },
     {
       tag: 'Rock',
       title: 'Concurso a la mejor banda de rock de la región',
       image: '/img/rock-1000.webp', // original: /img/rock.png
       // Arriba, sobre la cortina y encima de la cabeza del baterista
-      tagPlacement: { top: '7%', left: '60%', rotate: 4, size: 12 },
-    },
-  ],
+      tagPlacement: { top: '7%', left: '60%', rotate: 4, size: 12 }
+    }
+  ]
 };
 
 // --- Video spot ---
@@ -321,7 +321,7 @@ export const spot = {
   src: '/img/spot.mp4',
   reelSrc: '/img/spot-reel.mp4',
   title: 'Spot oficial',
-  description: 'Mira el spot oficial del festival',
+  description: 'Mira el spot oficial del festival'
 };
 
 // --- Experiencias (slider tipo "pilares" de Lolla) ---
@@ -347,7 +347,7 @@ export const experiences: ExperienceSlide[] = [
     image: '/img/prota_2-1200.webp', // original: /img/prota_2.png
     imageRatio: 1.01,
     imageScale: 0.8, // es casi cuadrado: más chico para que el puño no se corte arriba
-    imageOverlap: 0.2, // menos tapado por el recuadro: la foto queda un poco más arriba
+    imageOverlap: 0.2 // menos tapado por el recuadro: la foto queda un poco más arriba
   },
   {
     title: '+10 Disciplinas. Bikers llenos de talento y adrenalina',
@@ -355,7 +355,7 @@ export const experiences: ExperienceSlide[] = [
     background: '/img/panorama_1-1920.webp', // original: /img/panorama_1.png
     backgroundMobile: '/img/panorama_1-mobile-536.webp', // recorte vertical del original (panorama_1.png, en git: 9eea0c1)
     image: '/img/prota_1-1200.webp', // original: /img/prota_1.png
-    imageRatio: 1.5,
+    imageRatio: 1.5
   },
   {
     title: '15va Edición ¡Deporte urbano y emprendedores!',
@@ -364,7 +364,7 @@ export const experiences: ExperienceSlide[] = [
     backgroundMobile: '/img/panorama_3-mobile-581.webp', // recorte vertical del original
     image: '/img/prota_3-1200.webp', // original: /img/prota_3.png
     imageRatio: 1.476,
-    imageOverlap: 0.2, // menos tapado por el recuadro: la tabla del skater queda a la vista
+    imageOverlap: 0.2 // menos tapado por el recuadro: la tabla del skater queda a la vista
   },
   {
     title: '¿Estás listo? ALCANFEST - TALENTO ES LO QUE SOBRA',
@@ -373,8 +373,8 @@ export const experiences: ExperienceSlide[] = [
     backgroundMobile: '/img/panorama_4-mobile-1451.webp', // recorte vertical; se extendió 1500 px de cielo negro arriba para bajar las caras bajo el recuadro
     image: '/img/prota_4-1200.webp', // original: /img/prota_4.png (traía fondo negro opaco: se recortó a la silueta)
     imageRatio: 1.786,
-    imageOverlap: 0.1, // el recuadro no tapa la pancarta de la foto
-  },
+    imageOverlap: 0.1 // el recuadro no tapa la pancarta de la foto
+  }
 ];
 
 // --- Sede y novedades (como "2026 tickets" / "Be the first to know" de Lolla) ---
@@ -395,7 +395,7 @@ export const updates: UpdatesCta[] = [
     text: 'El camino para ALCANFEST',
     cta: 'Ubicación',
     href: '', // TODO: enlace a la ubicación (p. ej. Google Maps) cuando se confirme la sede; luego `available: true`
-    available: false,
+    available: false
   },
   {
     title: 'Entérate primero',
@@ -404,34 +404,82 @@ export const updates: UpdatesCta[] = [
     // Instagram del festival: ahí se publican las novedades
     href: event.instagramUrl,
     external: true,
-    available: true,
-  },
+    available: true
+  }
 ];
 
 // --- Colaboradores (como "2026 Partners" de Lolla) ---
 // Logos en public/img/partners/ (originales PNG; la web usa el WebP recortado al logo, 480 px de ancho).
-// Grilla de cuadrados blancos: 5 columnas en celular y tablet, 8 desde lg.
-// TODO: por ahora se repite el logo de El Cultural 45 veces como relleno; reemplazar por los logos reales.
+// Grilla de cuadrados blancos: 5 columnas en celular y tablet, 8 desde lg. Se muestran en este orden.
 export type Partner = {
   name: string; // texto alternativo del logo
   logo: string;
-  href: string; // web o red social del colaborador: el logo la abre en otra pestaña
+  href?: string; // web o red social del colaborador: el logo la abre en otra pestaña. Sin href, el logo no es enlace
 };
 
-const elCultural: Partner = {
-  name: 'El Cultural',
-  logo: '/img/partners/logo-cultural-480.webp', // original: /img/partners/logo-cultural.png
-  href: 'https://elculturalsanmartin.edu.pe/',
-};
-
-export const partners: Partner[] = Array.from({ length: 45 }, () => elCultural);
+export const partners: Partner[] = [
+  {
+    name: 'Alcanfest Perú',
+    logo: '/img/partners/logo-alcanfest-480.webp', // original: /img/partners/logo-alcanfest.png
+    href: 'https://www.instagram.com/alcanfest_peru/'
+  },
+  {
+    name: 'Municipalidad Provincial de San Martín',
+    logo: '/img/partners/logo-mpsm-480.webp', // original: /img/partners/logo-mpsm.png
+    href: 'https://www.facebook.com/mpsm.tpp/'
+  },
+  {
+    name: 'El Cultural',
+    logo: '/img/partners/logo-cultural-480.webp', // original: /img/partners/logo-cultural.png
+    href: 'https://elculturalsanmartin.edu.pe/'
+  },
+  {
+    name: 'Cámara de Comercio, Producción y Turismo de San Martín',
+    logo: '/img/partners/logo-camara-comercio-480.webp', // original: /img/partners/logo-camara-comercio.png
+    href: 'https://camaratarapoto.org/'
+  },
+  {
+    name: 'Prime Code',
+    logo: '/img/partners/logo-prime-code-480.webp', // original: /img/partners/logo-prime-code.png
+    href: 'https://www.instagram.com/prime_code.tech/'
+  },
+  {
+    name: 'Cumo, Centro Cultural Moyobamba',
+    logo: '/img/partners/logo-cumo-480.webp', // original: /img/partners/logo-cumo.png
+    href: 'https://cumo.pe/'
+  },
+  {
+    name: 'Gremio Jóvenes',
+    logo: '/img/partners/logo-gremio-jovenes-480.webp', // original: /img/partners/logo-gremio-jovenes.png
+    href: 'https://www.facebook.com/Camaratarapoto/posts/pfbid02sMbiwfQFnk4tAUB6CAwkdsEWzDm4WsFtg4DEemaK2n9CSr8o8CCEhjYszz2aEEBCl'
+  },
+  {
+    name: 'Corantha Producciones',
+    logo: '/img/partners/logo-corantha-480.webp' // original: /img/partners/logo-corantha.png (sin web ni red social)
+  },
+  {
+    name: 'Bums Inc. Los Vagos',
+    logo: '/img/partners/logo-los-vagos-480.webp', // original: /img/partners/logo-los-vagos.png
+    href: 'https://www.instagram.com/bumsinclosvagos/'
+  },
+  {
+    name: 'Tarapoto Hip Hop',
+    logo: '/img/partners/logo-tarapoto-hip-hop-480.webp', // original: /img/partners/logo-tarapoto-hip-hop.png
+    href: 'https://www.instagram.com/tarapotohiphop/'
+  },
+  {
+    name: 'Fonabeat Battles',
+    logo: '/img/partners/logo-fonabeat-battles-480.webp', // original: /img/partners/logo-fonabeat-battles.png
+    href: 'https://www.instagram.com/fonabeat_battles/'
+  }
+];
 
 // --- Footer (como el de lollapalooza.com) ---
 // Columnas de enlaces (las mismas listas que el menú lateral) + llamada a "Entérate primero" (la de `updates`).
 export const footerColumns: { title: string; links: NavLink[] }[] = [
   { title: 'Festival', links: primaryNav },
   { title: 'Ayuda', links: helpNav },
-  { title: 'Redes', links: socialNav },
+  { title: 'Redes', links: socialNav }
 ];
 
 export const footer = {
@@ -442,6 +490,6 @@ export const footer = {
   credit: {
     prefix: 'Desarrollado por',
     name: 'Prime Code',
-    href: 'https://www.instagram.com/prime_code.tech/',
-  },
+    href: 'https://www.instagram.com/prime_code.tech/'
+  }
 };
