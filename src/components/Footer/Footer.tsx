@@ -5,7 +5,9 @@ const externalProps = (link: NavLink) => (link.external ? { target: '_blank', re
 
 /**
  * Footer (como el de lollapalooza.com): línea divisoria, columnas de enlaces + "Entérate primero" con su botón,
- * otra línea y la fila legal. En celular todo va apilado; desde lg, cuatro columnas con la última más ancha.
+ * otra línea y la fila legal. En celular todo va apilado; en sm, dos columnas. Desde md (p. ej. una ventana a media
+ * pantalla) va en fila: hasta lg las columnas de enlaces miden lo que su contenido y "Entérate primero" toma el resto,
+ * para que entre el botón; desde lg, cuatro columnas con la última más ancha.
  */
 export function Footer() {
   const { newsletter } = footer;
@@ -13,7 +15,7 @@ export function Footer() {
   return (
     <footer className='bg-ink px-(--gutter) text-paper'>
       <div className='mx-auto max-w-300 border-t-2 border-paper/80'>
-        <div className='grid gap-10 py-12 sm:grid-cols-2 sm:gap-x-8 sm:py-16 lg:grid-cols-[1fr_1fr_1fr_1.45fr]'>
+        <div className='grid gap-10 py-12 sm:grid-cols-2 sm:gap-x-8 sm:py-16 md:grid-cols-[auto_auto_auto_1fr] md:gap-x-10 lg:grid-cols-[1fr_1fr_1fr_1.45fr] lg:gap-x-8'>
           {footerColumns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
               <h2 className='font-display text-[1.75rem] leading-none font-black uppercase'>{column.title}</h2>
@@ -33,7 +35,9 @@ export function Footer() {
             </nav>
           ))}
 
-          <div className='sm:col-span-2 lg:col-span-1'>
+          {/* Desde md, el bloque se pega al final de su columna; su contenido sigue alineado a la izquierda.
+              pr-1.5 = sombra del botón al pasar el mouse (6px), para que no pase la línea divisoria */}
+          <div className='sm:col-span-2 md:col-span-1 md:justify-self-end md:pr-1.5'>
             <h2 className='font-display text-[1.75rem] leading-none font-black uppercase'>{newsletter.title}</h2>
             <div className='mt-5'>
               <CtaButton
