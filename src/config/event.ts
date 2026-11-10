@@ -414,7 +414,7 @@ export const updates: UpdatesCta[] = [
 export type Partner = {
   name: string; // texto alternativo del logo
   logo: string;
-  href: string; // web o red social del colaborador: el logo la abre en otra pestaña
+  href?: string; // web o red social del colaborador: el logo la abre en otra pestaña. Sin href, el logo no es enlace
 };
 
 export const partners: Partner[] = [
@@ -452,6 +452,10 @@ export const partners: Partner[] = [
     name: 'Gremio Jóvenes',
     logo: '/img/partners/logo-gremio-jovenes-480.webp', // original: /img/partners/logo-gremio-jovenes.png
     href: 'https://www.facebook.com/Camaratarapoto/posts/pfbid02sMbiwfQFnk4tAUB6CAwkdsEWzDm4WsFtg4DEemaK2n9CSr8o8CCEhjYszz2aEEBCl'
+  },
+  {
+    name: 'Corantha Producciones',
+    logo: '/img/partners/logo-corantha-480.webp' // original: /img/partners/logo-corantha.png (sin web ni red social)
   },
   {
     name: 'Bums Inc. Los Vagos',
