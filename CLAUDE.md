@@ -38,7 +38,9 @@ Lo aplican los rulesets de GitHub (copia en `.github/rulesets/`; si se editan, r
 
 **"Próximamente":** `src/components/CtaButton/CtaButton.tsx` es el botón de llamada a la acción con `available`. Con `available: false` se ve activo, pero al primer clic se apaga y se le pega una etiqueta "lima" (`animate-sticker-in`); queda así hasta recargar. Lo usan "¿Cómo llegar?" del hero (`venueLocation.available`; el modal `LocationModal` y la ruta siguen listos) y "Ubicación" de `Updates` (`updates[0]`). Para activarlos: poner el destino y `available: true`.
 
-**Pendientes de contenido:** los 45 logos de `partners` son el de El Cultural repetido como relleno (cada logo exige `href`); la sede/ubicación aún no está confirmada.
+**Pendientes de contenido:** la sede/ubicación aún no está confirmada.
+
+**Colaboradores:** `partners` (config) define logos, orden y enlace (cada logo exige `href`, que abre en otra pestaña). Hoy hay 10, en el orden del array (Alcanfest Perú, MPSM, El Cultural, Cámara de Comercio, Prime Code, Cumo, Gremio Jóvenes, Los Vagos, Tarapoto Hip Hop, Fonabeat Battles). Grilla de 5 columnas y 8 desde `lg`; la fila incompleta queda centrada.
 
 **Estilos:** Tailwind v4 sin `tailwind.config`; los tokens están en el bloque `@theme` de `src/index.css` (`ink`, `paper`, `lime`, `magenta`, fuentes `font-display` = Big Shoulders Display / `font-body` = Figtree, `ease-snap`, breakpoint `xs`). Variables globales: `--header-h` (64px móvil / 88px desde `sm`) y `--gutter`. Estética "brutalista": bordes gruesos, sombras duras desplazadas (`shadow-[Npx_Npx_0_var(--color-…)]`), recuadros de color detrás del texto. `prefers-reduced-motion` reduce globalmente todas las transiciones/animaciones en `index.css`.
 

@@ -22,8 +22,8 @@ export function Partners() {
       </h2>
 
       <ul className='mx-auto mt-8 flex max-w-280 flex-wrap justify-center gap-(--gap) sm:mt-10'>
-        {partners.map((partner, i) => (
-          <li key={i} className='aspect-square w-[calc((100%-(var(--cols)-1)*var(--gap))/var(--cols))]'>
+        {partners.map((partner) => (
+          <li key={partner.href}className='aspect-square w-[calc((100%-(var(--cols)-1)*var(--gap))/var(--cols))]'>
             {/* Todo el cuadrado es el enlace; al pasar el mouse se levanta con sombra lima, como los botones */}
             <a
               href={partner.href}
