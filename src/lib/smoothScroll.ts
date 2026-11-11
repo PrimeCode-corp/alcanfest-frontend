@@ -37,8 +37,12 @@ function targetTop(el: HTMLElement) {
 }
 
 export function scrollToElement(el: HTMLElement) {
+  scrollToY(targetTop(el));
+}
+
+/** Desplaza suave hasta una posición vertical de la página (en px). */
+export function scrollToY(to: number) {
   stop();
-  const to = targetTop(el);
   const from = window.scrollY;
   const distance = to - from;
   if (Math.abs(distance) < 2) return;
