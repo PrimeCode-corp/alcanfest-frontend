@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { BackToTop } from './components/BackToTop/BackToTop'
 import { Experiences } from './components/Experiences/Experiences'
 import { Footer } from './components/Footer/Footer'
 import { Header } from './components/Header/Header'
@@ -42,6 +43,7 @@ function App() {
         <Partners />
       </main>
       <Footer />
+      <BackToTop />
     </>
   )
 }
