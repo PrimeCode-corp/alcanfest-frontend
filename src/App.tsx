@@ -6,7 +6,7 @@ import { Header } from './components/Header/Header'
 import { About } from './components/About/About'
 import { Hero } from './components/Hero/Hero'
 import { Merch } from './components/Merch/Merch'
-import { Spot } from './components/Spot/Spot'
+import { Spot, type SpotHandle } from './components/Spot/Spot'
 import { Partners } from './components/Partners/Partners'
 import { SideMenu } from './components/SideMenu/SideMenu'
 import { Updates } from './components/Updates/Updates'
@@ -14,6 +14,8 @@ import { initSmoothAnchors } from './lib/smoothScroll'
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [spotSoundActive, setSpotSoundActive] = useState(false)
+  const spotRef = useRef<SpotHandle>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   const closeMenu = useCallback(() => {
@@ -37,13 +39,13 @@ function App() {
         <Hero />
         <Merch />
         <About />
-        <Spot />
+        <Spot ref={spotRef} onSoundChange={setSpotSoundActive} />
         <Experiences />
         <Updates />
         <Partners />
       </main>
       <Footer />
-      <BackToTop />
+      <BackToTop soundActive={spotSoundActive} onMute={() => spotRef.current?.mute()} />
     </>
   )
 }
