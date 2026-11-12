@@ -3,6 +3,7 @@
 ## Entornos
 
 - Producción: Railway — deploy automático desde `master`
+  - URL: https://www.alcanfest.com
 - QA: Cloudflare Workers — desde `qa`
   - URL: https://alcanfest-qa.alcanfest-frontend.workers.dev
   - Deploy manual: `npm run build && npx wrangler deploy`
