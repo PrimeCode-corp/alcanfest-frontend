@@ -4,7 +4,7 @@ export const event = {
   edition: '2026',
   tagline: 'Festival de arte y cultura',
   city: 'Tarapoto',
-  venue: 'San Martín',
+  venue: 'Villa Autónoma',
   dates: '13 de diciembre',
   hashtag: '#TalentoEsLoQueSobra',
   editionNumber: '15',
@@ -20,30 +20,25 @@ export const event = {
 };
 
 // --- Ubicación ---
-// Ruta en moto sobre calles de OpenStreetMap, indicada por el equipo. Cada paso corresponde a un tramo de
-// `stepEnds` en `locationMap.ts`. OSM nombra Bolognesi a parte de Jr. Lamas: aquí se usa el nombre local.
+// Sede: Campo Villa Autónoma (en Google Maps figura como "Villa Stadium"). Ruta en moto desde La Collpa sobre
+// calles de OpenStreetMap. Cada paso corresponde a un tramo de `stepEnds` en `locationMap.ts`.
 export const venueLocation = {
   cta: '¿Cómo llegar?',
   // false = el botón del hero se ve normal, pero al hacer clic se bloquea y muestra "Próximamente" (no abre el modal).
-  // Pasar a true cuando se confirme la ubicación exacta (el modal y la ruta de abajo siguen listos).
-  available: false,
+  available: true,
   comingSoonLabel: 'Próximamente',
-  title: 'Tarapoto',
-  place: 'San Martín',
-  origin: 'Plaza de Armas',
-  summary: 'A 450 m de la Plaza de Armas: unos 2 min en moto',
+  title: 'Villa Autónoma',
+  tag: 'Campo', // etiqueta junto al título del modal
+  place: 'Campo Villa Autónoma', // etiqueta del destino en el mapa
+  origin: 'La Collpa',
+  summary: 'A 960 m de La Collpa: unos 3 min en moto',
   mapsCta: 'Abrir en Google Maps',
-  mapsUrl: 'https://maps.app.goo.gl/Ho5QfdVssV45fir76',
+  mapsUrl: 'https://maps.app.goo.gl/QegmwFd8P75Nwd8K7',
   steps: [
-    {
-      text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz',
-      distance: '195 m'
-    },
-    { text: 'Dobla a la izquierda en Jr. Lamas', distance: '185 m' },
-    {
-      text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche',
-      distance: '70 m'
-    }
+    { text: 'Desde La Collpa, sube por la Av. Circunvalación', distance: '70 m' },
+    { text: 'Dobla a la derecha en la Prolongación Jr. Alerta', distance: '485 m' },
+    { text: 'Dobla a la derecha en la calle Villa Autónoma y cruza el río Shilcayo', distance: '145 m' },
+    { text: 'Dobla a la derecha y baja hasta el campo', distance: '260 m' }
   ]
 };
 
@@ -394,8 +389,9 @@ export const updates: UpdatesCta[] = [
     title: `Sede ${event.edition}`,
     text: 'El camino para ALCANFEST',
     cta: 'Ubicación',
-    href: '', // TODO: enlace a la ubicación (p. ej. Google Maps) cuando se confirme la sede; luego `available: true`
-    available: false
+    href: venueLocation.mapsUrl, // el campo en Google Maps
+    external: true,
+    available: true
   },
   {
     title: 'Entérate primero',
