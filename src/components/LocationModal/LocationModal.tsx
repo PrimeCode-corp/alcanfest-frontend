@@ -93,7 +93,7 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
               {venueLocation.title}
             </h2>
             <p className='bg-magenta px-2 pt-1 pb-0.5 font-display text-base leading-none font-extrabold text-ink uppercase sm:text-xl'>
-              {venueLocation.place}
+              {venueLocation.tag}
             </p>
           </div>
           <IconButton label='Cerrar' onClick={onClose}>
@@ -109,9 +109,15 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
               viewBox='0 0 1000 1000'
               preserveAspectRatio='xMidYMid slice'
               role='img'
-              aria-label={`Mapa de la ruta en moto desde la ${venueLocation.origin} hasta el ${venueLocation.place}`}
+              aria-label={`Mapa de la ruta en moto desde ${venueLocation.origin} hasta ${venueLocation.place}`}
               className='block size-full font-display font-extrabold'
             >
+              {/* Río: cauce con borde y línea punteada al centro, para no confundirlo con una calle */}
+              <g fill='none' strokeLinejoin='round' strokeLinecap='round'>
+                <path d={locationMap.water} stroke='var(--color-ink)' strokeWidth={34} />
+                <path d={locationMap.water} stroke='var(--color-paper)' strokeWidth={20} />
+                <path d={locationMap.water} stroke='var(--color-ink)' strokeWidth={4} strokeDasharray='14 14' />
+              </g>
               <path d={locationMap.parks} fill='var(--color-lime)' stroke='var(--color-ink)' strokeWidth={6} />
               <g fill='none' stroke='var(--color-ink)' strokeLinejoin='round'>
                 <path d={locationMap.minorStreets} strokeWidth={9} />
@@ -130,7 +136,27 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
                 strokeLinejoin='round'
               />
 
-              <MapLabel x={locationMap.originLabel.x} y={locationMap.originLabel.y} width={236} tone='ink'>
+              {/* Origen: casita de La Collpa, con sombra dura como las etiquetas */}
+              <g
+                transform={`translate(${locationMap.originMarker.x} ${locationMap.originMarker.y})`}
+                strokeLinejoin='round'
+              >
+                <path d='M-30 0V-46H-42L0-84L42-46H30V0Z' fill='var(--color-magenta)' transform='translate(7 7)' />
+                <path
+                  d='M-30 0V-46H-42L0-84L42-46H30V0Z'
+                  fill='var(--color-paper)'
+                  stroke='var(--color-ink)'
+                  strokeWidth={8}
+                />
+                <rect x={-9} y={-26} width={18} height={26} fill='var(--color-ink)' />
+              </g>
+
+              <MapLabel
+                x={locationMap.originLabel.x}
+                y={locationMap.originLabel.y}
+                width={locationMap.originLabel.width}
+                tone='ink'
+              >
                 {venueLocation.origin}
               </MapLabel>
 
@@ -152,9 +178,9 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
                 </g>
               </g>
               <MapLabel
-                x={locationMap.destination.x}
-                y={locationMap.destination.y - 136}
-                width={250}
+                x={locationMap.destinationLabel.x}
+                y={locationMap.destinationLabel.y}
+                width={locationMap.destinationLabel.width}
                 tone='magenta'
               >
                 {venueLocation.place}
