@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState, type ReactNode, type Ref } from 'react';
 import { event, spot } from '../../config/event';
 
 // Desde sm (640px) se usa el video horizontal; debajo, el reel vertical
@@ -18,12 +18,17 @@ function useMediaQuery(query: string) {
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+export type SpotHandle = { mute: () => void };
+
 /**
- * Video spot: se reproduce en silencio y en bucle mientras está en pantalla
- * (como en Lolla) y se pausa al salir. Si el usuario lo pausa, no se reanuda solo.
+ * Video spot: se reproduce en bucle y mantiene el audio al salir de pantalla.
+ * Solo se pausa al salir si está silenciado. Si el usuario lo pausa, no se reanuda solo.
  * Con "reducir movimiento" activado no hay autoplay: se espera al botón.
  */
-export function Spot() {
+export function Spot({ ref, onSoundChange }: {
+  ref?: Ref<SpotHandle>;
+  onSoundChange: (active: boolean) => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const mirrorRef = useRef<HTMLCanvasElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -128,10 +133,16 @@ export function Spot() {
     activationCleanupRef.current = cleanup;
   };
 
-  // Arranca el video al entrar en pantalla, con sonido salvo que el usuario lo haya silenciado
+  // Arranca al entrar o al cambiar de fuente con sonido activo, respetando las pausas manuales.
   const startPlayback = () => {
     const video = videoRef.current;
-    if (!video || !visibleRef.current || prefersReducedMotion() || userPausedRef.current) return;
+    if (
+      !video ||
+      (!visibleRef.current && video.muted) ||
+      prefersReducedMotion() ||
+      userPausedRef.current ||
+      (!video.muted && !video.paused)
+    ) return;
     if (userMutedRef.current) {
       video.muted = true;
       video.play().catch(() => {});
@@ -156,7 +167,7 @@ export function Spot() {
         if (entry.isIntersecting) {
           startPlayback();
         } else {
-          video.pause();
+          if (video.muted) video.pause();
           activationCleanupRef.current?.();
         }
       },
@@ -181,19 +192,28 @@ export function Spot() {
     }
   };
 
-  const toggleMute = () => {
+  const setUserMuted = (nextMuted: boolean) => {
     const video = videoRef.current;
     if (!video) return;
-    video.muted = !video.muted;
+    video.muted = nextMuted;
     // Silenciar a mano se respeta en las siguientes entradas a la sección
     userMutedRef.current = video.muted;
     activationCleanupRef.current?.();
+    // Al silenciar fuera de pantalla ya no hace falta mantener la reproducción.
+    if (video.muted && !visibleRef.current) video.pause();
     // Activar el sonido es intención de ver el video: si estaba pausado, reproducir
     if (!video.muted && video.paused) {
       userPausedRef.current = false;
       video.play().catch(() => {});
     }
   };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (video) setUserMuted(!video.muted);
+  };
+
+  useImperativeHandle(ref, () => ({ mute: () => setUserMuted(true) }));
 
   return (
     <section id='spot' aria-labelledby='spot-title' className='@container bg-ink text-paper'>
@@ -227,7 +247,11 @@ export function Spot() {
             aria-label={spot.description}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
-            onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
+            onVolumeChange={(e) => {
+              const muted = e.currentTarget.muted;
+              setMuted(muted);
+              onSoundChange(!muted);
+            }}
             onLoadedMetadata={(e) => {
               const v = e.currentTarget;
               if (wide && v.videoWidth && v.videoHeight) setRatio(v.videoWidth / v.videoHeight);
