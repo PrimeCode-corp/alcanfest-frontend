@@ -20,11 +20,15 @@ const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
 
 let frame = 0;
 let stopListening: (() => void) | null = null;
+let onScrollEnd: (() => void) | null = null;
 
 function stop() {
   cancelAnimationFrame(frame);
   stopListening?.();
   stopListening = null;
+  const notifyEnd = onScrollEnd;
+  onScrollEnd = null;
+  notifyEnd?.();
 }
 
 function targetTop(el: HTMLElement) {
@@ -40,15 +44,20 @@ export function scrollToElement(el: HTMLElement) {
   scrollToY(targetTop(el));
 }
 
-/** Desplaza suave hasta una posición vertical de la página (en px). */
-export function scrollToY(to: number) {
+/** Desplaza suave hasta una posición vertical; avisa al terminar o interrumpirse. */
+export function scrollToY(to: number, onEnd?: () => void) {
   stop();
+  onScrollEnd = onEnd ?? null;
   const from = window.scrollY;
   const distance = to - from;
-  if (Math.abs(distance) < 2) return;
+  if (Math.abs(distance) < 2) {
+    stop();
+    return;
+  }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     window.scrollTo(0, to);
+    stop();
     return;
   }
 
@@ -65,7 +74,7 @@ export function scrollToY(to: number) {
     const t = Math.min(1, (now - start) / duration);
     window.scrollTo(0, from + distance * ease(t));
     if (t < 1) frame = requestAnimationFrame(step);
-    else stopListening?.();
+    else stop();
   };
   frame = requestAnimationFrame(step);
 }
