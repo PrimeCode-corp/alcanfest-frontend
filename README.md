@@ -4,9 +4,9 @@
 
 - Producción: Railway — deploy automático desde `master`
   - URL: https://www.alcanfest.com
-- QA: Cloudflare Workers — desde `qa`
+- QA: Cloudflare Workers — deploy automático desde `qa`
   - URL: https://alcanfest-qa.alcanfest-frontend.workers.dev
-  - Deploy manual: `npm run build && npx wrangler deploy`
+  - No usar `npx wrangler deploy` a mano: publica lo que haya en local, de cualquier rama.
   - Máximo 25 MiB por archivo en `public/`. `worker/` da soporte de rangos a los MP4 (Safari lo exige) y solo corre en QA.
 
 ## Flujo
