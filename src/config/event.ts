@@ -45,14 +45,15 @@ export const venueLocation = {
 export type NavLink = { label: string; href: string; external?: boolean };
 
 // Enlaces compartidos por el menú lateral y el footer. Solo secciones que existen y enlaces reales.
+// Con "/" delante: desde otra página (p. ej. la política de cookies) llevan a la sección del inicio.
 export const primaryNav: NavLink[] = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Talleres', href: '#merch' },
-  { label: `${event.name}`, href: '#que-es' },
-  { label: 'Spot oficial', href: '#spot' },
-  { label: 'Experiencias', href: '#experiencias' },
-  { label: 'Ubicación', href: '#sede' },
-  { label: 'Colaboradores', href: '#colaboradores' }
+  { label: 'Inicio', href: '/#inicio' },
+  { label: 'Talleres', href: '/#merch' },
+  { label: `${event.name}`, href: '/#que-es' },
+  { label: 'Spot oficial', href: '/#spot' },
+  { label: 'Experiencias', href: '/#experiencias' },
+  { label: 'Ubicación', href: '/#sede' },
+  { label: 'Colaboradores', href: '/#colaboradores' }
 ];
 
 export const helpNav: NavLink[] = [

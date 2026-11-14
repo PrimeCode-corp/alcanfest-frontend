@@ -84,9 +84,12 @@ export function initSmoothAnchors() {
   const onClick = (e: MouseEvent) => {
     // Clic normal: sin teclas modificadoras (Ctrl/Cmd+clic abre en otra pestaña) y sin preventDefault previo
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const link = (e.target as Element | null)?.closest?.('a[href^="#"]');
+    const link = (e.target as Element | null)?.closest?.('a[href*="#"]');
     if (!(link instanceof HTMLAnchorElement) || link.target === '_blank') return;
-    const hash = link.getAttribute('href') ?? '';
+    // Solo enlaces a esta misma página ("#seccion" o "/#seccion" estando en el inicio). Desde otra página,
+    // "/#seccion" navega normal al inicio y `scrollToInitialHash` lo lleva a la sección.
+    if (link.origin !== location.origin || link.pathname !== location.pathname) return;
+    const hash = link.hash;
     const el = hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
     if (!el) return;
 
@@ -101,4 +104,20 @@ export function initSmoothAnchors() {
     document.removeEventListener('click', onClick);
     stop();
   };
+}
+
+/**
+ * Al llegar con un "#seccion" en la URL (p. ej. desde el menú de la política de cookies), salta a esa sección.
+ * El salto nativo del navegador ocurre antes de que React pinte las secciones, así que se repite al cargar la
+ * página, cuando ya están las imágenes y los altos de las secciones con scroll fijo.
+ */
+export function scrollToInitialHash() {
+  const hash = location.hash;
+  if (hash.length <= 1) return;
+  const jump = () => {
+    const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (el && location.hash === hash) window.scrollTo(0, targetTop(el));
+  };
+  if (document.readyState === 'complete') jump();
+  else window.addEventListener('load', jump, { once: true });
 }
