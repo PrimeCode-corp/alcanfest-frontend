@@ -77,8 +77,15 @@ export type Flyer = {
   alt: string; // repite la información del flyer: esos datos solo están en la imagen
   href: string; // enlace del botón del modal
   cta: string;
+  workshops?: Workshop[]; // fechas y tarjetas del cronograma, si el flyer contiene talleres
   character?: string; // pantalla horizontal: figura que asoma detrás del flyer, apuntándolo (PNG/WebP con transparencia)
   characterMobile?: string; // pantalla vertical: figura de frente, centrada arriba del flyer
+};
+
+export type Workshop = {
+  title: string;
+  date: string; // YYYY-MM-DD: vigente durante todo ese día en Perú
+  bounds: { x: number; y: number; width: number; height: number }; // píxeles en el flyer original
 };
 
 export type FlyerCarousel = {
@@ -128,6 +135,23 @@ export const merch: MerchItem[] = [
       alt: 'Talleres gratuitos. 7 de noviembre: técnicas de graffiti. 14 de noviembre: financia tu carrera deportiva o artística. 21 de noviembre: el rap, arma y escudo. Hora: 4:00 PM. Lugar: auditorio "El Cultural", Tarapoto, Jr. Sofía Delgado 119.',
       href: 'https://bit.ly/47zLQOo',
       cta: 'Inscribirme',
+      workshops: [
+        {
+          title: 'Técnicas de graffiti',
+          date: '2026-11-07',
+          bounds: { x: 64, y: 470, width: 280, height: 324 }
+        },
+        {
+          title: 'Financia tu carrera deportiva o artística',
+          date: '2026-11-14',
+          bounds: { x: 362, y: 470, width: 280, height: 324 }
+        },
+        {
+          title: 'El rap, arma y escudo',
+          date: '2026-11-21',
+          bounds: { x: 659, y: 470, width: 284, height: 324 }
+        }
+      ],
       character: '/img/personaje-1-797.webp', // original: /img/personaje-1.png (recortado a la figura)
       characterMobile: '/img/personaje-1.2-940.webp' // original: /img/personaje-1.2.png (recortado a la figura)
     }

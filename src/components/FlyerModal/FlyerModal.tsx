@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { Flyer } from '../../config/event';
 import { Img } from '../Img/Img';
 import { useModalDialog } from './useModalDialog';
+import { WorkshopOverlays } from './WorkshopOverlays';
 
 type FlyerModalProps = {
   flyer: Flyer;
@@ -32,14 +33,19 @@ export function FlyerModal({ flyer, open, onClose }: FlyerModalProps) {
       className='top-(--header-h) mx-auto mt-auto mb-3 w-(--flyer-w) max-w-none overflow-visible bg-transparent text-ink transition-[opacity,translate] duration-200 ease-snap [--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-15rem)*0.88)] backdrop:bg-ink/80 lg:backdrop:bg-ink/80 starting:open:translate-y-4 starting:open:opacity-0 landscape:my-auto landscape:[--flyer-w:min(34rem,100vw-2rem,(100dvh-var(--header-h)-6rem)*0.88)]'
     >
       <div className='img-slot border-3 border-paper bg-ink shadow-[6px_6px_0_var(--color-magenta)]'>
-        <Img
-          src={flyer.image}
-          alt={flyer.alt}
-          width={flyer.width}
-          height={flyer.height}
-          loading='lazy'
-          className='block h-auto w-full transition-opacity duration-300 ease-snap'
-        />
+        <div className='relative @container'>
+          <Img
+            src={flyer.image}
+            alt={flyer.alt}
+            width={flyer.width}
+            height={flyer.height}
+            loading='lazy'
+            className='block h-auto w-full transition-opacity duration-300 ease-snap'
+          />
+          {open && flyer.workshops && (
+            <WorkshopOverlays workshops={flyer.workshops} width={flyer.width} height={flyer.height} />
+          )}
+        </div>
         <div className='flex gap-3 border-t-3 border-paper bg-paper p-3'>
           <SignupLink href={flyer.href}>{flyer.cta}</SignupLink>
           <IconButton label='Cerrar' onClick={onClose}>
