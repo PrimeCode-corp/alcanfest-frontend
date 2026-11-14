@@ -32,7 +32,7 @@ export function WorkshopOverlays({ workshops, width, height }: WorkshopOverlaysP
             height: `${workshop.bounds.height / height * 100}%`
           }}
         >
-          <span className='font-display text-[clamp(0.5rem,4cqw,1.5rem)] leading-none font-black uppercase'>
+          <span className='-rotate-30 font-display text-[clamp(0.5rem,4cqw,1.5rem)] leading-none font-black uppercase'>
             <span className='sr-only'>{workshop.title} ({workshop.date}): </span>
             Finalizado
           </span>
