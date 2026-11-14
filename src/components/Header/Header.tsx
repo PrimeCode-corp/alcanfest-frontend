@@ -79,7 +79,7 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
 
         {/* Logo + línea + fecha y lugar */}
         <div className="flex items-center gap-[18px] justify-self-center">
-          <a href="#inicio" className="block leading-none">
+          <a href="/#inicio" className="block leading-none">
             <Img
               src={event.logo}
               alt={`${event.name} ${event.edition}, ${event.tagline.toLowerCase()}. Ir al inicio`}
