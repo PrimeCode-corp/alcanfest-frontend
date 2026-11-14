@@ -1,4 +1,5 @@
 import { footer, footerColumns, type NavLink } from '../../config/event';
+import { cookiePolicy } from '../../config/cookiePolicy';
 import { CtaButton } from '../CtaButton/CtaButton';
 
 const externalProps = (link: NavLink) => (link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {});
@@ -11,6 +12,7 @@ const externalProps = (link: NavLink) => (link.external ? { target: '_blank', re
  */
 export function Footer() {
   const { newsletter } = footer;
+  const onCookiePolicy = window.location.pathname.replace(/\/+$/, '') === cookiePolicy.path;
 
   return (
     <footer className='bg-ink px-(--gutter) text-paper'>
@@ -52,11 +54,21 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Fila legal: a la izquierda el festival, a la derecha el crédito del desarrollo */}
+        {/* Fila legal: a la izquierda el festival y la política de cookies (como "Cookie Policy" de Lolla), a la
+            derecha el crédito del desarrollo. En celular va apilada */}
         <div className='flex flex-col gap-2 border-t-2 border-paper/80 py-6 text-sm text-paper/60 sm:flex-row sm:items-center sm:justify-between sm:gap-6'>
-          <p>
-            {footer.copyright} · {footer.place}
-          </p>
+          <div className='flex flex-col gap-2 md:flex-row md:items-center md:gap-0'>
+            <p>
+              {footer.copyright} · {footer.place}
+            </p>
+            <a
+              href={cookiePolicy.path}
+              aria-current={onCookiePolicy ? 'page' : undefined}
+              className='self-start font-bold text-paper/80 no-underline decoration-lime decoration-2 underline-offset-4 transition-colors duration-150 hover:text-lime hover:underline aria-[current=page]:text-lime md:ml-4 md:border-l md:border-paper/30 md:pl-4'
+            >
+              {cookiePolicy.label}
+            </a>
+          </div>
           <p>
             {footer.credit.prefix}{' '}
             <a
