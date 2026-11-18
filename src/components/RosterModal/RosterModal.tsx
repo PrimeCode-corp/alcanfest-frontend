@@ -24,11 +24,20 @@ const tileStyles: Record<RosterEntry['kind'], string> = {
  * Muro de participantes: cada mosaico mide lo que pide su nombre y crece hasta llenar la fila,
  * como carteles pegados en una pared. El estilo indica el tipo: lima es clasificado,
  * punteado con letra hueca es un cupo, magenta es la sorpresa.
- * El orden es el de la config: no hay numeración porque no representa cruces ni posiciones.
+ * Los clasificados van primero y los cupos pendientes (y la sorpresa) empiezan fila propia debajo;
+ * dentro de cada grupo, el orden es el de la config. No hay numeración porque no representa cruces ni posiciones.
  */
 export function RosterModal({ roster, open, onClose }: RosterModalProps) {
   const dialogRef = useModalDialog(open);
   const titleId = useId();
+
+  const classified = roster.entries.filter((entry) => entry.kind === 'classified');
+  const pending = roster.entries.filter((entry) => entry.kind !== 'classified');
+  // `offset` sigue la cuenta del retardo de entrada entre un grupo y el otro
+  const groups = [
+    { entries: classified, offset: 0 },
+    { entries: pending, offset: classified.length },
+  ].filter((group) => group.entries.length > 0);
 
   return (
     <dialog
@@ -64,42 +73,50 @@ export function RosterModal({ roster, open, onClose }: RosterModalProps) {
           </IconButton>
         </div>
 
-        <ul className='flex flex-wrap gap-1.5 px-3 pb-3 sm:gap-2 sm:px-4 sm:pb-4'>
-          {roster.entries.map((entry, i) => (
-            <li
-              key={`${entry.name}-${i}`}
-              style={{ '--i': i } as CSSProperties}
-              // Al abrir, los mosaicos se pegan uno tras otro
-              className={cn(
-                'flex max-w-full grow flex-col justify-center border-2 px-3 py-1.5 transition-[scale,opacity] delay-[calc(var(--i)*25ms)] duration-300 ease-snap motion-reduce:delay-0 starting:scale-95 starting:opacity-0 sm:py-2',
-                tileStyles[entry.kind],
-                entry.kind === 'surprise' && 'flex-row items-center justify-center gap-3',
-              )}
-            >
-              <span
-                className={cn(
-                  `${NAME_SIZE} font-display leading-none font-black whitespace-nowrap uppercase`,
-                  // Letra hueca: el relleno se pinta sobre el contorno y tapa los cruces internos de los trazos.
-                  // Por eso el contorno va al doble y el relleno es del color del fondo
-                  entry.kind === 'slot' && 'text-ink [paint-order:stroke_fill] [-webkit-text-stroke:3px_var(--color-paper)]',
-                )}
-              >
-                {entry.name}
-              </span>
-              {entry.place &&
-                (entry.kind === 'surprise' ? (
-                  <span className={`${NAME_SIZE} font-display leading-none font-black uppercase`}>
-                    {entry.place}
-                  </span>
-                ) : (
-                  // En celular el lugar no define el ancho del mosaico: se ajusta en líneas y caben dos por fila
-                  <span className='text-[0.8rem] leading-tight font-semibold text-balance max-sm:w-0 max-sm:min-w-full sm:text-base'>
-                    {entry.place}
-                  </span>
-                ))}
-            </li>
+        {/* Una lista por grupo: el espacio entre las dos es el mismo que entre filas */}
+        <div className='flex flex-col gap-1.5 px-3 pb-3 sm:gap-2 sm:px-4 sm:pb-4'>
+          {groups.map(({ entries, offset }) => (
+            <ul key={offset} className='flex flex-wrap gap-1.5 sm:gap-2'>
+              {entries.map((entry, j) => {
+                const i = offset + j;
+                return (
+                  <li
+                    key={`${entry.name}-${i}`}
+                    style={{ '--i': i } as CSSProperties}
+                    // Al abrir, los mosaicos se pegan uno tras otro
+                    className={cn(
+                      'flex max-w-full grow flex-col justify-center border-2 px-3 py-1.5 transition-[scale,opacity] delay-[calc(var(--i)*25ms)] duration-300 ease-snap motion-reduce:delay-0 starting:scale-95 starting:opacity-0 sm:py-2',
+                      tileStyles[entry.kind],
+                      entry.kind === 'surprise' && 'flex-row items-center justify-center gap-3',
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        `${NAME_SIZE} font-display leading-none font-black whitespace-nowrap uppercase`,
+                        // Letra hueca: el relleno se pinta sobre el contorno y tapa los cruces internos de los trazos.
+                        // Por eso el contorno va al doble y el relleno es del color del fondo
+                        entry.kind === 'slot' && 'text-ink [paint-order:stroke_fill] [-webkit-text-stroke:3px_var(--color-paper)]',
+                      )}
+                    >
+                      {entry.name}
+                    </span>
+                    {entry.place &&
+                      (entry.kind === 'surprise' ? (
+                        <span className={`${NAME_SIZE} font-display leading-none font-black uppercase`}>
+                          {entry.place}
+                        </span>
+                      ) : (
+                        // En celular el lugar no define el ancho del mosaico: se ajusta en líneas y caben dos por fila
+                        <span className='text-[0.8rem] leading-tight font-semibold text-balance max-sm:w-0 max-sm:min-w-full sm:text-base'>
+                          {entry.place}
+                        </span>
+                      ))}
+                  </li>
+                );
+              })}
+            </ul>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Personaje a la derecha, solo desde lg: en pantallas menores el modal ocupa todo el ancho.
