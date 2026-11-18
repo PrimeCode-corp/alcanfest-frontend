@@ -255,6 +255,9 @@ export const merch: MerchItem[] = [
         { name: 'Bill Dlade', place: 'Yurimaguas', kind: 'classified' },
         { name: 'Vene', place: 'Rioja', kind: 'classified' },
         { name: 'Totix', place: 'Tarapoto', kind: 'classified' },
+        { name: 'Kevin Giorgio', place: 'Moyobamba', kind: 'classified' }, // cupo Juanjui 1
+        { name: 'Big Jota', place: 'Juanjui', kind: 'classified' }, // cupo Juanjui 2
+        { name: 'Mauro', place: 'Juanjui', kind: 'classified' }, // cupo sorpresa
         {
           name: 'Cupo Sur',
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
@@ -265,10 +268,7 @@ export const merch: MerchItem[] = [
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
           kind: 'slot'
         },
-        { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' },
-        { name: 'Cupo Juanjui', kind: 'slot' },
-        { name: 'Cupo Juanjui', kind: 'slot' },
-        { name: '¿?', place: 'Sorpresa', kind: 'surprise' }
+        { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' }
       ]
     }
   }
