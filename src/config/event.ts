@@ -4,7 +4,7 @@ export const event = {
   edition: '2026',
   tagline: 'Festival de arte y cultura',
   city: 'Tarapoto',
-  venue: 'San Martín',
+  venue: 'Villa Autónoma',
   dates: '13 de diciembre',
   hashtag: '#TalentoEsLoQueSobra',
   editionNumber: '15',
@@ -20,44 +20,40 @@ export const event = {
 };
 
 // --- Ubicación ---
-// Ruta en moto sobre calles de OpenStreetMap, indicada por el equipo. Cada paso corresponde a un tramo de
-// `stepEnds` en `locationMap.ts`. OSM nombra Bolognesi a parte de Jr. Lamas: aquí se usa el nombre local.
+// Sede: Campo Villa Autónoma (en Google Maps figura como "Villa Stadium"). Ruta en moto desde La Collpa sobre
+// calles de OpenStreetMap. Cada paso corresponde a un tramo de `stepEnds` en `locationMap.ts`.
 export const venueLocation = {
   cta: '¿Cómo llegar?',
   // false = el botón del hero se ve normal, pero al hacer clic se bloquea y muestra "Próximamente" (no abre el modal).
-  // Pasar a true cuando se confirme la ubicación exacta (el modal y la ruta de abajo siguen listos).
-  available: false,
+  available: true,
   comingSoonLabel: 'Próximamente',
-  title: 'Tarapoto',
-  place: 'San Martín',
-  origin: 'Plaza de Armas',
-  summary: 'A 450 m de la Plaza de Armas: unos 2 min en moto',
+  title: 'Villa Autónoma',
+  tag: 'Campo', // etiqueta junto al título del modal
+  place: 'Campo Villa Autónoma', // etiqueta del destino en el mapa
+  origin: 'La Collpa',
+  summary: 'A 960 m de La Collpa: unos 3 min en moto',
   mapsCta: 'Abrir en Google Maps',
-  mapsUrl: 'https://maps.app.goo.gl/Ho5QfdVssV45fir76',
+  mapsUrl: 'https://maps.app.goo.gl/QegmwFd8P75Nwd8K7',
   steps: [
-    {
-      text: 'Desde la Plaza de Armas, sube por Jr. San Pablo de la Cruz',
-      distance: '195 m'
-    },
-    { text: 'Dobla a la izquierda en Jr. Lamas', distance: '185 m' },
-    {
-      text: 'Dobla a la derecha en Jr. Alegría Arias de Morey y sube a Suchiche',
-      distance: '70 m'
-    }
+    { text: 'Desde La Collpa, sube por la Av. Circunvalación', distance: '70 m' },
+    { text: 'Dobla a la derecha en la Prolongación Jr. Alerta', distance: '485 m' },
+    { text: 'Dobla a la derecha en la calle Villa Autónoma y cruza el río Shilcayo', distance: '145 m' },
+    { text: 'Dobla a la derecha y baja hasta el campo', distance: '260 m' }
   ]
 };
 
 export type NavLink = { label: string; href: string; external?: boolean };
 
 // Enlaces compartidos por el menú lateral y el footer. Solo secciones que existen y enlaces reales.
+// Con "/" delante: desde otra página (p. ej. la política de cookies) llevan a la sección del inicio.
 export const primaryNav: NavLink[] = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Talleres', href: '#merch' },
-  { label: `${event.name}`, href: '#que-es' },
-  { label: 'Spot oficial', href: '#spot' },
-  { label: 'Experiencias', href: '#experiencias' },
-  { label: 'Ubicación', href: '#sede' },
-  { label: 'Colaboradores', href: '#colaboradores' }
+  { label: 'Inicio', href: '/#inicio' },
+  { label: 'Talleres', href: '/#merch' },
+  { label: `${event.name}`, href: '/#que-es' },
+  { label: 'Spot oficial', href: '/#spot' },
+  { label: 'Experiencias', href: '/#experiencias' },
+  { label: 'Ubicación', href: '/#sede' },
+  { label: 'Colaboradores', href: '/#colaboradores' }
 ];
 
 export const helpNav: NavLink[] = [
@@ -82,8 +78,15 @@ export type Flyer = {
   alt: string; // repite la información del flyer: esos datos solo están en la imagen
   href: string; // enlace del botón del modal
   cta: string;
+  workshops?: Workshop[]; // fechas y tarjetas del cronograma, si el flyer contiene talleres
   character?: string; // pantalla horizontal: figura que asoma detrás del flyer, apuntándolo (PNG/WebP con transparencia)
   characterMobile?: string; // pantalla vertical: figura de frente, centrada arriba del flyer
+};
+
+export type Workshop = {
+  title: string;
+  date: string; // YYYY-MM-DD: vigente durante todo ese día en Perú
+  bounds: { x: number; y: number; width: number; height: number }; // píxeles en el flyer original
 };
 
 export type FlyerCarousel = {
@@ -133,6 +136,23 @@ export const merch: MerchItem[] = [
       alt: 'Talleres gratuitos. 7 de noviembre: técnicas de graffiti. 14 de noviembre: financia tu carrera deportiva o artística. 21 de noviembre: el rap, arma y escudo. Hora: 4:00 PM. Lugar: auditorio "El Cultural", Tarapoto, Jr. Sofía Delgado 119.',
       href: 'https://bit.ly/47zLQOo',
       cta: 'Inscribirme',
+      workshops: [
+        {
+          title: 'Técnicas de graffiti',
+          date: '2026-11-07',
+          bounds: { x: 64, y: 470, width: 280, height: 324 }
+        },
+        {
+          title: 'Financia tu carrera deportiva o artística',
+          date: '2026-11-14',
+          bounds: { x: 362, y: 470, width: 280, height: 324 }
+        },
+        {
+          title: 'El rap, arma y escudo',
+          date: '2026-11-21',
+          bounds: { x: 659, y: 470, width: 284, height: 324 }
+        }
+      ],
       character: '/img/personaje-1-797.webp', // original: /img/personaje-1.png (recortado a la figura)
       characterMobile: '/img/personaje-1.2-940.webp' // original: /img/personaje-1.2.png (recortado a la figura)
     }
@@ -235,6 +255,9 @@ export const merch: MerchItem[] = [
         { name: 'Bill Dlade', place: 'Yurimaguas', kind: 'classified' },
         { name: 'Vene', place: 'Rioja', kind: 'classified' },
         { name: 'Totix', place: 'Tarapoto', kind: 'classified' },
+        { name: 'Kevin Giorgio', place: 'Moyobamba', kind: 'classified' }, // cupo Juanjui 1
+        { name: 'Big Jota', place: 'Juanjui', kind: 'classified' }, // cupo Juanjui 2
+        { name: 'Mauro', place: 'Juanjui', kind: 'classified' }, // cupo sorpresa
         {
           name: 'Cupo Sur',
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
@@ -245,10 +268,7 @@ export const merch: MerchItem[] = [
           place: 'Tocache, Tingo María, Pucallpa y Huánuco',
           kind: 'slot'
         },
-        { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' },
-        { name: 'Cupo Juanjui', kind: 'slot' },
-        { name: 'Cupo Juanjui', kind: 'slot' },
-        { name: '¿?', place: 'Sorpresa', kind: 'surprise' }
+        { name: 'Cupo Lamas', place: 'En Impakto Líriko', kind: 'slot' }
       ]
     }
   }
@@ -394,8 +414,9 @@ export const updates: UpdatesCta[] = [
     title: `Sede ${event.edition}`,
     text: 'El camino para ALCANFEST',
     cta: 'Ubicación',
-    href: '', // TODO: enlace a la ubicación (p. ej. Google Maps) cuando se confirme la sede; luego `available: true`
-    available: false
+    href: venueLocation.mapsUrl, // el campo en Google Maps
+    external: true,
+    available: true
   },
   {
     title: 'Entérate primero',

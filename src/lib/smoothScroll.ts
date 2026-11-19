@@ -20,11 +20,15 @@ const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
 
 let frame = 0;
 let stopListening: (() => void) | null = null;
+let onScrollEnd: (() => void) | null = null;
 
 function stop() {
   cancelAnimationFrame(frame);
   stopListening?.();
   stopListening = null;
+  const notifyEnd = onScrollEnd;
+  onScrollEnd = null;
+  notifyEnd?.();
 }
 
 function targetTop(el: HTMLElement) {
@@ -37,14 +41,23 @@ function targetTop(el: HTMLElement) {
 }
 
 export function scrollToElement(el: HTMLElement) {
+  scrollToY(targetTop(el));
+}
+
+/** Desplaza suave hasta una posición vertical; avisa al terminar o interrumpirse. */
+export function scrollToY(to: number, onEnd?: () => void) {
   stop();
-  const to = targetTop(el);
+  onScrollEnd = onEnd ?? null;
   const from = window.scrollY;
   const distance = to - from;
-  if (Math.abs(distance) < 2) return;
+  if (Math.abs(distance) < 2) {
+    stop();
+    return;
+  }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     window.scrollTo(0, to);
+    stop();
     return;
   }
 
@@ -61,7 +74,7 @@ export function scrollToElement(el: HTMLElement) {
     const t = Math.min(1, (now - start) / duration);
     window.scrollTo(0, from + distance * ease(t));
     if (t < 1) frame = requestAnimationFrame(step);
-    else stopListening?.();
+    else stop();
   };
   frame = requestAnimationFrame(step);
 }
@@ -71,9 +84,12 @@ export function initSmoothAnchors() {
   const onClick = (e: MouseEvent) => {
     // Clic normal: sin teclas modificadoras (Ctrl/Cmd+clic abre en otra pestaña) y sin preventDefault previo
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const link = (e.target as Element | null)?.closest?.('a[href^="#"]');
+    const link = (e.target as Element | null)?.closest?.('a[href*="#"]');
     if (!(link instanceof HTMLAnchorElement) || link.target === '_blank') return;
-    const hash = link.getAttribute('href') ?? '';
+    // Solo enlaces a esta misma página ("#seccion" o "/#seccion" estando en el inicio). Desde otra página,
+    // "/#seccion" navega normal al inicio y `scrollToInitialHash` lo lleva a la sección.
+    if (link.origin !== location.origin || link.pathname !== location.pathname) return;
+    const hash = link.hash;
     const el = hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
     if (!el) return;
 
@@ -88,4 +104,20 @@ export function initSmoothAnchors() {
     document.removeEventListener('click', onClick);
     stop();
   };
+}
+
+/**
+ * Al llegar con un "#seccion" en la URL (p. ej. desde el menú de la política de cookies), salta a esa sección.
+ * El salto nativo del navegador ocurre antes de que React pinte las secciones, así que se repite al cargar la
+ * página, cuando ya están las imágenes y los altos de las secciones con scroll fijo.
+ */
+export function scrollToInitialHash() {
+  const hash = location.hash;
+  if (hash.length <= 1) return;
+  const jump = () => {
+    const el = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (el && location.hash === hash) window.scrollTo(0, targetTop(el));
+  };
+  if (document.readyState === 'complete') jump();
+  else window.addEventListener('load', jump, { once: true });
 }
