@@ -1,28 +1,41 @@
-import { event, partners } from '../../config/event';
+import { event, partners, sponsors, type Partner } from '../../config/event';
 import { Img } from '../Img/Img';
 
 /**
- * Colaboradores: grilla de logos en cuadrados blancos (como "2026 Partners" de lollapalooza.com).
- * Cada logo abre la web del colaborador en otra pestaña; los que no tienen `href` se muestran sin enlace.
- * 5 columnas en celular y tablet, 8 desde lg. La última fila incompleta queda centrada (flex-wrap),
- * por eso el ancho de cada cuadrado se calcula con las columnas y el espacio entre ellas.
+ * Colaboradores y, justo debajo, patrocinadores: misma grilla de logos en cuadrados blancos
+ * (como "2026 Partners" de lollapalooza.com). Cierran la página antes del footer.
  */
 export function Partners() {
   return (
+    <div className='bg-ink pb-20 text-paper sm:pb-28'>
+      <LogoSection id='colaboradores' title={`${event.edition} Colaboradores`} items={partners} className='pt-8' />
+      <LogoSection id='patrocinadores' title={`${event.edition} Patrocinadores`} items={sponsors} className='pt-16 sm:pt-20' />
+    </div>
+  );
+}
+
+/**
+ * Cada logo abre la web del colaborador/patrocinador en otra pestaña; los que no tienen `href` se muestran sin enlace.
+ * 5 columnas en celular y tablet, 8 desde lg. La última fila incompleta queda centrada (flex-wrap),
+ * por eso el ancho de cada cuadrado se calcula con las columnas y el espacio entre ellas.
+ */
+function LogoSection({ id, title, items, className = '' }: { id: string; title: string; items: Partner[]; className?: string }) {
+  const titleId = `${id}-title`;
+  return (
     <section
-      id='colaboradores'
-      aria-labelledby='partners-title'
-      className='bg-ink px-(--gutter) pt-8 pb-20 text-paper [--cols:5] [--gap:0.5rem] sm:pb-28 sm:[--gap:1rem] lg:[--cols:8] lg:[--gap:2rem]'
+      id={id}
+      aria-labelledby={titleId}
+      className={`px-(--gutter) [--cols:5] [--gap:0.5rem] sm:[--gap:1rem] lg:[--cols:8] lg:[--gap:2rem] ${className}`}
     >
       <h2
-        id='partners-title'
+        id={titleId}
         className='text-center font-display text-[clamp(1.75rem,3.5vw,2.25rem)] leading-none font-black uppercase'
       >
-        {event.edition} Colaboradores
+        {title}
       </h2>
 
       <ul className='mx-auto mt-8 flex max-w-280 flex-wrap justify-center gap-(--gap) sm:mt-10'>
-        {partners.map((partner) => {
+        {items.map((partner) => {
           const logo = (
             <Img
               src={partner.logo}

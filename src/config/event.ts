@@ -53,7 +53,8 @@ export const primaryNav: NavLink[] = [
   { label: 'Spot oficial', href: '/#spot' },
   { label: 'Experiencias', href: '/#experiencias' },
   { label: 'Ubicación', href: '/#sede' },
-  { label: 'Colaboradores', href: '/#colaboradores' }
+  { label: 'Colaboradores', href: '/#colaboradores' },
+  { label: 'Patrocinadores', href: '/#patrocinadores' }
 ];
 
 export const helpNav: NavLink[] = [
@@ -497,6 +498,29 @@ export const partners: Partner[] = [
     name: 'Fonabeat Battles',
     logo: '/img/partners/logo-fonabeat-battles-480.webp', // original: /img/partners/logo-fonabeat-battles.png
     href: 'https://www.instagram.com/fonabeat_battles/'
+  },
+  {
+    name: 'Tarapoto Patina',
+    logo: '/img/partners/logo-tarapotopatina-480.webp' // original: /img/partners/logo-tarapotopatina.png (sin web ni red social por ahora)
+  }
+];
+
+// --- Patrocinadores ---
+// Debajo de los colaboradores, con la misma grilla y los mismos cuadrados (mismo tipo `Partner`).
+// Logos en public/img/partners/ (WebP recortado al logo, 480 px de ancho). Se muestran en este orden.
+// Todavía no tienen web ni red social: al conseguirlas, agregar `href`.
+export const sponsors: Partner[] = [
+  {
+    name: 'Sorsa, Suministros del Oriente S.R.L.',
+    logo: '/img/partners/logo-sorsa-480.webp' // original: /img/partners/logo-sorsa.png
+  },
+  {
+    name: 'El Mural Hostel',
+    logo: '/img/partners/logo-elmural-480.webp' // original: /img/partners/logo-elmural.png
+  },
+  {
+    name: 'Sorsa Motors',
+    logo: '/img/partners/logo-sorsamotors-480.webp' // original: /img/partners/logo-sorsamotors.png
   }
 ];
 
