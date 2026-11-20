@@ -26,6 +26,12 @@
          apple-touch-icon para "Agregar a inicio" en iPhone. Se generan con Pillow desde logo-header. -->
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <!-- Íconos y Favicon para Google Search y navegadores:
+         Google exige estrictamente que el favicon sea múltiplo de 48px (ej. 48x48, 96x96, 192x192).
+         Se incluye icon-192.png (192x192) y favicon.ico para asegurar que Google muestre el logo y no el globo genérico. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#000000" />
@@ -72,8 +78,32 @@
             "@id": "https://www.alcanfest.com/#website",
             "url": "https://www.alcanfest.com/",
             "name": "Alcanfest",
+            "alternateName": ["Alcanfest 2026", "Alcanfest Perú"],
             "description": "Festival de arte, deporte y cultura urbana en Tarapoto, San Martín.",
             "inLanguage": "es-PE"
+            "inLanguage": "es-PE",
+            "publisher": {
+              "@id": "https://www.alcanfest.com/#organization"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://www.alcanfest.com/#organization",
+            "name": "Alcanfest",
+            "url": "https://www.alcanfest.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://www.alcanfest.com/icon-512.png",
+              "width": 512,
+              "height": 512
+            },
+            "image": "https://www.alcanfest.com/icon-512.png",
+            "sameAs": [
+              "https://www.facebook.com/Alcanfest",
+              "https://www.instagram.com/alcanfest_peru/",
+              "https://www.tiktok.com/@alcanfest_peru",
+              "https://www.youtube.com/@alcanfestperu"
+            ]
           },
           {
             "@type": "Festival",
@@ -82,13 +112,18 @@
             "description": "El festival urbano más grande de San Martín. Batallas de rap, break dance, graffiti, skate, roller, BMX, bandas de rock, ferias y talleres culturales en Tarapoto.",
             "url": "https://www.alcanfest.com/",
             "image": "https://www.alcanfest.com/og-2026.jpg",
+            "startDate": "2026-12-13T10:00:00-05:00",
+            "endDate": "2026-12-13T23:59:59-05:00",
             "eventStatus": "https://schema.org/EventScheduled",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "isAccessibleForFree": true,
             "location": {
               "@type": "Place",
               "name": "Tarapoto, San Martín",
+              "name": "Parque Suchiche",
               "address": {
                 "@type": "PostalAddress",
+                "streetAddress": "Jr. Alegría Arias de Morey, Barrio Suchiche",
                 "addressLocality": "Tarapoto",
                 "addressRegion": "San Martín",
                 "addressCountry": "PE"
@@ -104,7 +139,38 @@
                 "https://www.tiktok.com/@alcanfest_peru",
                 "https://www.youtube.com/@alcanfestperu"
               ]
+              "@id": "https://www.alcanfest.com/#organization"
             }
+          },
+          {
+            "@type": "ItemList",
+            "name": "Secciones principales de Alcanfest",
+            "itemListElement": [
+              {
+                "@type": "SiteNavigationElement",
+                "position": 1,
+                "name": "Talleres y Convocatorias",
+                "url": "https://www.alcanfest.com/#merch"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 2,
+                "name": "¿Qué es Alcanfest?",
+                "url": "https://www.alcanfest.com/#que-es"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 3,
+                "name": "Experiencias",
+                "url": "https://www.alcanfest.com/#experiencias"
+              },
+              {
+                "@type": "SiteNavigationElement",
+                "position": 4,
+                "name": "Sede y Ubicación",
+                "url": "https://www.alcanfest.com/#sede"
+              }
+            ]
           }
         ]
       }
