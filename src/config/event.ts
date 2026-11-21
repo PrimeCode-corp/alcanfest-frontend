@@ -193,11 +193,11 @@ export const merch: MerchItem[] = [
         },
         {
           title: 'Rock',
-          image: '/img/convocatoria-rock-1000.webp', // original: /img/convocatoria-rock.png
+          image: '/img/convocatorias-rock-nuevo-1000.webp', // original: /img/convocatorias-rock-nuevo.jpeg
           width: 1000,
           height: 1000,
-          alt: 'Convocatoria: concurso a la mejor banda de rock. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
-          href: 'https://forms.gle/ytMAWPTjmvuR5oVZ6',
+          alt: 'Convocatoria: batalla de bandas. 13 de diciembre, parque Suchiche. Inscripción gratuita, cupos limitados.',
+          href: 'https://forms.gle/RwTTCMs3FbdS8swY9',
           cta: 'Inscribirme'
         },
         {
