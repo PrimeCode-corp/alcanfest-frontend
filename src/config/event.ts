@@ -43,11 +43,99 @@ export const venueLocation = {
 };
 
 export type NavLink = { label: string; href: string; external?: boolean };
+export type NavItem = NavLink | { label: string; action: 'schedule' };
+
+// --- Cronograma de diciembre ---
+export type ScheduleActivity = {
+  date: string;
+  weekday: string;
+  title: string;
+  time?: string;
+  venue?: string;
+  address?: string;
+  location?: string;
+  admission?: string;
+  featured?: boolean;
+};
+
+const culturalVenue = {
+  venue: 'Auditorio El Cultural – Tarapoto',
+  address: 'Jr. Sofía Delgado 119',
+  location: 'Distrito: Tarapoto / Provincia: San Martín / Región: San Martín',
+  admission: 'Gratuito'
+};
+
+export const schedule = {
+  label: 'Cronograma',
+  month: 'Diciembre 2026',
+  description: 'Un mes de arte, cultura y comunidad en Tarapoto.',
+  closeLabel: 'Cerrar cronograma',
+  labels: { time: 'Hora', venue: 'Lugar', address: 'Dirección', admission: 'Ingreso' },
+  featuredLabel: 'El gran encuentro',
+  activities: [
+    {
+      date: '2026-12-01',
+      weekday: 'Martes',
+      title: 'Conversatorio: “De los sueños a la acción: cómo convertir una pasión en un propósito”',
+      time: '6:00 p. m.',
+      ...culturalVenue
+    },
+    {
+      date: '2026-12-03',
+      weekday: 'Jueves',
+      title: 'Taller de arte con Miguel Correa',
+      time: '4:00 a 6:00 p. m.'
+    },
+    {
+      date: '2026-12-04',
+      weekday: 'Viernes',
+      title: 'Taller de baile hip hop',
+      time: '10:00 a 12:00 a. m.',
+      ...culturalVenue
+    },
+    {
+      date: '2026-12-05',
+      weekday: 'Sábado',
+      title: 'Casting de bandas de rock',
+      time: '4:00 p. m.',
+      venue: 'Studio Chicho Cavero',
+      address: 'Jr. Perú 943',
+      location: culturalVenue.location,
+      admission: 'Gratuito'
+    },
+    {
+      date: '2026-12-06',
+      weekday: 'Domingo',
+      title: 'Feria de Emprendedores',
+      venue: 'Boulevard Tarapoto'
+    },
+    {
+      date: '2026-12-10',
+      weekday: 'Jueves',
+      title: 'Conversatorio: “El arte urbano como herramienta de transformación social y ambiental”',
+      time: '6:00 p. m.',
+      ...culturalVenue
+    },
+    {
+      date: '2026-12-11',
+      weekday: 'Viernes',
+      title: 'Conferencia de prensa',
+      venue: 'Cámara de Comercio'
+    },
+    {
+      date: '2026-12-13',
+      weekday: 'Domingo',
+      title: 'ALCANFEST 2026',
+      featured: true
+    }
+  ] satisfies ScheduleActivity[]
+};
 
 // Enlaces compartidos por el menú lateral y el footer. Solo secciones que existen y enlaces reales.
 // Con "/" delante: desde otra página (p. ej. la política de cookies) llevan a la sección del inicio.
-export const primaryNav: NavLink[] = [
+export const primaryNav: NavItem[] = [
   { label: 'Inicio', href: '/#inicio' },
+  { label: schedule.label, action: 'schedule' },
   { label: 'Talleres', href: '/#merch' },
   { label: `${event.name}`, href: '/#que-es' },
   { label: 'Spot oficial', href: '/#spot' },
@@ -526,7 +614,7 @@ export const sponsors: Partner[] = [
 
 // --- Footer (como el de lollapalooza.com) ---
 // Columnas de enlaces (las mismas listas que el menú lateral) + llamada a "Entérate primero" (la de `updates`).
-export const footerColumns: { title: string; links: NavLink[] }[] = [
+export const footerColumns: { title: string; links: NavItem[] }[] = [
   { title: 'Festival', links: primaryNav },
   { title: 'Ayuda', links: helpNav },
   { title: 'Redes', links: socialNav }

@@ -10,6 +10,7 @@ import { Merch } from './components/Merch/Merch'
 import { Spot, type SpotHandle } from './components/Spot/Spot'
 import { Partners } from './components/Partners/Partners'
 import { SideMenu } from './components/SideMenu/SideMenu'
+import { ScheduleModal } from './components/ScheduleModal/ScheduleModal'
 import { Updates } from './components/Updates/Updates'
 import { cookiePolicy } from './config/cookiePolicy'
 import { initSmoothAnchors, scrollToInitialHash } from './lib/smoothScroll'
@@ -20,6 +21,7 @@ const isCookiePolicy = window.location.pathname.replace(/\/+$/, '') === cookiePo
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scheduleOpen, setScheduleOpen] = useState(false)
   const [spotSoundActive, setSpotSoundActive] = useState(false)
   const spotRef = useRef<SpotHandle>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
@@ -33,6 +35,14 @@ function App() {
     setMenuOpen((open) => !open)
   }, [])
 
+  const openSchedule = useCallback(() => {
+    // El menú debe liberar el foco y el scroll antes de abrir el diálogo.
+    if (menuOpen) closeMenu()
+    setScheduleOpen(true)
+  }, [menuOpen, closeMenu])
+
+  const closeSchedule = useCallback(() => setScheduleOpen(false), [])
+
   // Desplazamiento suave al elegir una opción del menú, del footer o el logo del header
   useEffect(() => initSmoothAnchors(), [])
 
@@ -43,8 +53,8 @@ function App() {
 
   return (
     <>
-      <Header menuOpen={menuOpen} onToggleMenu={toggleMenu} menuButtonRef={menuButtonRef} />
-      <SideMenu open={menuOpen} onClose={closeMenu} />
+      <Header menuOpen={menuOpen} onToggleMenu={toggleMenu} menuButtonRef={menuButtonRef} onOpenSchedule={openSchedule} />
+      <SideMenu open={menuOpen} onClose={closeMenu} onOpenSchedule={openSchedule} />
 
       {isCookiePolicy ? (
         <main>
@@ -65,8 +75,9 @@ function App() {
           <Partners />
         </main>
       )}
-      <Footer />
+      <Footer onOpenSchedule={openSchedule} />
       <BackToTop soundActive={spotSoundActive} onMute={() => spotRef.current?.mute()} />
+      <ScheduleModal open={scheduleOpen} onClose={closeSchedule} />
     </>
   )
 }

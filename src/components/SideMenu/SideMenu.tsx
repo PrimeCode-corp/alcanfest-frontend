@@ -5,13 +5,14 @@ import { cn } from '../../lib/cn'
 type SideMenuProps = {
   open: boolean
   onClose: () => void
+  onOpenSchedule: () => void
 }
 
 function linkProps(link: NavLink) {
   return link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
 }
 
-export function SideMenu({ open, onClose }: SideMenuProps) {
+export function SideMenu({ open, onClose, onOpenSchedule }: SideMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   // Esc para cerrar, foco atrapado dentro del panel, scroll del body bloqueado.
@@ -81,20 +82,32 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
           <ul className="grid gap-2.5">
             {primaryNav.map((link, i) => (
               <li
-                key={link.href}
+                key={link.label}
                 style={{ '--i': i } as CSSProperties}
                 className={cn(
                   'transition-[opacity,translate] duration-400 ease-snap',
                   open ? 'translate-x-0 opacity-100 delay-[calc(120ms+var(--i)*40ms)]' : '-translate-x-6 opacity-0',
                 )}
               >
-                <a
-                  href={link.href}
-                  onClick={onClose}
-                  className="inline-block py-0.5 font-display text-[clamp(2.25rem,8.5vw,3rem)] leading-[0.9] font-black uppercase no-underline transition-[color,translate] duration-200 ease-snap hover:translate-x-2.5 hover:text-lime-bright focus-visible:translate-x-2.5 focus-visible:text-lime-bright"
-                >
-                  {link.label}
-                </a>
+                {'action' in link ? (
+                  <button
+                    type="button"
+                    aria-haspopup="dialog"
+                    aria-controls="schedule-modal"
+                    onClick={onOpenSchedule}
+                    className="inline-block cursor-pointer py-0.5 text-left font-display text-[clamp(2.25rem,8.5vw,3rem)] leading-[0.9] font-black uppercase transition-[color,translate] duration-200 ease-snap hover:translate-x-2.5 hover:text-lime-bright focus-visible:translate-x-2.5 focus-visible:text-lime-bright"
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <a
+                    href={link.href}
+                    onClick={onClose}
+                    className="inline-block py-0.5 font-display text-[clamp(2.25rem,8.5vw,3rem)] leading-[0.9] font-black uppercase no-underline transition-[color,translate] duration-200 ease-snap hover:translate-x-2.5 hover:text-lime-bright focus-visible:translate-x-2.5 focus-visible:text-lime-bright"
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
-import { event } from '../../config/event'
+import { event, schedule } from '../../config/event'
 import { cn } from '../../lib/cn'
 import { Img } from '../Img/Img'
 
@@ -7,12 +7,13 @@ type HeaderProps = {
   menuOpen: boolean
   onToggleMenu: () => void
   menuButtonRef: RefObject<HTMLButtonElement | null>
+  onOpenSchedule: () => void
 }
 
 const bar =
   'absolute left-0 h-[3px] rounded-xs bg-current transition-[translate,rotate,opacity,width] duration-300 ease-snap'
 
-export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
+export function Header({ menuOpen, onToggleMenu, menuButtonRef, onOpenSchedule }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const progressRef = useRef<HTMLDivElement>(null)
 
@@ -49,7 +50,7 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
         (scrolled || menuOpen) && 'shadow-[0_8px_0_var(--color-ink)]',
       )}
     >
-      <div className="grid h-full grid-cols-[auto_1fr_auto] items-center gap-4 px-(--gutter) sm:grid-cols-[1fr_auto_1fr]">
+      <div className="grid h-full grid-cols-[auto_1fr_auto] items-center gap-3 px-(--gutter) sm:gap-4 xl:grid-cols-[1fr_auto_1fr]">
         {/* Botón de menú */}
         <button
           ref={menuButtonRef}
@@ -88,7 +89,7 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
               className="block h-[calc(var(--header-h)-14px)] w-auto transition-opacity duration-300 ease-snap"
             />
           </a>
-          <p className="my-3.5 hidden flex-col items-start justify-center self-stretch border-l-3 border-ink pl-[18px] font-display text-[1.1rem] leading-none font-extrabold whitespace-nowrap text-paper lg:flex">
+          <p className="my-3.5 hidden flex-col items-start justify-center self-stretch border-l-3 border-ink pl-[18px] font-display text-[1.1rem] leading-none font-extrabold whitespace-nowrap text-paper xl:flex">
             <span className="bg-magenta px-2 pt-1 pb-[3px]">{event.dates}</span>
             <span className="bg-ink px-2 pt-1 pb-[3px]">
               {event.venue}, {event.city}
@@ -96,13 +97,22 @@ export function Header({ menuOpen, onToggleMenu, menuButtonRef }: HeaderProps) {
           </p>
         </div>
 
-        {/* Contacto por WhatsApp */}
-        <div className="justify-self-end">
+        {/* Cronograma siempre visible; contacto por WhatsApp desde sm. */}
+        <div className="flex items-center gap-2.5 justify-self-end">
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="schedule-modal"
+            onClick={onOpenSchedule}
+            className="inline-block cursor-pointer border-2 border-ink bg-paper px-3.5 py-2 text-sm font-bold whitespace-nowrap text-ink shadow-[3px_3px_0_var(--color-ink)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-ink)] sm:px-5 sm:py-3 sm:text-base"
+          >
+            {schedule.label}
+          </button>
           <a
             href={event.contactUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block border-2 border-ink bg-magenta px-3.5 py-2 text-sm font-bold whitespace-nowrap text-paper no-underline shadow-[3px_3px_0_var(--color-ink)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-ink)] sm:px-5 sm:py-3 sm:text-base"
+            className="hidden border-2 border-ink bg-magenta px-5 py-3 text-base font-bold whitespace-nowrap text-paper no-underline shadow-[3px_3px_0_var(--color-ink)] transition-[translate,box-shadow] duration-150 ease-snap hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--color-ink)] sm:inline-block"
           >
             Contáctanos
           </a>
