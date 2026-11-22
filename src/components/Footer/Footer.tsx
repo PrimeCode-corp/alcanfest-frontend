@@ -10,7 +10,7 @@ const externalProps = (link: NavLink) => (link.external ? { target: '_blank', re
  * pantalla) va en fila: hasta lg las columnas de enlaces miden lo que su contenido y "Entérate primero" toma el resto,
  * para que entre el botón; desde lg, cuatro columnas con la última más ancha.
  */
-export function Footer() {
+export function Footer({ onOpenSchedule }: { onOpenSchedule: () => void }) {
   const { newsletter } = footer;
   const onCookiePolicy = window.location.pathname.replace(/\/+$/, '') === cookiePolicy.path;
 
@@ -24,13 +24,25 @@ export function Footer() {
               <ul className='mt-4 flex flex-col gap-2.5'>
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      {...externalProps(link)}
-                      className='text-lg text-paper no-underline decoration-lime decoration-2 underline-offset-4 transition-colors duration-150 hover:text-lime hover:underline'
-                    >
-                      {link.label}
-                    </a>
+                    {'action' in link ? (
+                      <button
+                        type='button'
+                        aria-haspopup='dialog'
+                        aria-controls='schedule-modal'
+                        onClick={onOpenSchedule}
+                        className='cursor-pointer text-left text-lg text-paper decoration-lime decoration-2 underline-offset-4 transition-colors duration-150 hover:text-lime hover:underline'
+                      >
+                        {link.label}
+                      </button>
+                    ) : (
+                      <a
+                        href={link.href}
+                        {...externalProps(link)}
+                        className='text-lg text-paper no-underline decoration-lime decoration-2 underline-offset-4 transition-colors duration-150 hover:text-lime hover:underline'
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
