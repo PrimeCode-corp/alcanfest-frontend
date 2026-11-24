@@ -609,6 +609,26 @@ export const sponsors: Partner[] = [
   {
     name: 'Sorsa Motors',
     logo: '/img/partners/logo-sorsamotors-480.webp' // original: /img/partners/logo-sorsamotors.png
+  },
+  {
+    name: 'Paraíso Wasi',
+    logo: '/img/partners/logo-paraiso-wasi-480.webp' // original: /img/partners/logo-paraiso-wasi.png
+  },
+  {
+    name: 'Carlitos Bicicentro',
+    logo: '/img/partners/logo-carlitos-bicentenario-480.webp' // original: /img/partners/logo-carlitos-bicentenario.png
+  },
+  {
+    name: 'Palm Hotel',
+    logo: '/img/partners/logo-palm-hotel-480.webp' // original: /img/partners/logo-palm-hotel.png
+  },
+  {
+    name: 'Wamatur Travel',
+    logo: '/img/partners/logo-wamatur-travel-480.webp' // original: /img/partners/logo-wamatur-travel.png
+  },
+  {
+    name: 'Andrade Company',
+    logo: '/img/partners/logo-andrade-company-480.webp' // original: /img/partners/logo-andrade-company.png
   }
 ];
 
